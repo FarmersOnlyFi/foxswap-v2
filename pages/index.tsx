@@ -27,7 +27,6 @@ function Home() {
           <Link href="/">
             <a>next-web3-boilerplate</a>
           </Link>
-
           <Account triedToEagerConnect={triedToEagerConnect} />
         </nav>
       </header>
