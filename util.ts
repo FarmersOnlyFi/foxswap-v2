@@ -13,6 +13,7 @@ const ETHERSCAN_PREFIXES = {
   4: "rinkeby.",
   5: "goerli.",
   42: "kovan.",
+  1666600000: "harmony"
 };
 
 export function formatEtherscanLink(
@@ -22,11 +23,16 @@ export function formatEtherscanLink(
   switch (type) {
     case "Account": {
       const [chainId, address] = data;
-      return `https://${ETHERSCAN_PREFIXES[chainId]}etherscan.io/address/${address}`;
+      return chainId !== 1666600000
+        ? `https://${ETHERSCAN_PREFIXES[chainId]}etherscan.io/address/${address}`
+        : `https://explorer.harmony.one/address/${address}`;
+
     }
     case "Transaction": {
       const [chainId, hash] = data;
-      return `https://${ETHERSCAN_PREFIXES[chainId]}etherscan.io/tx/${hash}`;
+      return chainId !== 1666600000
+        ? `https://${ETHERSCAN_PREFIXES[chainId]}etherscan.io/tx/${hash}`
+        : `https://explorer.harmony.one/tx/${hash}`;
     }
   }
 }
