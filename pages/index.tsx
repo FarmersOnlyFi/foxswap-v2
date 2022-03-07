@@ -4,6 +4,8 @@ import Nav from "../components/Nav";
 import ETHBalance from "../components/ETHBalance";
 import TokenBalance from "../components/TokenBalance";
 import useEagerConnect from "../hooks/useEagerConnect";
+import {Dashboard} from "../components/Dashboard";
+import {Box, Container} from "@chakra-ui/react";
 
 const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
@@ -15,24 +17,9 @@ function Home() {
   const isConnected = typeof account === "string" && !!library;
 
   return (
-    <div>
-      <main>
-        <h1>
-          Welcome to{" "}
-          <a href="https://github.com/mirshko/next-web3-boilerplate">
-            next-web3-boilerplate
-          </a>
-        </h1>
-
-        {isConnected && (
-          <section>
-            <ETHBalance />
-
-            <TokenBalance tokenAddress={DAI_TOKEN_ADDRESS} symbol="DAI" />
-          </section>
-        )}
-      </main>
-    </div>
+    <>
+      <Dashboard />
+    </>
   );
 }
 

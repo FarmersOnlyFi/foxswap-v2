@@ -9,7 +9,7 @@ import Layout from "../components/Layout";
 function NextWeb3App({ Component, pageProps }: AppProps) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-        <ChakraProvider theme={theme}>
+        <ChakraProvider resetCSS theme={theme}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

@@ -1,18 +1,15 @@
-import Nav from "./Nav";
 import Meta from "./Meta"
-import {Container} from "@chakra-ui/react";
+import {Box, Container} from "@chakra-ui/react";
+import {Navbar} from "./Navbar"
 
 const Layout = ({ children }) => {
   return (
-    <>
-      <Meta />
-      <Nav />
-      <Container>
-        <main>
-        { children }
-        </main>
+    <Box as="section" height="100vh" overflowY="auto">
+      <Navbar />
+      <Container pt={{ base: '8', lg: '12' }} pb={{ base: '12', lg: '24' }}>
+        <main>{children}</main>
       </Container>
-    </>
+    </Box>
   )
 }
 
