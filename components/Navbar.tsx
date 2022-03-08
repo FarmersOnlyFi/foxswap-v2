@@ -16,7 +16,7 @@ export const Navbar = () => {
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   return (
     <Box as="section" pb={{ base: '12', md: '24' }}>
-      <Box as="nav" padding={8} py={{ base: '3', lg: '4' }} bg={'purple.700'} color="on-accent">
+      <Box as="nav" padding={4} py={{ base: '3', lg: '4' }} bg={'purple.700'} color="on-accent">
         <Flex justify="space-between">
           <HStack spacing="4">
             <Logo />
