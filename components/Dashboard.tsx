@@ -9,10 +9,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import * as React from 'react'
-import {FiDownloadCloud, FiLock} from 'react-icons/fi'
-import { FiMail, FiSend, FiUsers } from 'react-icons/fi'
+import { FiLock, FiMail, FiSend } from 'react-icons/fi'
 import { Stat } from './Stat'
-import { FcLock } from "react-icons/fc";
 
 const stats = [
   {
@@ -24,13 +22,11 @@ const stats = [
     icon: FiMail,
     label: 'Avg. Open Rate',
     value: '56.87%',
-    // delta: { value: '2.3%', isUpwardsTrend: true },
   },
   {
     icon: FiSend,
     label: 'Avg. Click Rate',
     value: '12.87%',
-    // delta: { value: '0.1%', isUpwardsTrend: false },
   },
 ]
 export const Dashboard = () => (

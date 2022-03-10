@@ -6,7 +6,9 @@ const Layout = ({ children }) => {
   return (
     <Box as="section" height="100vh" overflowY="auto">
       <Navbar />
-        <main>{children}</main>
+      <main>
+        {children}
+      </main>
     </Box>
   )
 }
