@@ -1,0 +1,499 @@
+[
+    {
+        "stateMutability": "nonpayable",
+        "type": "constructor",
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_bshare",
+                "type": "address"
+            },
+            {
+                "name": "_poolStartTime",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "name": "Deposit",
+        "inputs": [
+            {
+                "type": "address",
+                "internalType": "address",
+                "name": "user",
+                "indexed": true
+            },
+            {
+                "name": "pid",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "amount",
+                "type": "uint256",
+                "internalType": "uint256",
+                "indexed": false
+            }
+        ],
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "name": "EmergencyWithdraw",
+        "type": "event",
+        "anonymous": false,
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address",
+                "indexed": true
+            },
+            {
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid"
+            },
+            {
+                "type": "uint256",
+                "internalType": "uint256",
+                "name": "amount",
+                "indexed": false
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "type": "address",
+                "name": "user"
+            },
+            {
+                "name": "amount",
+                "indexed": false,
+                "internalType": "uint256",
+                "type": "uint256"
+            }
+        ],
+        "anonymous": false,
+        "name": "RewardPaid"
+    },
+    {
+        "name": "Withdraw",
+        "type": "event",
+        "inputs": [
+            {
+                "type": "address",
+                "name": "user",
+                "internalType": "address",
+                "indexed": true
+            },
+            {
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "name": "TOTAL_REWARDS",
+        "type": "function",
+        "stateMutability": "view",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "constant": true,
+        "signature": "0x09cf6091"
+    },
+    {
+        "name": "bshare",
+        "outputs": [
+            {
+                "type": "address",
+                "name": "",
+                "internalType": "contract IERC20"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "inputs": [],
+        "constant": true,
+        "signature": "0x9beb31df"
+    },
+    {
+        "outputs": [
+            {
+                "internalType": "address",
+                "type": "address",
+                "name": ""
+            }
+        ],
+        "type": "function",
+        "inputs": [],
+        "name": "operator",
+        "stateMutability": "view",
+        "constant": true,
+        "signature": "0x570ca735"
+    },
+    {
+        "name": "poolEndTime",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "internalType": "uint256",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x6e271dd5"
+    },
+    {
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "internalType": "contract IERC20",
+                "type": "address",
+                "name": "token"
+            },
+            {
+                "internalType": "uint256",
+                "type": "uint256",
+                "name": "allocPoint"
+            },
+            {
+                "type": "uint256",
+                "name": "lastRewardTime",
+                "internalType": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "accUSharePerShare",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "type": "bool",
+                "name": "isStarted"
+            }
+        ],
+        "name": "poolInfo",
+        "type": "function"
+    },
+    {
+        "name": "poolStartTime",
+        "type": "function",
+        "inputs": [],
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "uint256",
+                "internalType": "uint256",
+                "name": ""
+            }
+        ],
+        "constant": true,
+        "signature": "0x5f96dc11"
+    },
+    {
+        "inputs": [],
+        "outputs": [
+            {
+                "type": "uint256",
+                "name": "",
+                "internalType": "uint256"
+            }
+        ],
+        "type": "function",
+        "name": "runningTime",
+        "stateMutability": "view",
+        "constant": true,
+        "signature": "0x943f013d"
+    },
+    {
+        "outputs": [
+            {
+                "type": "uint256",
+                "internalType": "uint256",
+                "name": ""
+            }
+        ],
+        "type": "function",
+        "name": "tSharePerSecond",
+        "stateMutability": "view",
+        "inputs": [],
+        "constant": true,
+        "signature": "0x9e63d261"
+    },
+    {
+        "inputs": [],
+        "stateMutability": "view",
+        "name": "totalAllocPoint",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "type": "function",
+        "constant": true,
+        "signature": "0x17caf6f1"
+    },
+    {
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "rewardDebt",
+                "type": "uint256"
+            }
+        ],
+        "name": "userInfo",
+        "type": "function",
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "name": "add",
+        "inputs": [
+            {
+                "name": "_allocPoint",
+                "internalType": "uint256",
+                "type": "uint256"
+            },
+            {
+                "name": "_token",
+                "internalType": "contract IERC20",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "_withUpdate",
+                "type": "bool"
+            },
+            {
+                "name": "_lastRewardTime",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": []
+    },
+    {
+        "stateMutability": "nonpayable",
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "type": "uint256",
+                "internalType": "uint256",
+                "name": "_allocPoint"
+            }
+        ],
+        "name": "set",
+        "type": "function",
+        "outputs": []
+    },
+    {
+        "stateMutability": "view",
+        "inputs": [
+            {
+                "name": "_fromTime",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_toTime",
+                "internalType": "uint256",
+                "type": "uint256"
+            }
+        ],
+        "name": "getGeneratedReward",
+        "type": "function",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "pendingShare",
+        "type": "function",
+        "stateMutability": "view",
+        "inputs": [
+            {
+                "type": "uint256",
+                "internalType": "uint256",
+                "name": "_pid"
+            },
+            {
+                "type": "address",
+                "name": "_user",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "inputs": [],
+        "outputs": [],
+        "name": "massUpdatePools",
+        "stateMutability": "nonpayable"
+    },
+    {
+        "inputs": [
+            {
+                "name": "_pid",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "name": "updatePool",
+        "type": "function"
+    },
+    {
+        "name": "deposit",
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "type": "uint256",
+                "name": "_pid"
+            },
+            {
+                "name": "_amount",
+                "internalType": "uint256",
+                "type": "uint256"
+            }
+        ]
+    },
+    {
+        "stateMutability": "nonpayable",
+        "name": "withdraw",
+        "type": "function",
+        "inputs": [
+            {
+                "name": "_pid",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "type": "uint256",
+                "internalType": "uint256",
+                "name": "_amount"
+            }
+        ],
+        "outputs": []
+    },
+    {
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "type": "function",
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "emergencyWithdraw"
+    },
+    {
+        "stateMutability": "nonpayable",
+        "inputs": [
+            {
+                "type": "address",
+                "internalType": "address",
+                "name": "_operator"
+            }
+        ],
+        "name": "setOperator",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "outputs": [],
+        "inputs": [
+            {
+                "internalType": "contract IERC20",
+                "type": "address",
+                "name": "_token"
+            },
+            {
+                "name": "amount",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "type": "address",
+                "name": "to",
+                "internalType": "address"
+            }
+        ],
+        "name": "governanceRecoverUnsupported",
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

@@ -16,58 +16,58 @@ import {
 } from '@chakra-ui/react'
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
-import {TriangleDownIcon, TriangleUpIcon} from "@chakra-ui/icons";
-import {useState} from "react";
-
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
 const members = [
   {
     id: '1',
     name: 'Christian Nwamba',
     handle: '@christian',
-    email: 'christian@chakra-ui.com',
+    email: '30.56 %',
     avatarUrl: 'https://bit.ly/code-beast',
     status: 'active',
-    role: 'Senior Developer Advocate',
+    role: '$93,324',
     rating: 4,
   },
   {
     id: '2',
     name: 'Kent C. Dodds',
     handle: '@kent',
-    email: 'kent@chakra-ui.com',
+    email: '30.56 %',
     avatarUrl: 'https://bit.ly/kent-c-dodds',
     status: 'active',
-    role: 'Director of DX',
+    role: '$35,338',
     rating: 4,
   },
   {
     id: '3',
     name: 'Prosper Otemuyiwa',
     handle: '@prosper',
-    email: 'prosper@chakra-ui.com',
+    email: '30.56 %',
     avatarUrl: 'https://bit.ly/prosper-baba',
     status: 'active',
-    role: 'Director of Evangelism',
+    role: '$5,768',
     rating: 4,
   },
   {
     id: '4',
     name: 'Ryan Florence',
     handle: '@ryan',
-    email: 'ryan@chakra-ui.com',
+    email: '30.56 %',
     avatarUrl: 'https://bit.ly/ryan-florence',
     status: 'active',
-    role: 'Co-Founder',
+    role: '$345,768',
     rating: 4,
   },
   {
     id: '5',
     name: 'Segun Adebayo',
     handle: '@segun',
-    email: 'segun@chakra-ui.com',
+    email: '30.56 %',
     avatarUrl: 'https://bit.ly/sage-adebayo',
     status: 'active',
-    role: 'Frontend UI Engineer',
+    role: '$345,768',
     rating: 4,
   },
 ]
@@ -88,7 +88,7 @@ export const VaultTable = (props: TableProps) => {
               </HStack>
             </HStack>
           </Th>
-          <Th>Daily</Th>
+          <Th>Status</Th>
           <Th>Yearly</Th>
           <Th>Liquidity</Th>
           <Th></Th>
@@ -98,13 +98,7 @@ export const VaultTable = (props: TableProps) => {
         {members.map((member) => (
           <Tr key={member.id}>
             <Td>
-              <HStack spacing="3">
-                <Avatar name={member.name} src={member.avatarUrl} boxSize="10" />
-                <Box>
-                  <Text fontWeight="medium">{member.name}</Text>
-                  <Text color="muted">{member.handle}</Text>
-                </Box>
-              </HStack>
+              <DoubleCurrencyLogo />
             </Td>
             <Td>
               <Badge size="sm" colorScheme={member.status === 'active' ? 'green' : 'red'}>

@@ -20,13 +20,13 @@ const stats = [
   },
   {
     icon: FiMail,
-    label: 'Avg. Open Rate',
-    value: '56.87%',
+    label: 'Market Cap',
+    value: '$125,234,885',
   },
   {
     icon: FiSend,
-    label: 'Avg. Click Rate',
-    value: '12.87%',
+    label: 'Current FOX Supply',
+    value: '381,747',
   },
 ]
 export const Dashboard = () => (
