@@ -19,6 +19,9 @@ import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
+import VAULT_CONFIGS from "../../config/web3/vault-configs";
+import ROUTERS from "../../config/web3/routers";
+
 const members = [
   {
     id: '1',
@@ -71,7 +74,6 @@ const members = [
     rating: 4,
   },
 ]
-
 
 export const VaultTable = (props: TableProps) => {
   const [open, setOpen] = useState(false)

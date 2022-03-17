@@ -186,7 +186,7 @@ const useEasterNftContract = (): Contract => {
   return React.useMemo(() => getEasterNftContract(library.getSigner()), [library]);
 };
 
-const useCakeVaultContract = (): Contract => {
+const useFoxVaultContract = (): Contract => {
   const {
     account,
     library
@@ -347,7 +347,7 @@ export {
   useClaimRefundContract,
   useTradingCompetitionContract,
   useEasterNftContract,
-  useCakeVaultContract,
+  useFoxVaultContract,
   usePredictionsContract,
   useChainlinkOracleContract,
   useAutofoxContract,

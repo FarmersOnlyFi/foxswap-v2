@@ -1,11 +1,11 @@
 import sample from 'lodash/sample';
-
-if (
-  process.env.NODE_ENV !== 'production' &&
-  (!process.env.REACT_APP_NODE_1 || !process.env.REACT_APP_NODE_2 || !process.env.REACT_APP_NODE_3)
-) {
-  throw Error('One base RPC URL is undefined');
-}
+//
+// if (
+//   process.env.NODE_ENV !== 'production' &&
+//   (!process.env.REACT_APP_NODE_1 || !process.env.REACT_APP_NODE_2 || !process.env.REACT_APP_NODE_3)
+// ) {
+//   throw Error('One base RPC URL is undefined');
+// }
 
 // Array of available nodes to connect to
 const nodes = [
@@ -21,7 +21,7 @@ const getNodeURL = (): string => {
     return process.env.REACT_APP_NODE_PRODUCTION;
   }
 
-  return sample(nodes);
+  return 'https://rpc.foxswap.fi';
 };
 
 export {

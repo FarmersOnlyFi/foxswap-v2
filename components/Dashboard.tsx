@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import * as React from 'react'
-import { FiLock, FiMail, FiSend } from 'react-icons/fi'
+import { FiLock, FiBarChart2, FiSend } from 'react-icons/fi'
 import { Stat } from './Stat'
 
 const stats = [
@@ -19,7 +19,7 @@ const stats = [
     value: '$10,000,000',
   },
   {
-    icon: FiMail,
+    icon: FiBarChart2,
     label: 'Market Cap',
     value: '$125,234,885',
   },
@@ -29,6 +29,7 @@ const stats = [
     value: '381,747',
   },
 ]
+
 export const Dashboard = () => (
   <Stack spacing={{ base: '8', lg: '6' }} border={'1px red solid'} padding={8}>
     <Stack spacing="4" direction={{ base: 'column', lg: 'row' }} justify="space-between">

@@ -15,7 +15,7 @@ const Meta = ({ title, keywords, description }) => {
 
 Meta.defaultProps = {
   title: 'Foxswap v2',
-  keywords: 'web3, defi, blockchain',
+  keywords: 'foxswap, farmersonly, web3, defi, blockchain',
   description: 'Decentralized Application on Harmony',
 }
 

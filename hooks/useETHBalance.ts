@@ -23,6 +23,7 @@ export default function useETHBalance(address: string, suspense = false) {
       suspense,
     }
   );
+  console.log(result)
 
   useKeepSWRDataLiveAsBlocksArrive(result.mutate);
 

@@ -1,16 +1,15 @@
 
-import { SUSHI_SWAP_BUY_LINK, VIPER_SWAP_BUY_LINK } from 'config/links';
-import ROUTERS, { RouterName } from 'config/web3/routers';
-import { ChainID } from 'config/web3/chains';
-import LP_TOKENS, { LPTokenSymbol } from 'config/web3/lp-tokens';
-import TOKENS, { TokenSymbol } from 'config/web3/tokens';
+import { SUSHI_SWAP_BUY_LINK, VIPER_SWAP_BUY_LINK } from './links';
+import ROUTERS, { RouterName } from './routers';
+import { ChainID } from './chains';
+import LP_TOKENS, { LPTokenSymbol } from './lp-tokens';
+import TOKENS, { TokenSymbol } from './tokens';
 import { VaultConfig } from '../constants/types';
 
 // TODO: should update code convention for configuration constants (uppercase snake_case)
 // TODO: should use router addresses and strat addresses for testnet
 // TODO: should configure it with LP token objects instead of redundant fields
 // TODO: should use symbol from `LP_TOKENS`
-
 // Vault ordering. 1st burn vaults. Then isHot Vaults
 const VAULT_CONFIGS: VaultConfig[] = [
   //

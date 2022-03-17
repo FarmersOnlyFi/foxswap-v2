@@ -5,18 +5,21 @@ import ETHBalance from "../components/ETHBalance";
 import TokenBalance from "../components/TokenBalance";
 import useEagerConnect from "../hooks/useEagerConnect";
 import { Dashboard } from "../components/Dashboard";
+import useETHBalance from "../hooks/useETHBalance";
 
 // const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
 function Home() {
-  // const { account, library } = useWeb3React();
+  const { account, library } = useWeb3React();
   //
   // const triedToEagerConnect = useEagerConnect();
   //
   // const isConnected = typeof account === "string" && !!library;
-
+  const eth = useETHBalance(account)
+  console.log('balance:', eth)
   return (
     <>
+
       <Dashboard />
     </>
   );
