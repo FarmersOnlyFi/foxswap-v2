@@ -90,8 +90,8 @@ export const getTradingCompetitionAddress = () => {
 export const getEasterNftAddress = () => {
   return getAddress(CONTRACT_ADDRESSES.easterNft);
 };
-export const getCakeVaultAddress = () => {
-  return getAddress(CONTRACT_ADDRESSES.cakeVault);
+export const getFoxVaultAddress = () => {
+  return getAddress(CONTRACT_ADDRESSES.autofox);
 };
 export const getPredictionsAddress = () => {
   return getAddress(CONTRACT_ADDRESSES.predictions);

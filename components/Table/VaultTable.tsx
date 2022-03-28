@@ -17,8 +17,22 @@ import {
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
+import {useFoxVaultContract} from "../../hooks/web3/use-contract";
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
+import useGetVaultFees from "../../hooks/useGetVaultFees";
+import {useWeb3React} from "@web3-react/core";
+import {Web3Provider} from "@ethersproject/providers";
+import useVaultContract from "../../hooks/useVaultContract";
+import useSWR from "swr";
+import {getFoxVaultAddress} from "../../utils/addressHelpers";
+import VaultABI from '../../config/abi/autofox.json'
+import { isAddress } from "@ethersproject/address";
+import { Contract } from "@ethersproject/contracts";
+
+
 const members = [
   {
     id: '1',
@@ -72,9 +86,28 @@ const members = [
   },
 ]
 
+const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
+  const [arg1, arg2, ...params] = args
+  // it's a contract
+  if (isAddress(arg1)) {
+    const address = arg1;
+    const method = arg2;
+    const contract = new Contract(address, abi, library.getSigner());
+    return contract[method];
+  }
+  // it's a eth call
+  const method = arg1
+  return library[method](arg2, ...params)
+}
+
 
 export const VaultTable = (props: TableProps) => {
+  const { account, library } = useWeb3React()
   const [open, setOpen] = useState(false)
+  const [totalShares, setTotalShares] = useState(null)
+  const { data, mutate } = useSWR([getFoxVaultAddress(), 'callFee', account], {
+    fetcher: fetcher(library, VaultABI)
+  })
 
   return (
     <Table {...props}>

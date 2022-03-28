@@ -24,7 +24,7 @@ import {
   getTradingCompetitionContract,
   getEasterNftContract,
   getErc721Contract,
-  getCakeVaultContract,
+  getFoxVaultContract,
   getPredictionsContract,
   getChainlinkOracleContract,
   getVaultChefContract,
@@ -51,6 +51,7 @@ import {
   getMasterBreederContract,
   getBondingContract, getSocksControllerContract
 } from './helpers/contract-helpers';
+import {useWeb3React} from "@web3-react/core";
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -186,11 +187,11 @@ const useEasterNftContract = (): Contract => {
   return React.useMemo(() => getEasterNftContract(library.getSigner()), [library]);
 };
 
-const useCakeVaultContract = (): Contract => {
+const useFoxVaultContract = (): Contract => {
   const {
     account,
     library
-  } = useActiveWeb3React();
+  } = useWeb3React();
   // This hook is slightly different from others
   // Calls were failing if unconnected user goes to farm auction page
   // Using library instead of library.getSigner() fixes the problem for unconnected users
@@ -204,7 +205,7 @@ const useCakeVaultContract = (): Contract => {
   //
   // Similar behavior was also noticed on the pools page
 
-  return React.useMemo(() => getCakeVaultContract(library.getSigner()), [library, account]);
+  return React.useMemo(() => getFoxVaultContract(library.getSigner()), [library, account]);
 };
 
 const usePredictionsContract = (): Contract => {
@@ -347,7 +348,7 @@ export {
   useClaimRefundContract,
   useTradingCompetitionContract,
   useEasterNftContract,
-  useCakeVaultContract,
+  useFoxVaultContract,
   usePredictionsContract,
   useChainlinkOracleContract,
   useAutofoxContract,

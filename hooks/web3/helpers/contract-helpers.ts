@@ -29,7 +29,8 @@ import {
   getPredictionsAddress,
   getChainlinkOracleAddress,
   getAutoFoxAddress,
-  getMulticallAddress
+  getMulticallAddress,
+  getFoxVaultAddress
 } from '../../../utils/addressHelpers';
 
 // ABI
@@ -90,8 +91,9 @@ import {
   getMerkleDistribution,
   getMigratorV2Address,
   getPitAddress,
-  getPitBreeder, getSocksController,
-  getWONEAddress
+  getPitBreeder,
+  getSocksController,
+  getWONEAddress,
 } from "../../../utils/addressHelpers";
 
 const getContract = (abi: any, address: string, signer?: Signer | Provider) => {
@@ -165,8 +167,8 @@ const getTradingCompetitionContract = (signer?: Signer | Provider): Contract => 
 const getEasterNftContract = (signer?: Signer | Provider): Contract => {
   return getContract(easterNftAbi, getEasterNftAddress(), signer);
 };
-const getCakeVaultContract = (signer?: Signer | Provider): Contract => {
-  return getContract(autofoxAbi, getAutoFoxAddress(), signer);
+const getFoxVaultContract = (signer?: Signer | Provider): Contract => {
+  return getContract(autofoxAbi, getFoxVaultAddress(), signer);
 };
 const getPredictionsContract = (signer?: Signer | Provider): Contract => {
   return getContract(predictionsAbi, getPredictionsAddress(), signer);
@@ -284,7 +286,7 @@ export {
   getClaimRefundContract,
   getTradingCompetitionContract,
   getEasterNftContract,
-  getCakeVaultContract,
+  getFoxVaultContract,
   getPredictionsContract,
   getChainlinkOracleContract,
   getAutofoxContract,

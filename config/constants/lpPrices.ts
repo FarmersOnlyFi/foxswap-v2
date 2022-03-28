@@ -1,5 +1,5 @@
 import { LpPrices } from 'state/types';
-import LP_TOKENS, { LPTokenSymbol } from 'config/web3/lp-tokens';
+import LP_TOKENS, { LPTokenSymbol } from './web3/lp-tokens';
 
 const lpPrices: LpPrices[] = [
   {

@@ -9,11 +9,11 @@ import { Dashboard } from "../components/Dashboard";
 // const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
 function Home() {
-  // const { account, library } = useWeb3React();
-  //
-  // const triedToEagerConnect = useEagerConnect();
-  //
-  // const isConnected = typeof account === "string" && !!library;
+  const { account, library } = useWeb3React();
+
+  const triedToEagerConnect = useEagerConnect();
+
+  const isConnected = typeof account === "string" && !!library;
 
   return (
     <>

@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "compile-contract-types": "typechain --target ethers-v5 --out-dir './contracts/types' './contracts/*.json'",
+    "postinstall": "yarn compile-contract-types"
   },
   "dependencies": {
+    "@0xsequence/multicall": "^0.36.7",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.5",
