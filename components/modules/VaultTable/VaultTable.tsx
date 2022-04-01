@@ -17,18 +17,13 @@ import {
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
-import {useFoxVaultContract} from "../../hooks/web3/use-contract";
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
-import useGetVaultFees from "../../hooks/useGetVaultFees";
-import {useWeb3React} from "@web3-react/core";
-import {Web3Provider} from "@ethersproject/providers";
-import useVaultContract from "../../hooks/useVaultContract";
+import { useWeb3React } from "@web3-react/core";
+import { Web3Provider } from "@ethersproject/providers";
 import useSWR from "swr";
-import {getFoxVaultAddress} from "../../utils/addressHelpers";
-import VaultABI from '../../config/abi/autofox.json'
+import { getFoxVaultAddress } from "@/utils/addressHelpers";
+import VaultABI from '@/config/abi/autofox.json'
 import { isAddress } from "@ethersproject/address";
 import { Contract } from "@ethersproject/contracts";
 

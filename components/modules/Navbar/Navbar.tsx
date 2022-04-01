@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   ButtonGroup,
@@ -9,13 +8,12 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react'
 import * as React from 'react'
-import { FiHelpCircle, FiMenu, FiSearch, FiSettings } from 'react-icons/fi'
-import { Logo, FoxLogo } from './Logo'
+import { FiMenu } from 'react-icons/fi'
+import { FoxLogo } from '../../elements/Logo/Logo'
 import NextLink from "next/link";
-import Account from "./Account";
-import useEagerConnect from "../hooks/useEagerConnect";
-import {useWeb3React} from "@web3-react/core";
-import {getFoxVaultAddress} from "../utils/addressHelpers";
+import Account from "../Account/Account";
+import useEagerConnect from "../../../hooks/useEagerConnect";
+import { useWeb3React } from "@web3-react/core";
 
 
 const navLinks = [
@@ -23,8 +21,8 @@ const navLinks = [
     path: "/"
   },
   {
-    name: "Swap",
-    path: "/swap",
+    name: "Trade",
+    path: "/trade",
   },
   {
     name: "Vaults",

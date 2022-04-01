@@ -1,16 +1,15 @@
 import {
-  Box,
-  BoxProps,
+  Grid, GridItem,
   Heading,
   SimpleGrid,
   Stack,
   Text,
   useBreakpointValue,
-  useColorModeValue,
 } from '@chakra-ui/react'
 import * as React from 'react'
 import { FiLock, FiMail, FiSend } from 'react-icons/fi'
-import { Stat } from './Stat'
+import { Stat } from '../../elements/Stat/Stat'
+import Card from "../../elements/Card/Card";
 
 const stats = [
   {
@@ -40,22 +39,18 @@ export const Dashboard = () => (
       </Stack>
     </Stack>
     <Stack spacing={{ base: '5', lg: '6' }}>
-      <SimpleGrid columns={{ base: 1, md: 3 }} gap="6">
+      <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
         {stats.map((stat, id) => (
           <Stat bg="purple.600" key={id} {...stat} />
         ))}
       </SimpleGrid>
     </Stack>
-    <Card minH="xs" border={'1px solid green'} />
+    <Stack spacing={{ base: '5', lg: '6' }}>
+      <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6}>
+        <Card minH="xs" border={'1px solid green'} />
+        <Card minH="xs" border={'1px solid green'} />
+      </SimpleGrid>
+    </Stack>
   </Stack>
 )
 
-const Card = (props: BoxProps) => (
-  <Box
-    minH="36"
-    bg="bg-surface"
-    boxShadow={useColorModeValue('sm', 'sm-dark')}
-    borderRadius="lg"
-    {...props}
-  />
-)

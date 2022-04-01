@@ -4,7 +4,7 @@ import getLibrary from "../getLibrary";
 import "../styles/globals.css";
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import theme from '../theme'
-import Layout from "../components/Layout";
+import Layout from "../components/layouts/Layout";
 
 function NextWeb3App({ Component, pageProps }: AppProps) {
   return (
