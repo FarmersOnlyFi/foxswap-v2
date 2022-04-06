@@ -106,6 +106,7 @@ export interface VaultConfig {
   isSingleAsset?: boolean;
   burnApr?: number;
   chef?: string;
+  chefAddress?: string;
   tag2?: string; // for when farm and router are different
   zapEnabled?: boolean;
   dual?: {

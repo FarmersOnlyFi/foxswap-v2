@@ -21,9 +21,9 @@
       "@/contracts/*": ["contracts/*"],
       "@/hooks/*": ["hooks/*"],
       "@/styles/*": ["styles/*"],
-      "@/utils/*": ["utils/*"],
       "@/theme/*": ["theme/*"],
-      "@/types/*": ["types/*"]
+      "@/types/*": ["types/*"],
+      "@/utils/*": ["utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

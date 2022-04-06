@@ -1,10 +1,16 @@
 
-import { SUSHI_SWAP_BUY_LINK, VIPER_SWAP_BUY_LINK } from 'config/links';
+import { SUSHI_SWAP_BUY_LINK, VIPER_SWAP_BUY_LINK } from '@/config/constants/links';
 import ROUTERS, { RouterName } from 'config/web3/routers';
 import { ChainID } from 'config/web3/chains';
 import LP_TOKENS, { LPTokenSymbol } from 'config/web3/lp-tokens';
 import TOKENS, { TokenSymbol } from 'config/web3/tokens';
 import { VaultConfig } from '../constants/types';
+import {
+  getAddress,
+  getArtemisMasterChefAddress, getComfyMasterChefAddress, getFuzzMasterChefAddress, getHolyGrailMasterChefAddress,
+  getMasterChefAddress, getQuartzMasterChefAddress,
+  getSushiswapMasterChefAddress
+} from "@/utils/addressHelpers";
 
 // TODO: should update code convention for configuration constants (uppercase snake_case)
 // TODO: should use router addresses and strat addresses for testnet
@@ -16,27 +22,28 @@ const VAULT_CONFIGS: VaultConfig[] = [
   //
   // Burn vaults
   //
-  {
-    pid: 113,
-    farmPid: 0,
-    lpSymbol: 'Locked TRANQ',
-    lpAddresses: TOKENS[TokenSymbol.TRANQ].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x9Aa9d2fa97672B8c417900BA000C44d116a94860',
-      [ChainID.Mainnet]: '0x9Aa9d2fa97672B8c417900BA000C44d116a94860'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x55aE07Bb8Bae1501F9aEBF35801B5699eAE63bb7',
-      [ChainID.Mainnet]: '0x55aE07Bb8Bae1501F9aEBF35801B5699eAE63bb7'
-    },
-    token: TOKENS[TokenSymbol.TRANQ],
-    quoteToken: TOKENS[TokenSymbol.TRANQ],
-    isBurn: true,
-    addLiquidityUrl: '',
-    chef: RouterName.Tranquil,
-    burnApr: 66,
-    router: ROUTERS[RouterName.Tranquil].ADDRESSES
-  },
+  // {
+  //   pid: 113,
+  //   farmPid: 0,
+  //   lpSymbol: 'Locked TRANQ',
+  //   lpAddresses: TOKENS[TokenSymbol.TRANQ].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x9Aa9d2fa97672B8c417900BA000C44d116a94860',
+  //     [ChainID.Mainnet]: '0x9Aa9d2fa97672B8c417900BA000C44d116a94860'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x55aE07Bb8Bae1501F9aEBF35801B5699eAE63bb7',
+  //     [ChainID.Mainnet]: '0x55aE07Bb8Bae1501F9aEBF35801B5699eAE63bb7'
+  //   },
+  //   token: TOKENS[TokenSymbol.TRANQ],
+  //   quoteToken: TOKENS[TokenSymbol.TRANQ],
+  //   isBurn: true,
+  //   addLiquidityUrl: '',
+  //   chef: RouterName.Tranquil,
+  //   chefAddress: '',
+  //   burnApr: 66,
+  //   router: ROUTERS[RouterName.Tranquil].ADDRESSES
+  // },
   {
     pid: 34,
     farmPid: 1,
@@ -52,6 +59,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     isBurn: true,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.NAME,
+    chefAddress: getSushiswapMasterChefAddress(),
     burnApr: 11,
     router: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.ADDRESSES
   },
@@ -70,6 +78,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     isBurn: true,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.NAME,
+    chefAddress: getSushiswapMasterChefAddress(),
     burnApr: 11,
     router: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.ADDRESSES
   },
@@ -92,6 +101,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_WONE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_WONE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_WONE_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_WONE_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: []
@@ -115,6 +125,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_LUMEN_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_LUMEN_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_LUMEN_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_LUMEN_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_LUMEN_FOXSWAP].ROUTER.PATH_ONE_LUMEN
@@ -134,6 +145,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WONE_LUMEN_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_LUMEN_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.WONE_LUMEN_FOXSWAP].ROUTER.ADDRESSES,
     path0: [],
     path1: LP_TOKENS[LPTokenSymbol.WONE_LUMEN_FOXSWAP].ROUTER.PATH_ONE_LUMEN
@@ -153,6 +165,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_XFOX_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_XFOX_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_XFOX_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_XFOX_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_XFOX_FOXSWAP].ROUTER.PATH_ONE_XFOX
@@ -172,6 +185,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_HVILLE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_HVILLE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_HVILLE_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_HVILLE_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_HVILLE_FOXSWAP].ROUTER.PATH_ONE_HVILLE
@@ -191,192 +205,193 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WONE_HVILLE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_HVILLE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.WONE_HVILLE_FOXSWAP].ROUTER.ADDRESSES,
     path0: [],
     path1: LP_TOKENS[LPTokenSymbol.WONE_HVILLE_FOXSWAP].ROUTER.PATH_ONE_HVILLE
   },
-  {
-    pid: 103,
-    lpSymbol: '1BTC',
-    lpAddresses: TOKENS[TokenSymbol.BTC].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xC35E604b315Bd38Ba6c3c890Db90aB2C2a3dB6f3',
-      [ChainID.Mainnet]: '0xC35E604b315Bd38Ba6c3c890Db90aB2C2a3dB6f3'
-    },
-    token: TOKENS[TokenSymbol.BTC],
-    quoteToken: TOKENS[TokenSymbol.BTC],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isNew: true,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c',
-      [ChainID.Mainnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c'
-    }
-  },
-  {
-    pid: 99,
-    lpSymbol: '1BTC',
-    lpAddresses: TOKENS[TokenSymbol.BTC].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xd6B530A08D62D5873d6893a7D307989eacf9aDCf',
-      [ChainID.Mainnet]: '0xd6B530A08D62D5873d6893a7D307989eacf9aDCf'
-    },
-    token: TOKENS[TokenSymbol.BTC],
-    quoteToken: TOKENS[TokenSymbol.BTC],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c',
-      [ChainID.Mainnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c'
-    }
-  },
-  {
-    pid: 100,
-    lpSymbol: 'DAI',
-    lpAddresses: TOKENS[TokenSymbol.DAI].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xf3ac0F7930f253F5dbc2f617B5aFEc1519733A95',
-      [ChainID.Mainnet]: '0xf3ac0F7930f253F5dbc2f617B5aFEc1519733A95'
-    },
-    token: TOKENS[TokenSymbol.DAI],
-    quoteToken: TOKENS[TokenSymbol.DAI],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isNew: true,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639',
-      [ChainID.Mainnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639'
-    }
-  },
-  {
-    pid: 97,
-    lpSymbol: 'DAI',
-    lpAddresses: TOKENS[TokenSymbol.DAI].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x39640f264EF28192Ee0463ada08e25fB5d9da5d4',
-      [ChainID.Mainnet]: '0x39640f264EF28192Ee0463ada08e25fB5d9da5d4'
-    },
-    token: TOKENS[TokenSymbol.DAI],
-    quoteToken: TOKENS[TokenSymbol.DAI],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639',
-      [ChainID.Mainnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639'
-    }
-  },
-  {
-    pid: 107,
-    lpSymbol: 'xVIPER->VIPER',
-    lpAddresses: TOKENS[TokenSymbol.XVIPER].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xe9b12F4239ca31efB15E4DBb0859f9bC37F1F9dc',
-      [ChainID.Mainnet]: '0xe9b12F4239ca31efB15E4DBb0859f9bC37F1F9dc'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x75de75158B0CE2FE38Eaf61632f96ecD713a6FF7',
-      [ChainID.Mainnet]: '0x75de75158B0CE2FE38Eaf61632f96ecD713a6FF7'
-    },
-    token: TOKENS[TokenSymbol.XVIPER],
-    quoteToken: TOKENS[TokenSymbol.XVIPER],
-    rewardToken: TOKENS[TokenSymbol.VIPER],
-    addLiquidityUrl: VIPER_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.ViperSwap].NAME,
-    farmPid: 0,
-    zapEnabled: false,
-    router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
-    path0: [],
-    path1: []
-  },
-  {
-    pid: 108,
-    lpSymbol: 'xVIPER->wsWAGMI',
-    lpAddresses: TOKENS[TokenSymbol.XVIPER].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xd6b7af842C7da6a3633AD490CcD1032A59CD7977',
-      [ChainID.Mainnet]: '0xd6b7af842C7da6a3633AD490CcD1032A59CD7977'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x88b0daAef8e729D415d8AA502915527A9425878C',
-      [ChainID.Mainnet]: '0x88b0daAef8e729D415d8AA502915527A9425878C'
-    },
-    token: TOKENS[TokenSymbol.XVIPER],
-    quoteToken: TOKENS[TokenSymbol.XVIPER],
-    rewardToken: TOKENS[TokenSymbol.WSWAGMI],
-    addLiquidityUrl: VIPER_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.ViperSwap].NAME,
-    farmPid: 0,
-    zapEnabled: false,
-    router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
-    path0: [],
-    path1: []
-  },
-  {
-    pid: 109,
-    lpSymbol: 'xVIPER->CSHARE',
-    lpAddresses: TOKENS[TokenSymbol.XVIPER].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xF6CFE4ddB751aADc1A19b6Dd16b0713Afd4808dd',
-      [ChainID.Mainnet]: '0xF6CFE4ddB751aADc1A19b6Dd16b0713Afd4808dd'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x5D36dE2846134E6bAc2E84042C975e460337538d',
-      [ChainID.Mainnet]: '0x5D36dE2846134E6bAc2E84042C975e460337538d'
-    },
-    token: TOKENS[TokenSymbol.XVIPER],
-    quoteToken: TOKENS[TokenSymbol.XVIPER],
-    rewardToken: TOKENS[TokenSymbol.CSHARE],
-    addLiquidityUrl: VIPER_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.ViperSwap].NAME,
-    farmPid: 0,
-    zapEnabled: false,
-    router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
-    path0: [],
-    path1: []
-  },
-  {
-    pid: 110,
-    lpSymbol: 'wsWAGMI->VIPER',
-    lpAddresses: TOKENS[TokenSymbol.WSWAGMI].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x6Ef71578c7A5CcDAd8d992F97E90BAF782950bfa',
-      [ChainID.Mainnet]: '0x6Ef71578c7A5CcDAd8d992F97E90BAF782950bfa'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x249a360CeC6687e145D76444Af176335F7C2F818',
-      [ChainID.Mainnet]: '0x249a360CeC6687e145D76444Af176335F7C2F818'
-    },
-    token: TOKENS[TokenSymbol.WSWAGMI],
-    quoteToken: TOKENS[TokenSymbol.WSWAGMI],
-    rewardToken: TOKENS[TokenSymbol.VIPER],
-    addLiquidityUrl: VIPER_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.ViperSwap].NAME,
-    farmPid: 0,
-    zapEnabled: false,
-    router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
-    path0: [],
-    path1: []
-  },
+  // {
+  //   pid: 103,
+  //   lpSymbol: '1BTC',
+  //   lpAddresses: TOKENS[TokenSymbol.BTC].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xC35E604b315Bd38Ba6c3c890Db90aB2C2a3dB6f3',
+  //     [ChainID.Mainnet]: '0xC35E604b315Bd38Ba6c3c890Db90aB2C2a3dB6f3'
+  //   },
+  //   token: TOKENS[TokenSymbol.BTC],
+  //   quoteToken: TOKENS[TokenSymbol.BTC],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isNew: true,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c',
+  //     [ChainID.Mainnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c'
+  //   }
+  // },
+  // {
+  //   pid: 99,
+  //   lpSymbol: '1BTC',
+  //   lpAddresses: TOKENS[TokenSymbol.BTC].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xd6B530A08D62D5873d6893a7D307989eacf9aDCf',
+  //     [ChainID.Mainnet]: '0xd6B530A08D62D5873d6893a7D307989eacf9aDCf'
+  //   },
+  //   token: TOKENS[TokenSymbol.BTC],
+  //   quoteToken: TOKENS[TokenSymbol.BTC],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_BTC,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c',
+  //     [ChainID.Mainnet]: '0x481721B918c698ff5f253c56684bAC8dCa84346c'
+  //   }
+  // },
+  // {
+  //   pid: 100,
+  //   lpSymbol: 'DAI',
+  //   lpAddresses: TOKENS[TokenSymbol.DAI].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xf3ac0F7930f253F5dbc2f617B5aFEc1519733A95',
+  //     [ChainID.Mainnet]: '0xf3ac0F7930f253F5dbc2f617B5aFEc1519733A95'
+  //   },
+  //   token: TOKENS[TokenSymbol.DAI],
+  //   quoteToken: TOKENS[TokenSymbol.DAI],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isNew: true,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639',
+  //     [ChainID.Mainnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639'
+  //   }
+  // },
+  // {
+  //   pid: 97,
+  //   lpSymbol: 'DAI',
+  //   lpAddresses: TOKENS[TokenSymbol.DAI].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x39640f264EF28192Ee0463ada08e25fB5d9da5d4',
+  //     [ChainID.Mainnet]: '0x39640f264EF28192Ee0463ada08e25fB5d9da5d4'
+  //   },
+  //   token: TOKENS[TokenSymbol.DAI],
+  //   quoteToken: TOKENS[TokenSymbol.DAI],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_DAI,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639',
+  //     [ChainID.Mainnet]: '0x49d95736FE7f1F32E3ee5deFc26c95bA22834639'
+  //   }
+  // },
+  // {
+  //   pid: 107,
+  //   lpSymbol: 'xVIPER->VIPER',
+  //   lpAddresses: TOKENS[TokenSymbol.XVIPER].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xe9b12F4239ca31efB15E4DBb0859f9bC37F1F9dc',
+  //     [ChainID.Mainnet]: '0xe9b12F4239ca31efB15E4DBb0859f9bC37F1F9dc'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x75de75158B0CE2FE38Eaf61632f96ecD713a6FF7',
+  //     [ChainID.Mainnet]: '0x75de75158B0CE2FE38Eaf61632f96ecD713a6FF7'
+  //   },
+  //   token: TOKENS[TokenSymbol.XVIPER],
+  //   quoteToken: TOKENS[TokenSymbol.XVIPER],
+  //   rewardToken: TOKENS[TokenSymbol.VIPER],
+  //   addLiquidityUrl: VIPER_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.ViperSwap].NAME,
+  //   farmPid: 0,
+  //   zapEnabled: false,
+  //   router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: []
+  // },
+  // {
+  //   pid: 108,
+  //   lpSymbol: 'xVIPER->wsWAGMI',
+  //   lpAddresses: TOKENS[TokenSymbol.XVIPER].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xd6b7af842C7da6a3633AD490CcD1032A59CD7977',
+  //     [ChainID.Mainnet]: '0xd6b7af842C7da6a3633AD490CcD1032A59CD7977'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x88b0daAef8e729D415d8AA502915527A9425878C',
+  //     [ChainID.Mainnet]: '0x88b0daAef8e729D415d8AA502915527A9425878C'
+  //   },
+  //   token: TOKENS[TokenSymbol.XVIPER],
+  //   quoteToken: TOKENS[TokenSymbol.XVIPER],
+  //   rewardToken: TOKENS[TokenSymbol.WSWAGMI],
+  //   addLiquidityUrl: VIPER_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.ViperSwap].NAME,
+  //   farmPid: 0,
+  //   zapEnabled: false,
+  //   router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: []
+  // },
+  // {
+  //   pid: 109,
+  //   lpSymbol: 'xVIPER->CSHARE',
+  //   lpAddresses: TOKENS[TokenSymbol.XVIPER].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xF6CFE4ddB751aADc1A19b6Dd16b0713Afd4808dd',
+  //     [ChainID.Mainnet]: '0xF6CFE4ddB751aADc1A19b6Dd16b0713Afd4808dd'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x5D36dE2846134E6bAc2E84042C975e460337538d',
+  //     [ChainID.Mainnet]: '0x5D36dE2846134E6bAc2E84042C975e460337538d'
+  //   },
+  //   token: TOKENS[TokenSymbol.XVIPER],
+  //   quoteToken: TOKENS[TokenSymbol.XVIPER],
+  //   rewardToken: TOKENS[TokenSymbol.CSHARE],
+  //   addLiquidityUrl: VIPER_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.ViperSwap].NAME,
+  //   farmPid: 0,
+  //   zapEnabled: false,
+  //   router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: []
+  // },
+  // {
+  //   pid: 110,
+  //   lpSymbol: 'wsWAGMI->VIPER',
+  //   lpAddresses: TOKENS[TokenSymbol.WSWAGMI].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x6Ef71578c7A5CcDAd8d992F97E90BAF782950bfa',
+  //     [ChainID.Mainnet]: '0x6Ef71578c7A5CcDAd8d992F97E90BAF782950bfa'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x249a360CeC6687e145D76444Af176335F7C2F818',
+  //     [ChainID.Mainnet]: '0x249a360CeC6687e145D76444Af176335F7C2F818'
+  //   },
+  //   token: TOKENS[TokenSymbol.WSWAGMI],
+  //   quoteToken: TOKENS[TokenSymbol.WSWAGMI],
+  //   rewardToken: TOKENS[TokenSymbol.VIPER],
+  //   addLiquidityUrl: VIPER_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.ViperSwap].NAME,
+  //   farmPid: 0,
+  //   zapEnabled: false,
+  //   router: ROUTERS[RouterName.ViperSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: []
+  // },
   {
     pid: 93,
     farmPid: 0,
@@ -391,6 +406,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.COMFY_WONE].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.COMFY_WONE].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Comfy].NAME,
+    chefAddress: getComfyMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.COMFY_WONE].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.COMFY_WONE].ROUTER.PATH_ONE_COMFY,
     path1: []
@@ -409,6 +425,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.CSHARE_WONE].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.CSHARE_WONE].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Comfy].NAME,
+    chefAddress: getComfyMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.CSHARE_WONE].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.CSHARE_WONE].ROUTER.PATH_ONE_CSHARE,
     path1: []
@@ -427,6 +444,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.HLY_USDC].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.HLY_USDC].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.HolyGrail].NAME,
+    chefAddress: getHolyGrailMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.HLY_USDC].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.HLY_USDC].ROUTER.PATH_ONE_HLY,
     path1: LP_TOKENS[LPTokenSymbol.HLY_USDC].ROUTER.PATH_ONE_USDC
@@ -445,6 +463,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.HLY_WONE].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.HLY_WONE].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.HolyGrail].NAME,
+    chefAddress: getHolyGrailMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.HLY_WONE].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.HLY_WONE].ROUTER.PATH_ONE_HLY,
     path1: []
@@ -463,6 +482,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.JEWEL_HLY].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.JEWEL_HLY].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.HolyGrail].NAME,
+    chefAddress: getHolyGrailMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.JEWEL_HLY].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.JEWEL_HLY].ROUTER.PATH_ONE_JEWEL,
     path1: LP_TOKENS[LPTokenSymbol.JEWEL_HLY].ROUTER.PATH_ONE_HLY
@@ -486,6 +506,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_UST_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_UST_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_UST_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_UST_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_UST_FOXSWAP].ROUTER.PATH_ONE_UST
@@ -506,6 +527,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     isHot: true,
     isSingleAsset: true,
     router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+    chefAddress: getSushiswapMasterChefAddress(),
     path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDC,
     path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDC,
     tqTokenAddress: {
@@ -529,6 +551,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     isHot: true,
     isSingleAsset: true,
     router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+    chefAddress: getSushiswapMasterChefAddress(),
     path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_ETH,
     path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_ETH,
     tqTokenAddress: {
@@ -536,98 +559,98 @@ const VAULT_CONFIGS: VaultConfig[] = [
       [ChainID.Mainnet]: '0xc63AB8c72e636C9961c5e9288b697eC5F0B8E1F7'
     }
   },
-  {
-    pid: 68,
-    lpSymbol: 'BTC',
-    lpAddresses: TOKENS[TokenSymbol.WBTC].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xEc915a5bA226c76Cbb6b122dEac1D82fc14C1c8E',
-      [ChainID.Mainnet]: '0xEc915a5bA226c76Cbb6b122dEac1D82fc14C1c8E'
-    },
-    token: TOKENS[TokenSymbol.WBTC],
-    quoteToken: TOKENS[TokenSymbol.WBTC],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isHot: true,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_WBTC,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_WBTC,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0xd9c0D8Ad06ABE10aB29655ff98DcAAA0E059184A',
-      [ChainID.Mainnet]: '0xd9c0D8Ad06ABE10aB29655ff98DcAAA0E059184A'
-    }
-  },
-  {
-    pid: 64,
-    lpSymbol: 'stONE',
-    lpAddresses: TOKENS[TokenSymbol.STONE].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xa42064295d7b173357Dfff4b841743F44d7C1c17',
-      [ChainID.Mainnet]: '0xa42064295d7b173357Dfff4b841743F44d7C1c17'
-    },
-    token: TOKENS[TokenSymbol.STONE],
-    quoteToken: TOKENS[TokenSymbol.STONE],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isHot: true,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: [],
-    path1: [],
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x973f22036A0fF3A93654e7829444ec64CB37BD78',
-      [ChainID.Mainnet]: '0x973f22036A0fF3A93654e7829444ec64CB37BD78'
-    }
-  },
-  {
-    pid: 63,
-    lpSymbol: 'WONE',
-    lpAddresses: TOKENS[TokenSymbol.WONE].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xA2722f8A629510922d9D95DF04c90fAdE7Fe259F',
-      [ChainID.Mainnet]: '0xA2722f8A629510922d9D95DF04c90fAdE7Fe259F'
-    },
-    token: TOKENS[TokenSymbol.WONE],
-    quoteToken: TOKENS[TokenSymbol.WONE],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isHot: true,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: [],
-    path1: [],
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940',
-      [ChainID.Mainnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940'
-    }
-  },
-  {
-    pid: 66,
-    lpSymbol: 'USDT',
-    lpAddresses: TOKENS[TokenSymbol.USDT].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x72E187d0D8F49B0ed04De8Da17Ac8a703C0341FB',
-      [ChainID.Mainnet]: '0x72E187d0D8F49B0ed04De8Da17Ac8a703C0341FB'
-    },
-    token: TOKENS[TokenSymbol.USDT],
-    quoteToken: TOKENS[TokenSymbol.USDT],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isHot: true,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDT,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDT,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x7af2430eFa179dB0e76257E5208bCAf2407B2468',
-      [ChainID.Mainnet]: '0x7af2430eFa179dB0e76257E5208bCAf2407B2468'
-    }
-  },
+  // {
+  //   pid: 68,
+  //   lpSymbol: 'BTC',
+  //   lpAddresses: TOKENS[TokenSymbol.WBTC].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xEc915a5bA226c76Cbb6b122dEac1D82fc14C1c8E',
+  //     [ChainID.Mainnet]: '0xEc915a5bA226c76Cbb6b122dEac1D82fc14C1c8E'
+  //   },
+  //   token: TOKENS[TokenSymbol.WBTC],
+  //   quoteToken: TOKENS[TokenSymbol.WBTC],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isHot: true,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_WBTC,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_WBTC,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0xd9c0D8Ad06ABE10aB29655ff98DcAAA0E059184A',
+  //     [ChainID.Mainnet]: '0xd9c0D8Ad06ABE10aB29655ff98DcAAA0E059184A'
+  //   }
+  // },
+  // {
+  //   pid: 64,
+  //   lpSymbol: 'stONE',
+  //   lpAddresses: TOKENS[TokenSymbol.STONE].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xa42064295d7b173357Dfff4b841743F44d7C1c17',
+  //     [ChainID.Mainnet]: '0xa42064295d7b173357Dfff4b841743F44d7C1c17'
+  //   },
+  //   token: TOKENS[TokenSymbol.STONE],
+  //   quoteToken: TOKENS[TokenSymbol.STONE],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isHot: true,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: [],
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x973f22036A0fF3A93654e7829444ec64CB37BD78',
+  //     [ChainID.Mainnet]: '0x973f22036A0fF3A93654e7829444ec64CB37BD78'
+  //   }
+  // },
+  // {
+  //   pid: 63,
+  //   lpSymbol: 'WONE',
+  //   lpAddresses: TOKENS[TokenSymbol.WONE].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xA2722f8A629510922d9D95DF04c90fAdE7Fe259F',
+  //     [ChainID.Mainnet]: '0xA2722f8A629510922d9D95DF04c90fAdE7Fe259F'
+  //   },
+  //   token: TOKENS[TokenSymbol.WONE],
+  //   quoteToken: TOKENS[TokenSymbol.WONE],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isHot: true,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: [],
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940',
+  //     [ChainID.Mainnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940'
+  //   }
+  // },
+  // {
+  //   pid: 66,
+  //   lpSymbol: 'USDT',
+  //   lpAddresses: TOKENS[TokenSymbol.USDT].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x72E187d0D8F49B0ed04De8Da17Ac8a703C0341FB',
+  //     [ChainID.Mainnet]: '0x72E187d0D8F49B0ed04De8Da17Ac8a703C0341FB'
+  //   },
+  //   token: TOKENS[TokenSymbol.USDT],
+  //   quoteToken: TOKENS[TokenSymbol.USDT],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isHot: true,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDT,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDT,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x7af2430eFa179dB0e76257E5208bCAf2407B2468',
+  //     [ChainID.Mainnet]: '0x7af2430eFa179dB0e76257E5208bCAf2407B2468'
+  //   }
+  // },
 
   //
   // Rest of Vaults
@@ -646,6 +669,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.UST_QUARTZ].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_QUARTZ].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Quartz].NAME,
+    chefAddress: getQuartzMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.UST_QUARTZ].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.UST_QUARTZ].ROUTER.PATH_ONE_UST,
     path1: LP_TOKENS[LPTokenSymbol.UST_QUARTZ].ROUTER.PATH_ONE_QUARTZ
@@ -664,6 +688,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WONE_QSHARE].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_QSHARE].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Quartz].NAME,
+    chefAddress: getQuartzMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.WONE_QSHARE].ROUTER.ADDRESSES,
     path0: [],
     path1: LP_TOKENS[LPTokenSymbol.WONE_QSHARE].ROUTER.PATH_ONE_QSHARE
@@ -683,6 +708,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_STONE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_STONE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_STONE_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_STONE_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_STONE_FOXSWAP].ROUTER.PATH_ONE_STONE
@@ -702,6 +728,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.ETH_WONE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.ETH_WONE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.ETH_WONE_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.ETH_WONE_FOXSWAP].ROUTER.PATH_ONE_ETH,
     path1: []
@@ -721,6 +748,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.USDC_WONE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.USDC_WONE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.USDC_WONE_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.USDC_WONE_FOXSWAP].ROUTER.PATH_ONE_USDC,
     path1: []
@@ -740,6 +768,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.UST_WONE_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_WONE_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.UST_WONE_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.UST_WONE_FOXSWAP].ROUTER.PATH_ONE_UST,
     path1: []
@@ -759,6 +788,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_MIS_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_MIS_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_MIS_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_MIS_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_MIS_FOXSWAP].ROUTER.PATH_ONE_MIS
@@ -778,6 +808,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_JEWEL_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_JEWEL_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_JEWEL_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_JEWEL_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_JEWEL_FOXSWAP].ROUTER.PATH_ONE_JEWEL
@@ -797,6 +828,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_RVRS_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_RVRS_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_RVRS_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_RVRS_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_RVRS_FOXSWAP].ROUTER.PATH_ONE_RVRS
@@ -816,6 +848,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_RAVAX_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_RAVAX_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_RAVAX_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_RAVAX_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_RAVAX_FOXSWAP].ROUTER.PATH_ONE_RAVAX
@@ -835,6 +868,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_TRANQ_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_TRANQ_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_TRANQ_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_TRANQ_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_TRANQ_FOXSWAP].ROUTER.PATH_ONE_TRANQ
@@ -854,6 +888,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_COINKX_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_COINKX_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_COINKX_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_COINKX_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_COINKX_FOXSWAP].ROUTER.PATH_ONE_COINKX
@@ -873,79 +908,80 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_XYA_FOXSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_XYA_FOXSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FOX_XYA_FOXSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_XYA_FOXSWAP].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_XYA_FOXSWAP].ROUTER.PATH_ONE_XYA
   },
 
   // Rest of Vaults
-  {
-    pid: 54,
-    lpSymbol: 'WONE (Old)',
-    lpAddresses: TOKENS[TokenSymbol.WONE].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x11EBd48c564D8A9235260EA20133E53A8dCF811E',
-      [ChainID.Mainnet]: '0x11EBd48c564D8A9235260EA20133E53A8dCF811E'
-    },
-    token: TOKENS[TokenSymbol.WONE],
-    quoteToken: TOKENS[TokenSymbol.WONE],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: [],
-    path1: [],
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940',
-      [ChainID.Mainnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940'
-    }
-  },
-  {
-    pid: 47,
-    lpSymbol: 'USDC (Old)',
-    lpAddresses: TOKENS[TokenSymbol.USDC].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xb3c9A185bC39335787Df6f71498F8FDee46C2eB0',
-      [ChainID.Mainnet]: '0xb3c9A185bC39335787Df6f71498F8FDee46C2eB0'
-    },
-    token: TOKENS[TokenSymbol.USDC],
-    quoteToken: TOKENS[TokenSymbol.USDC],
-    addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    farmPid: 0,
-    isSingleAsset: true,
-    router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
-    path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDC,
-    path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDC,
-    tqTokenAddress: {
-      [ChainID.Testnet]: '0xCa3e902eFdb2a410C952Fd3e4ac38d7DBDCB8E96',
-      [ChainID.Mainnet]: '0xCa3e902eFdb2a410C952Fd3e4ac38d7DBDCB8E96'
-    }
-  },
-  {
-    pid: 69,
-    lpSymbol: 'stONE-ONE',
-    lpToken: LP_TOKENS[LPTokenSymbol.STONE_ONE],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.STONE_ONE].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xFaFaca61ba7Ea155Ac9193Ac9BC0b6cf36Ea854b',
-      [ChainID.Mainnet]: '0xFaFaca61ba7Ea155Ac9193Ac9BC0b6cf36Ea854b'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x692d8e9990A7624002970E808Dbc9BDFEeEDF702',
-      [ChainID.Mainnet]: '0x692d8e9990A7624002970E808Dbc9BDFEeEDF702'
-    },
-    token: LP_TOKENS[LPTokenSymbol.STONE_ONE].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.STONE_ONE].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.NAME,
-    farmPid: 0,
-    router: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.PATH_ONE_STONE,
-    path1: []
-  },
+  // {
+  //   pid: 54,
+  //   lpSymbol: 'WONE (Old)',
+  //   lpAddresses: TOKENS[TokenSymbol.WONE].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x11EBd48c564D8A9235260EA20133E53A8dCF811E',
+  //     [ChainID.Mainnet]: '0x11EBd48c564D8A9235260EA20133E53A8dCF811E'
+  //   },
+  //   token: TOKENS[TokenSymbol.WONE],
+  //   quoteToken: TOKENS[TokenSymbol.WONE],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: [],
+  //   path1: [],
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940',
+  //     [ChainID.Mainnet]: '0x34B9aa82D89AE04f0f546Ca5eC9C93eFE1288940'
+  //   }
+  // },
+  // {
+  //   pid: 47,
+  //   lpSymbol: 'USDC (Old)',
+  //   lpAddresses: TOKENS[TokenSymbol.USDC].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xb3c9A185bC39335787Df6f71498F8FDee46C2eB0',
+  //     [ChainID.Mainnet]: '0xb3c9A185bC39335787Df6f71498F8FDee46C2eB0'
+  //   },
+  //   token: TOKENS[TokenSymbol.USDC],
+  //   quoteToken: TOKENS[TokenSymbol.USDC],
+  //   addLiquidityUrl: SUSHI_SWAP_BUY_LINK,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   farmPid: 0,
+  //   isSingleAsset: true,
+  //   router: ROUTERS[RouterName.SushiSwap].ADDRESSES,
+  //   path0: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDC,
+  //   path1: ROUTERS[RouterName.SushiSwap].PATH_ONE_USDC,
+  //   tqTokenAddress: {
+  //     [ChainID.Testnet]: '0xCa3e902eFdb2a410C952Fd3e4ac38d7DBDCB8E96',
+  //     [ChainID.Mainnet]: '0xCa3e902eFdb2a410C952Fd3e4ac38d7DBDCB8E96'
+  //   }
+  // },
+  // {
+  //   pid: 69,
+  //   lpSymbol: 'stONE-ONE',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.STONE_ONE],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.STONE_ONE].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xFaFaca61ba7Ea155Ac9193Ac9BC0b6cf36Ea854b',
+  //     [ChainID.Mainnet]: '0xFaFaca61ba7Ea155Ac9193Ac9BC0b6cf36Ea854b'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x692d8e9990A7624002970E808Dbc9BDFEeEDF702',
+  //     [ChainID.Mainnet]: '0x692d8e9990A7624002970E808Dbc9BDFEeEDF702'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.STONE_ONE].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.STONE_ONE].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.NAME,
+  //   farmPid: 0,
+  //   router: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.STONE_ONE].ROUTER.PATH_ONE_STONE,
+  //   path1: []
+  // },
   {
     pid: 70,
     farmPid: 15,
@@ -960,6 +996,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.MIS_LUMEN].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.MIS_LUMEN].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.MIS_LUMEN].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.MIS_LUMEN].ROUTER.PATH_ONE_MIS,
     path1: LP_TOKENS[LPTokenSymbol.MIS_LUMEN].ROUTER.PATH_ONE_LUMEN
@@ -978,6 +1015,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.STONE_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.STONE_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.STONE_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.STONE_MIS].ROUTER.PATH_ONE_STONE,
     path1: LP_TOKENS[LPTokenSymbol.STONE_MIS].ROUTER.PATH_ONE_MIS
@@ -996,6 +1034,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.IMRTL_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.IMRTL_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.IMRTL_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.IMRTL_MIS].ROUTER.PATH_ONE_IMRTL,
     path1: LP_TOKENS[LPTokenSymbol.IMRTL_MIS].ROUTER.PATH_ONE_MIS
@@ -1014,6 +1053,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WONE_WBTC_SUSHISWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_WBTC_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.SushiSwap].NAME,
+    chefAddress: getSushiswapMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.WONE_WBTC_SUSHISWAP].ROUTER.ADDRESSES,
     path0: [],
     path1: LP_TOKENS[LPTokenSymbol.WONE_WBTC_SUSHISWAP].ROUTER.PATH_ONE_BTC
@@ -1032,6 +1072,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.NAME,
+    chefAddress: getSushiswapMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.PATH_ONE_USDC,
     path1: []
@@ -1054,6 +1095,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_WONE_SUSHISWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_WONE_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_WONE_SUSHISWAP].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.FOX_WONE_SUSHISWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_WONE_SUSHISWAP].ROUTER.PATH_ONE_FOX,
@@ -1072,6 +1114,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_WONE_DEFIKINGDOMS].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_WONE_DEFIKINGDOMS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_WONE_DEFIKINGDOMS].ROUTER.NAME,
     farmPid: 6,
     router: LP_TOKENS[LPTokenSymbol.FOX_WONE_DEFIKINGDOMS].ROUTER.ADDRESSES,
@@ -1091,6 +1134,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_RAVAX].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_RAVAX].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getSushiswapMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_RAVAX].ROUTER.NAME,
     farmPid: 10,
     router: LP_TOKENS[LPTokenSymbol.FOX_RAVAX].ROUTER.ADDRESSES,
@@ -1111,6 +1155,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_UST].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_UST].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_UST].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.FOX_UST].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_UST].ROUTER.PATH_ONE_FOX,
@@ -1130,6 +1175,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_JEWEL].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_JEWEL].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_JEWEL].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.FOX_JEWEL].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_JEWEL].ROUTER.PATH_ONE_FOX,
@@ -1149,6 +1195,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_USDC].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_USDC].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_USDC].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.FOX_USDC].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_USDC].ROUTER.PATH_ONE_FOX,
@@ -1168,6 +1215,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_MIS].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.PATH_ONE_FOX,
@@ -1186,30 +1234,31 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_RVRS].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_RVRS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_RVRS].ROUTER.NAME,
     farmPid: 11,
     router: LP_TOKENS[LPTokenSymbol.FOX_RVRS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_RVRS].ROUTER.PATH_ONE_FOX,
     path1: LP_TOKENS[LPTokenSymbol.FOX_RVRS].ROUTER.PATH_ONE_RVRS
   },
-  {
-    pid: 1,
-    farmPid: 12,
-    lpSymbol: 'UST-1ETH',
-    lpToken: LP_TOKENS[LPTokenSymbol.UST_ETH],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.UST_ETH].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xD325970AB2C4eFabDaf1b4dEA350506F7D38433c',
-      [ChainID.Mainnet]: '0xD325970AB2C4eFabDaf1b4dEA350506F7D38433c'
-    },
-    token: LP_TOKENS[LPTokenSymbol.UST_ETH].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.UST_ETH].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.NAME,
-    router: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.PATH_ONE_UST,
-    path1: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.PATH_ONE_ETH
-  },
+  // {
+  //   pid: 1,
+  //   farmPid: 12,
+  //   lpSymbol: 'UST-1ETH',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.UST_ETH],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.UST_ETH].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xD325970AB2C4eFabDaf1b4dEA350506F7D38433c',
+  //     [ChainID.Mainnet]: '0xD325970AB2C4eFabDaf1b4dEA350506F7D38433c'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.UST_ETH].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.UST_ETH].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.NAME,
+  //   router: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.PATH_ONE_UST,
+  //   path1: LP_TOKENS[LPTokenSymbol.UST_ETH].ROUTER.PATH_ONE_ETH
+  // },
   {
     pid: 58,
     farmPid: 13,
@@ -1224,6 +1273,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WBTC_ETH_DEFIKINGDOMS].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WBTC_ETH_DEFIKINGDOMS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.WBTC_ETH_DEFIKINGDOMS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.WBTC_ETH_DEFIKINGDOMS].ROUTER.PATH_ONE_WBTC,
     path1: LP_TOKENS[LPTokenSymbol.WBTC_ETH_DEFIKINGDOMS].ROUTER.PATH_ONE_ETH
@@ -1242,6 +1292,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.NAME,
+    chefAddress: getSushiswapMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.ETH_WONE_SUSHISWAP].ROUTER.PATH_ONE_ETH,
     path1: []
@@ -1260,6 +1311,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.COINKX_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.COINKX_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.COINKX_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.COINKX_MIS].ROUTER.PATH_ONE_COINKX,
     path1: LP_TOKENS[LPTokenSymbol.COINKX_MIS].ROUTER.PATH_ONE_MIS
@@ -1278,6 +1330,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FUZZ_WONE].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FUZZ_WONE].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.FUZZ_WONE].ROUTER.NAME,
+    chefAddress: getFuzzMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.FUZZ_WONE].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FUZZ_WONE].ROUTER.PATH_ONE_FUZZ,
     path1: []
@@ -1296,6 +1349,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.UST_FUZZ].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_FUZZ].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.UST_FUZZ].ROUTER.NAME,
+    chefAddress: getFuzzMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.UST_FUZZ].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.UST_FUZZ].ROUTER.PATH_ONE_UST,
     path1: LP_TOKENS[LPTokenSymbol.UST_FUZZ].ROUTER.PATH_ONE_FUZZ
@@ -1314,6 +1368,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.UST_WONE_FUZZSWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_WONE_FUZZSWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: LP_TOKENS[LPTokenSymbol.UST_WONE_FUZZSWAP].ROUTER.NAME,
+    chefAddress: getFuzzMasterChefAddress(),
     router: LP_TOKENS[LPTokenSymbol.UST_WONE_FUZZSWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.UST_WONE_FUZZSWAP].ROUTER.PATH_ONE_UST,
     path1: []
@@ -1332,6 +1387,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.UST_MIS].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.UST_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.UST_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.UST_MIS].ROUTER.PATH_ONE_UST,
@@ -1351,6 +1407,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WONE_MIS].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.WONE_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.WONE_MIS].ROUTER.ADDRESSES,
     path0: [],
@@ -1370,6 +1427,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].TOKEN_A,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.FarmersOnly].NAME,
+    chefAddress: getMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.USDC_WONE_SUSHISWAP].ROUTER.PATH_ONE_USDC,
@@ -1390,6 +1448,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.TRANQ_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.TRANQ_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.TRANQ_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.TRANQ_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.TRANQ_MIS].ROUTER.PATH_ONE_TRANQ,
@@ -1409,6 +1468,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WBTC_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WBTC_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.WBTC_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.WBTC_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.WBTC_MIS].ROUTER.PATH_ONE_WBTC,
@@ -1428,6 +1488,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.JEWEL_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.JEWEL_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.JEWEL_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.JEWEL_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.JEWEL_MIS].ROUTER.PATH_ONE_JEWEL,
@@ -1447,6 +1508,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.XYA_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.XYA_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.XYA_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.XYA_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.XYA_MIS].ROUTER.PATH_ONE_XYA,
@@ -1466,6 +1528,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.FOX_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.FOX_MIS].ROUTER.PATH_ONE_FOX,
@@ -1485,150 +1548,151 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.UST_USDC].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_USDC].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.UST_USDC].ROUTER.NAME,
     router: LP_TOKENS[LPTokenSymbol.UST_USDC].ROUTER.ADDRESSES,
     path0: LP_TOKENS[LPTokenSymbol.UST_USDC].ROUTER.PATH_ONE_UST,
     path1: LP_TOKENS[LPTokenSymbol.UST_USDC].ROUTER.PATH_ONE_USDC
   },
-  {
-    pid: 32,
-    lpSymbol: 'ONE-ELK',
-    lpToken: LP_TOKENS[LPTokenSymbol.WONE_ELK],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.WONE_ELK].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xbFf66412b430c85Db7De153a56004ff7550f0836',
-      [ChainID.Mainnet]: '0xbFf66412b430c85Db7De153a56004ff7550f0836'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0xB37910e0daA452dE7f69Bd7D2BAde86c4fba982d',
-      [ChainID.Mainnet]: '0xB37910e0daA452dE7f69Bd7D2BAde86c4fba982d'
-    },
-    token: LP_TOKENS[LPTokenSymbol.WONE_ELK].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.WONE_ELK].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.NAME,
-    farmPid: 0,
-    router: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.ADDRESSES,
-    path0: [],
-    path1: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.PATH_ONE_ELK
-  },
-  {
-    pid: 33,
-    lpSymbol: 'ELK-DAI',
-    lpToken: LP_TOKENS[LPTokenSymbol.ELK_DAI],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.ELK_DAI].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xEc560037A8aD182169AA29737fd9A33c54F2Bb02',
-      [ChainID.Mainnet]: '0xEc560037A8aD182169AA29737fd9A33c54F2Bb02'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x296CF20137fD77B6C6D7ef43120528Fc3eDfC7fd',
-      [ChainID.Mainnet]: '0x296CF20137fD77B6C6D7ef43120528Fc3eDfC7fd'
-    },
-    token: LP_TOKENS[LPTokenSymbol.ELK_DAI].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.ELK_DAI].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.NAME,
-    farmPid: 0,
-    router: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.PATH_ONE_ELK,
-    path1: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.PATH_ONE_DAI
-  },
-  {
-    pid: 36,
-    lpSymbol: 'OPENX-ONE',
-    lpToken: LP_TOKENS[LPTokenSymbol.OPENX_WONE],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xE855993C656eEE34C1d6746a4d96888383978694',
-      [ChainID.Mainnet]: '0xE855993C656eEE34C1d6746a4d96888383978694'
-    },
-    token: LP_TOKENS[LPTokenSymbol.OPENX_WONE].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.OPENX_WONE].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.NAME,
-    farmPid: 0,
-    router: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.PATH_ONE_OPENX,
-    path1: []
-  },
-  {
-    pid: 37,
-    lpSymbol: 'OPENX-bscBUSD',
-    lpToken: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x1239a0AA6F1e516BC991f5ab32794a951CCDAeb6',
-      [ChainID.Mainnet]: '0x1239a0AA6F1e516BC991f5ab32794a951CCDAeb6'
-    },
-    token: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.NAME,
-    farmPid: 1,
-    router: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.PATH_ONE_OPENX,
-    path1: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.PATH_ONE_BSCBUSD
-  },
-  {
-    pid: 45,
-    lpSymbol: 'bscBUSD-BTC',
-    lpToken: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xae64fF1d33168684fAf0Cc1927907962600db6b6',
-      [ChainID.Mainnet]: '0xae64fF1d33168684fAf0Cc1927907962600db6b6'
-    },
-    token: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.NAME,
-    farmPid: 4,
-    router: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.PATH_ONE_BSCBUSD,
-    path1: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.PATH_ONE_WBTC
-  },
-  {
-    pid: 41,
-    lpSymbol: 'BTC-BUSD',
-    lpToken: LP_TOKENS[LPTokenSymbol.WBTC_BUSD],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x09004477Baff93EA16262e887aa498C994cf557d',
-      [ChainID.Mainnet]: '0x09004477Baff93EA16262e887aa498C994cf557d'
-    },
-    token: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.ADD_LIQUIDITY_URL,
-    chef: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.NAME,
-    farmPid: 5,
-    router: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.PATH_ONE_WBTC,
-    path1: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.PATH_ONE_BUSD
-  },
-  {
-    pid: 42,
-    lpSymbol: 'TRANQ-ONE',
-    lpToken: LP_TOKENS[LPTokenSymbol.TRANQ_WONE],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x6A07B4119185619328727008c7f9db3583c3923A',
-      [ChainID.Mainnet]: '0x6A07B4119185619328727008c7f9db3583c3923A'
-    },
-    stakingPoolAddress: {
-      [ChainID.Testnet]: '0x40E73D483412DBb1cACAfc04a87ae1544C9571A9',
-      [ChainID.Mainnet]: '0x40E73D483412DBb1cACAfc04a87ae1544C9571A9'
-    },
-    token: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Tranquil].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.NAME,
-    farmPid: 0,
-    router: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.PATH_ONE_TRANQ,
-    path1: []
-  },
+  // {
+  //   pid: 32,
+  //   lpSymbol: 'ONE-ELK',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.WONE_ELK],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.WONE_ELK].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xbFf66412b430c85Db7De153a56004ff7550f0836',
+  //     [ChainID.Mainnet]: '0xbFf66412b430c85Db7De153a56004ff7550f0836'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0xB37910e0daA452dE7f69Bd7D2BAde86c4fba982d',
+  //     [ChainID.Mainnet]: '0xB37910e0daA452dE7f69Bd7D2BAde86c4fba982d'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.WONE_ELK].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.WONE_ELK].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.NAME,
+  //   farmPid: 0,
+  //   router: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.ADDRESSES,
+  //   path0: [],
+  //   path1: LP_TOKENS[LPTokenSymbol.WONE_ELK].ROUTER.PATH_ONE_ELK
+  // },
+  // {
+  //   pid: 33,
+  //   lpSymbol: 'ELK-DAI',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.ELK_DAI],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.ELK_DAI].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xEc560037A8aD182169AA29737fd9A33c54F2Bb02',
+  //     [ChainID.Mainnet]: '0xEc560037A8aD182169AA29737fd9A33c54F2Bb02'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x296CF20137fD77B6C6D7ef43120528Fc3eDfC7fd',
+  //     [ChainID.Mainnet]: '0x296CF20137fD77B6C6D7ef43120528Fc3eDfC7fd'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.ELK_DAI].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.ELK_DAI].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.NAME,
+  //   farmPid: 0,
+  //   router: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.PATH_ONE_ELK,
+  //   path1: LP_TOKENS[LPTokenSymbol.ELK_DAI].ROUTER.PATH_ONE_DAI
+  // },
+  // {
+  //   pid: 36,
+  //   lpSymbol: 'OPENX-ONE',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.OPENX_WONE],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xE855993C656eEE34C1d6746a4d96888383978694',
+  //     [ChainID.Mainnet]: '0xE855993C656eEE34C1d6746a4d96888383978694'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.OPENX_WONE].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.OPENX_WONE].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.NAME,
+  //   farmPid: 0,
+  //   router: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.OPENX_WONE].ROUTER.PATH_ONE_OPENX,
+  //   path1: []
+  // },
+  // {
+  //   pid: 37,
+  //   lpSymbol: 'OPENX-bscBUSD',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x1239a0AA6F1e516BC991f5ab32794a951CCDAeb6',
+  //     [ChainID.Mainnet]: '0x1239a0AA6F1e516BC991f5ab32794a951CCDAeb6'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.NAME,
+  //   farmPid: 1,
+  //   router: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.PATH_ONE_OPENX,
+  //   path1: LP_TOKENS[LPTokenSymbol.OPENX_BSCBUSD].ROUTER.PATH_ONE_BSCBUSD
+  // },
+  // {
+  //   pid: 45,
+  //   lpSymbol: 'bscBUSD-BTC',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xae64fF1d33168684fAf0Cc1927907962600db6b6',
+  //     [ChainID.Mainnet]: '0xae64fF1d33168684fAf0Cc1927907962600db6b6'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.NAME,
+  //   farmPid: 4,
+  //   router: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.PATH_ONE_BSCBUSD,
+  //   path1: LP_TOKENS[LPTokenSymbol.BSCBUSD_WBTC].ROUTER.PATH_ONE_WBTC
+  // },
+  // {
+  //   pid: 41,
+  //   lpSymbol: 'BTC-BUSD',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.WBTC_BUSD],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x09004477Baff93EA16262e887aa498C994cf557d',
+  //     [ChainID.Mainnet]: '0x09004477Baff93EA16262e887aa498C994cf557d'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.NAME,
+  //   farmPid: 5,
+  //   router: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.PATH_ONE_WBTC,
+  //   path1: LP_TOKENS[LPTokenSymbol.WBTC_BUSD].ROUTER.PATH_ONE_BUSD
+  // },
+  // {
+  //   pid: 42,
+  //   lpSymbol: 'TRANQ-ONE',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.TRANQ_WONE],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x6A07B4119185619328727008c7f9db3583c3923A',
+  //     [ChainID.Mainnet]: '0x6A07B4119185619328727008c7f9db3583c3923A'
+  //   },
+  //   stakingPoolAddress: {
+  //     [ChainID.Testnet]: '0x40E73D483412DBb1cACAfc04a87ae1544C9571A9',
+  //     [ChainID.Mainnet]: '0x40E73D483412DBb1cACAfc04a87ae1544C9571A9'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Tranquil].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.NAME,
+  //   farmPid: 0,
+  //   router: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.TRANQ_WONE].ROUTER.PATH_ONE_TRANQ,
+  //   path1: []
+  // },
   {
     pid: 44,
     lpSymbol: 'rFTM-MIS',
@@ -1642,6 +1706,7 @@ const VAULT_CONFIGS: VaultConfig[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.RFTM_MIS].TOKEN_B,
     addLiquidityUrl: LP_TOKENS[LPTokenSymbol.RFTM_MIS].ROUTER.ADD_LIQUIDITY_URL,
     chef: ROUTERS[RouterName.Artemis].NAME,
+    chefAddress: getArtemisMasterChefAddress(),
     tag2: LP_TOKENS[LPTokenSymbol.RFTM_MIS].ROUTER.NAME,
     farmPid: 10,
     router: LP_TOKENS[LPTokenSymbol.RFTM_MIS].ROUTER.ADDRESSES,
@@ -1652,102 +1717,102 @@ const VAULT_CONFIGS: VaultConfig[] = [
   //
   // PAUSED VAULTS BELOW
   //
-  {
-    pid: 31,
-    farmPid: 9,
-    lpSymbol: 'LUNA-MIS',
-    lpToken: LP_TOKENS[LPTokenSymbol.LUNA_MIS],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x7429a097ae99f91a5e195b9DB0600837bCDDa8CE',
-      [ChainID.Mainnet]: '0x7429a097ae99f91a5e195b9DB0600837bCDDa8CE'
-    },
-    token: LP_TOKENS[LPTokenSymbol.LUNA_MIS].TOKEN_A,
-    quoteToken: LP_TOKENS[LPTokenSymbol.LUNA_MIS].TOKEN_B,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Artemis].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.NAME,
-    router: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.PATH_ONE_LUNA,
-    path1: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.PATH_ONE_MIS
-  },
-  {
-    pid: 22,
-    farmPid: 1,
-    lpSymbol: 'UST-ONE',
-    lpToken: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x38d8bD3365bbE925b9bd7261a55968193e591b21',
-      [ChainID.Mainnet]: '0x38d8bD3365bbE925b9bd7261a55968193e591b21'
-    },
-    token: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Artemis].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.NAME,
-    router: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.PATH_ONE_UST,
-    path1: [],
-    depositFee: 4
-  },
-  {
-    pid: 52,
-    lpSymbol: 'MIS-RVRS',
-    lpToken: LP_TOKENS[LPTokenSymbol.MIS_RVRS],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0xeBa469c3dfaeb1e39224C5FBF6a5ba2a1736cD16',
-      [ChainID.Mainnet]: '0xeBa469c3dfaeb1e39224C5FBF6a5ba2a1736cD16'
-    },
-    token: LP_TOKENS[LPTokenSymbol.MIS_RVRS].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.MIS_RVRS].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Artemis].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.NAME,
-    farmPid: 11,
-    router: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.PATH_ONE_MIS,
-    path1: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.PATH_ONE_RVRS
-  },
-  {
-    pid: 55,
-    lpSymbol: 'ONE-RVRS',
-    lpToken: LP_TOKENS[LPTokenSymbol.WONE_RVRS],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x56eE9963eA5058dF4c99Ac4f396128c39E1CEa31',
-      [ChainID.Mainnet]: '0x56eE9963eA5058dF4c99Ac4f396128c39E1CEa31'
-    },
-    token: LP_TOKENS[LPTokenSymbol.WONE_RVRS].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.WONE_RVRS].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Reverse].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.NAME,
-    farmPid: 1,
-    router: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.ADDRESSES,
-    path0: [],
-    path1: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.PATH_ONE_RVRS
-  },
-  {
-    pid: 56,
-    lpSymbol: 'UST-RVRS',
-    lpToken: LP_TOKENS[LPTokenSymbol.UST_RVRS],
-    lpAddresses: LP_TOKENS[LPTokenSymbol.UST_RVRS].ADDRESSES,
-    stratAddresses: {
-      [ChainID.Testnet]: '0x04e34e10D123b9551437e9Fa7341e6fFF168413a',
-      [ChainID.Mainnet]: '0x04e34e10D123b9551437e9Fa7341e6fFF168413a'
-    },
-    token: LP_TOKENS[LPTokenSymbol.UST_RVRS].TOKEN_B,
-    quoteToken: LP_TOKENS[LPTokenSymbol.UST_RVRS].TOKEN_A,
-    addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.ADD_LIQUIDITY_URL,
-    chef: ROUTERS[RouterName.Reverse].NAME,
-    tag2: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.NAME,
-    farmPid: 3,
-    router: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.ADDRESSES,
-    path0: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.PATH_ONE_UST,
-    path1: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.PATH_ONE_RVRS
-  }
+  // {
+  //   pid: 31,
+  //   farmPid: 9,
+  //   lpSymbol: 'LUNA-MIS',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.LUNA_MIS],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x7429a097ae99f91a5e195b9DB0600837bCDDa8CE',
+  //     [ChainID.Mainnet]: '0x7429a097ae99f91a5e195b9DB0600837bCDDa8CE'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.LUNA_MIS].TOKEN_A,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.LUNA_MIS].TOKEN_B,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Artemis].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.NAME,
+  //   router: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.PATH_ONE_LUNA,
+  //   path1: LP_TOKENS[LPTokenSymbol.LUNA_MIS].ROUTER.PATH_ONE_MIS
+  // },
+  // {
+  //   pid: 22,
+  //   farmPid: 1,
+  //   lpSymbol: 'UST-ONE',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x38d8bD3365bbE925b9bd7261a55968193e591b21',
+  //     [ChainID.Mainnet]: '0x38d8bD3365bbE925b9bd7261a55968193e591b21'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Artemis].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.NAME,
+  //   router: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.UST_WONE_DEFIKINGDOMS].ROUTER.PATH_ONE_UST,
+  //   path1: [],
+  //   depositFee: 4
+  // },
+  // {
+  //   pid: 52,
+  //   lpSymbol: 'MIS-RVRS',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.MIS_RVRS],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0xeBa469c3dfaeb1e39224C5FBF6a5ba2a1736cD16',
+  //     [ChainID.Mainnet]: '0xeBa469c3dfaeb1e39224C5FBF6a5ba2a1736cD16'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.MIS_RVRS].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.MIS_RVRS].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Artemis].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.NAME,
+  //   farmPid: 11,
+  //   router: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.PATH_ONE_MIS,
+  //   path1: LP_TOKENS[LPTokenSymbol.MIS_RVRS].ROUTER.PATH_ONE_RVRS
+  // },
+  // {
+  //   pid: 55,
+  //   lpSymbol: 'ONE-RVRS',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.WONE_RVRS],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x56eE9963eA5058dF4c99Ac4f396128c39E1CEa31',
+  //     [ChainID.Mainnet]: '0x56eE9963eA5058dF4c99Ac4f396128c39E1CEa31'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.WONE_RVRS].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.WONE_RVRS].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Reverse].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.NAME,
+  //   farmPid: 1,
+  //   router: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.ADDRESSES,
+  //   path0: [],
+  //   path1: LP_TOKENS[LPTokenSymbol.WONE_RVRS].ROUTER.PATH_ONE_RVRS
+  // },
+  // {
+  //   pid: 56,
+  //   lpSymbol: 'UST-RVRS',
+  //   lpToken: LP_TOKENS[LPTokenSymbol.UST_RVRS],
+  //   lpAddresses: LP_TOKENS[LPTokenSymbol.UST_RVRS].ADDRESSES,
+  //   stratAddresses: {
+  //     [ChainID.Testnet]: '0x04e34e10D123b9551437e9Fa7341e6fFF168413a',
+  //     [ChainID.Mainnet]: '0x04e34e10D123b9551437e9Fa7341e6fFF168413a'
+  //   },
+  //   token: LP_TOKENS[LPTokenSymbol.UST_RVRS].TOKEN_B,
+  //   quoteToken: LP_TOKENS[LPTokenSymbol.UST_RVRS].TOKEN_A,
+  //   addLiquidityUrl: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.ADD_LIQUIDITY_URL,
+  //   chef: ROUTERS[RouterName.Reverse].NAME,
+  //   tag2: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.NAME,
+  //   farmPid: 3,
+  //   router: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.ADDRESSES,
+  //   path0: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.PATH_ONE_UST,
+  //   path1: LP_TOKENS[LPTokenSymbol.UST_RVRS].ROUTER.PATH_ONE_RVRS
+  // }
 ];
 
 export default VAULT_CONFIGS;
