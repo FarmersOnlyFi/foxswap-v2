@@ -1,11 +1,12 @@
 import { extendTheme } from '@chakra-ui/react'
+import { theme } from '@chakra-ui/pro-theme'
+import '@fontsource/inter/variable.css'
 
 const config = {
   initialColorMode: 'dark',
   useSystemColorMode: false,
 }
 
-// 3. extend the theme
-const theme = extendTheme({ config })
+const mainTheme = extendTheme({ config }, theme)
 
-export default theme
+export default mainTheme
