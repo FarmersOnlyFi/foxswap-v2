@@ -5,9 +5,9 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 
-const Card = (props: BoxProps) => (
+export const Card = (props: BoxProps) => (
   <Box
-    minH="36"
+    minH="3xs"
     bg="bg-surface"
     boxShadow={useColorModeValue('sm', 'sm-dark')}
     borderRadius="lg"

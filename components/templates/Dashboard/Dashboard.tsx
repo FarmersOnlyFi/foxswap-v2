@@ -1,13 +1,15 @@
 import {
-  Grid, GridItem,
+  Button,
+  Container,
   Heading,
+  HStack,
   SimpleGrid,
   Stack,
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react'
 import * as React from 'react'
-import { FiLock, FiMail, FiSend } from 'react-icons/fi'
+import {FiDownloadCloud, FiLock, FiMail, FiSend} from 'react-icons/fi'
 import { Stat } from '../../elements/Stat/Stat'
 import Card from "../../elements/Card/Card";
 
@@ -29,28 +31,35 @@ const stats = [
   },
 ]
 export const Dashboard = () => (
-  <Stack spacing={{ base: '8', lg: '6' }} border={'1px red solid'} padding={8}>
-    <Stack spacing="4" direction={{ base: 'column', lg: 'row' }} justify="space-between">
-      <Stack spacing="1">
-        <Heading size={useBreakpointValue({ base: 'xs', lg: 'sm' })} fontWeight="medium">
-          Dashboard
-        </Heading>
-        <Text color="muted">All important metrics at a glance</Text>
+  <Container py="8">
+    <Stack spacing={{ base: '8', lg: '6' }}>
+      <Stack
+        spacing="4"
+        direction={{ base: 'column', lg: 'row' }}
+        justify="space-between"
+        align={{ base: 'start', lg: 'center' }}
+      >
+        <Stack spacing="1">
+          <Heading size={useBreakpointValue({ base: 'xs', lg: 'sm' })} fontWeight="medium">
+            Dashboard
+          </Heading>
+          <Text color="muted">All important metrics at a glance</Text>
+        </Stack>
+        <HStack spacing="2">
+          <Button variant="secondary" leftIcon={<FiDownloadCloud fontSize="1.25rem" />}>
+            Download
+          </Button>
+        </HStack>
       </Stack>
+      <Stack spacing={{ base: '5', lg: '6' }}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap="6">
+          <Card />
+          <Card />
+          <Card />
+        </SimpleGrid>
+      </Stack>
+      <Card minH="sm" />
     </Stack>
-    <Stack spacing={{ base: '5', lg: '6' }}>
-      <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
-        {stats.map((stat, id) => (
-          <Stat bg="purple.600" key={id} {...stat} />
-        ))}
-      </SimpleGrid>
-    </Stack>
-    <Stack spacing={{ base: '5', lg: '6' }}>
-      <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6}>
-        <Card minH="xs" border={'1px solid green'} />
-        <Card minH="xs" border={'1px solid green'} />
-      </SimpleGrid>
-    </Stack>
-  </Stack>
+  </Container>
 )
 
