@@ -10,15 +10,14 @@ import {
 } from '@chakra-ui/react'
 import * as React from 'react'
 import {
-  FiBarChart2, FiBook,
-  FiBookmark, FiBox,
-  FiCheckSquare,
+  FiBarChart2,
+  FiBook,
+  FiBox,
   FiHelpCircle,
   FiHome,
   FiLock,
   FiSearch,
   FiSettings,
-  FiUsers,
 } from 'react-icons/fi'
 import { Logo } from '@/components/elements/Logo/Logo'
 import { UserProfile } from '@/components/modules/UserProfile/UserProfile'
