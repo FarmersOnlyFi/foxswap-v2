@@ -9,12 +9,22 @@ const Layout = ({ children }) => {
     <Flex
       as="section"
       direction={{ base: 'column', lg: 'row' }}
-      bg="bg-canvas"
+      bg="purple.900"
       overflowY="auto"
     >
       {isDesktop ? <Sidebar /> : <Navbar />}
-      <Box bg="bg-surface" pt={{ base: '0', lg: '3' }} flex="1">
-        <Box as='main' bg="bg-canvas" borderTopLeftRadius={{ base: 'none', lg: '2rem' }} height="full">
+      <Box
+        bg="purple.900"
+        pt={{ base: '0', lg: '3' }}
+        flex="1"
+        height="100%"
+      >
+        <Box
+          as="main"
+          bg="#212429"
+          height="100%"
+          borderTopLeftRadius={{ base: 'none', lg: '2rem' }}
+        >
           {children}
         </Box>
       </Box>

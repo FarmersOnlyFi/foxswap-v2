@@ -33,7 +33,7 @@ export default function TradeTemplate() {
 
   if (!!data) console.log(data.toString())
 
-  const FOX_ADDRESS = "0xcf1709ad76a79d5a60210f23e81ce2460542a836";
+  const FOX_ADDRESS = "0x0159ed2e06ddcd46a25e74eb8e159ce666b28687";
 
   return (
     <div>

@@ -45,11 +45,10 @@ export const Dashboard = () => (
           </Heading>
           <Text color="muted">All important metrics at a glance</Text>
         </Stack>
-        <HStack spacing="3">
+        <HStack spacing="2">
           <Button variant="secondary" leftIcon={<FiDownloadCloud fontSize="1.25rem" />}>
             Download
           </Button>
-          <Button variant="primary">Create</Button>
         </HStack>
       </Stack>
       <Stack spacing={{ base: '5', lg: '6' }}>

@@ -16,27 +16,7 @@
 // import { useWeb3React } from "@web3-react/core";
 //
 //
-// const navLinks = [
-//   { name: "Home",
-//     path: "/"
-//   },
-//   {
-//     name: "Trade",
-//     path: "/trade",
-//   },
-//   {
-//     name: "Vaults",
-//     path: "/vaults",
-//   },
-//   {
-//     name: "Pool",
-//     path: "/pool",
-//   },
-//   {
-//     name: "Docs",
-//     path: "/docs",
-//   }
-// ];
+
 //
 // export const Navbar = () => {
 //   const { account, library } = useWeb3React();
@@ -61,7 +41,7 @@
 //                   </NextLink>
 //                 );
 //               })}
-//             </ButtonGroup>
+//              </ButtonGroup>
 //           )}
 //         </HStack>
 //
@@ -103,7 +83,7 @@ export const Navbar = () => {
       width="full"
       py="4"
       px={{ base: '4', md: '8' }}
-      bg="bg-surface"
+      bg="transparent"
     >
       <Flex justify="space-between">
         <Logo />

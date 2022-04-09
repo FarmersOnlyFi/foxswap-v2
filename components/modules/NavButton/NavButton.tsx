@@ -1,19 +1,31 @@
-import { As, Button, ButtonProps, HStack, Icon, Text } from '@chakra-ui/react'
+import {
+  As,
+  Button,
+  ButtonProps,
+  HStack,
+  Icon,
+  Text,
+  LinkOverlay
+} from '@chakra-ui/react'
+import Link from 'next/link'
 import * as React from 'react'
 
 interface NavButtonProps extends ButtonProps {
   icon: As
-  label: string
+  label: string,
+  href: string
 }
 
 export const NavButton = (props: NavButtonProps) => {
-  const { icon, label, ...buttonProps } = props
+  const { icon, label, href, ...buttonProps } = props
   return (
-    <Button variant="ghost" justifyContent="start" {...buttonProps}>
-      <HStack spacing="3">
-        <Icon as={icon} boxSize="6" color="subtle" />
-        <Text>{label}</Text>
-      </HStack>
-    </Button>
+    <Link href={href} passHref>
+      <Button as={LinkOverlay} variant="ghost" justifyContent="start" {...buttonProps}>
+        <HStack spacing="3">
+          <Icon as={icon} boxSize="6" color="subtle" />
+          <Text>{label}</Text>
+        </HStack>
+      </Button>
+    </Link>
   )
 }
