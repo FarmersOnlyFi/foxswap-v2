@@ -340,7 +340,7 @@ export interface PredictionsState {
   bets: BetData;
 }
 
-// Global state
+// Global contexts
 
 export interface State {
   achievements: AchievementState;

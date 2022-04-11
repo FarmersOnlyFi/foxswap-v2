@@ -27,7 +27,6 @@ export const VaultHeader = () => {
         <Stack spacing="1">
           <Heading size={useBreakpointValue({ base: 'xs', md: 'sm' })} fontWeight="medium">
             Vaults
-            <Hexagon flatTop={true}/>
           </Heading>
           <Text color="muted">Automatically compound your rewards</Text>
         </Stack>

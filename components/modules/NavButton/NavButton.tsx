@@ -7,6 +7,7 @@ import {
   Text,
   LinkOverlay
 } from '@chakra-ui/react'
+import { styled } from "@chakra-ui/react";
 import Link from 'next/link'
 import * as React from 'react'
 
@@ -20,9 +21,21 @@ export const NavButton = (props: NavButtonProps) => {
   const { icon, label, href, ...buttonProps } = props
   return (
     <Link href={href} passHref>
-      <Button as={LinkOverlay} variant="ghost" justifyContent="start" {...buttonProps}>
+      <Button
+        as={LinkOverlay}
+        variant="ghost"
+        justifyContent="start"
+        {...buttonProps}
+      >
         <HStack spacing="3">
-          <Icon as={icon} boxSize="6" color="subtle" />
+          <Icon
+            as={icon}
+            boxSize="9"
+            p={2}
+            color="#B9BFFF"
+            bg="gray.800"
+            borderRadius={6}
+          />
           <Text>{label}</Text>
         </HStack>
       </Button>

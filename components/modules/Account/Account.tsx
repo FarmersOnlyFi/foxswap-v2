@@ -4,15 +4,19 @@ import { useEffect, useState } from "react";
 import { injected } from "../../../connectors";
 import useENSName from "../../../hooks/useENSName";
 import useMetaMaskOnboarding from "../../../hooks/useMetaMaskOnboarding";
-import { formatEtherscanLink, shortenHex } from "../../../util";
+import {formatEtherscanLink, parseBalance, shortenHex} from "../../../util";
+import {Button, Stack} from "@chakra-ui/react";
+import {FaWallet} from "react-icons/fa";
+import * as React from "react";
+import useONEBalance from "@/hooks/useONEBalance";
+import {Web3Provider} from "@ethersproject/providers";
 
 type AccountProps = {
   triedToEagerConnect: boolean;
 };
 
 const Account = ({ triedToEagerConnect }: AccountProps) => {
-  const { active, error, activate, chainId, account, setError } =
-    useWeb3React();
+  const { active, error, activate, chainId, account, setError } = useWeb3React<Web3Provider>();
 
   const {
     isMetaMaskInstalled,
@@ -21,7 +25,9 @@ const Account = ({ triedToEagerConnect }: AccountProps) => {
     stopOnboarding,
   } = useMetaMaskOnboarding();
 
-  // manage connecting state for injected connector
+  // const { data: balance } = useONEBalance(account);
+  // const oneBalance = parseBalance(balance)
+  // manage connecting contexts for injected connector
   const [connecting, setConnecting] = useState(false);
   useEffect(() => {
     if (active || error) {
@@ -32,53 +38,61 @@ const Account = ({ triedToEagerConnect }: AccountProps) => {
 
   const ENSName = useENSName(account);
 
-  if (error) {
+  if (error || !triedToEagerConnect) {
     return null;
-  }
-
-  if (!triedToEagerConnect) {
-    return null;
-  }
-
-  if (typeof account !== "string") {
-    return (
-      <div>
-        {isWeb3Available ? (
-          <button
-            disabled={connecting}
-            onClick={() => {
-              setConnecting(true);
-
-              activate(injected, undefined, true).catch((error) => {
-                // ignore the error if it's a user rejected request
-                if (error instanceof UserRejectedRequestError) {
-                  setConnecting(false);
-                } else {
-                  setError(error);
-                }
-              });
-            }}
-          >
-            {isMetaMaskInstalled ? "Connect to MetaMask" : "Connect to Wallet"}
-          </button>
-        ) : (
-          <button onClick={startOnboarding}>Install Metamask</button>
-        )}
-      </div>
-    );
   }
 
   return (
-    <a
-      {...{
-        href: formatEtherscanLink("Account", [chainId, account]),
-        target: "_blank",
-        rel: "noopener noreferrer",
-      }}
-    >
-      {ENSName || `${shortenHex(account, 4)}`}
-    </a>
+    <Stack pt={6}>
+      {isWeb3Available && !account ? (
+        <Button
+          leftIcon={<FaWallet />}
+          fontWeight={600}
+          bg="teal.400"
+          variant='solid'
+          disabled={connecting}
+          onClick={() => {
+            setConnecting(true);
+
+            activate(injected, undefined, true).catch((error) => {
+              // ignore the error if it's a user rejected request
+              if (error instanceof UserRejectedRequestError) {
+                setConnecting(false);
+              } else {
+                setError(error);
+              }
+            });
+          }}
+        >
+          Connect Wallet
+        </Button>
+      ) : (
+        <Button
+          {...{
+            href: formatEtherscanLink("Account", [chainId, account]),
+            target: "_blank",
+            rel: "noopener noreferrer",
+          }}
+          leftIcon={<FaWallet />}
+          fontWeight={600}
+          variant="outline"
+          _hover={{
+            borderColor: "teal.400"
+          }}
+        >
+          {/*{oneBalance}*/}
+          {ENSName || `${shortenHex(account, 4)}`}
+        </Button>
+        // <Button
+        //   onClick={startOnboarding}
+        //   bg="teal.400"
+        //   variant='solid'
+        // >
+        //   Install Metamask
+        // </Button>
+      )}
+    </Stack>
   );
-};
+}
 
 export default Account;

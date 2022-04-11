@@ -1,53 +1,68 @@
-import {Web3Provider} from "@ethersproject/providers";
-import {isAddress} from "@ethersproject/address";
-import {Contract} from "@ethersproject/contracts";
-import {useWeb3React} from "@web3-react/core";
-import useEagerConnect from "@/hooks/useEagerConnect";
-import {getAutoFoxAddress} from "@/utils/addressHelpers";
-import useVaultFee from "@/hooks/useVaultFee";
-import TokenBalance from "@/components/modules/TokenBalance/TokenBalance";
-import Account from "@/components/modules/Account/Account";
 import * as React from "react";
-
-const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
-  const [arg1, arg2, ...params] = args
-  // it's a contract
-  if (isAddress(arg1)) {
-    const address = arg1;
-    const method = arg2;
-    const contract = new Contract(address, abi, library.getSigner());
-    console.log(contract[method])
-    return contract[method];
-  }
-  // it's a eth call
-  const method = arg1
-  return library[method](arg2, ...params)
-}
+import {
+  Container,
+  Heading,
+  Stack,
+  Tabs,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Select,
+  useBreakpointValue, Grid, GridItem, Flex
+} from "@chakra-ui/react";
+import Card from "@/components/elements/Card/Card";
+import ContentWrapper from "@/components/elements/ContentWrapper/ContentWrapper";
+import CurrencyInputPanel from "@/components/modules/CurrencyInputPanel/CurrencyInputPanel";
 
 export default function TradeTemplate() {
-  const { account, library } = useWeb3React<Web3Provider>();
-  const triedToEagerConnect = useEagerConnect();
-  const isConnected = typeof account === "string" && !!library;
-  const vaultAddress = getAutoFoxAddress()
-  const { data, error } = useVaultFee(account, vaultAddress)
-
-  if (!!data) console.log(data.toString())
-
-  const FOX_ADDRESS = "0x0159ed2e06ddcd46a25e74eb8e159ce666b28687";
-
   return (
-    <div>
-      <h1>
-        <TokenBalance tokenAddress={FOX_ADDRESS} symbol={'FOX'} />
-        <Account triedToEagerConnect={triedToEagerConnect} />
-      </h1>
-      {isConnected && (
-        <section>
-          <h5>
-            hello
-          </h5>
-        </section>
-      )}
-    </div>
+    <ContentWrapper>
+      <Container py="8">
+        <Stack
+          spacing="4"
+          direction={{ base: 'column', lg: 'row' }}
+          justify="space-between"
+          align={{ base: 'start', lg: 'center' }}
+        >
+          <Heading size={useBreakpointValue({ base: 'xs', md: 'sm' })} fontWeight="medium" fontSize={26}>
+            Trade
+          </Heading>
+        </Stack>
+        <Stack spacing={{ base: '8', md: '6' }}>
+          <Grid
+            templateRows="repeat(2, 1fr)"
+            templateColumns="repeat(5, 1fr)"
+            gap={4}
+            p={6}
+          >
+            <GridItem rowSpan={2} colSpan={{ base: '5', md: '3'  }}>
+              <Card minH="67vh">
+                <Tabs variant={'solid-rounded'} colorScheme='purple' p={4}>
+                  <TabList>
+                    <Tab borderRadius={12}>Swap</Tab>
+                    <Tab borderRadius={12}>Liquidity</Tab>
+                  </TabList>
+                  <TabPanels>
+                    <TabPanel>
+                      <CurrencyInputPanel />
+                    </TabPanel>
+                    <TabPanel>
+                      <CurrencyInputPanel />
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
+              </Card>
+            </GridItem>
+            <GridItem rowSpan={1} colSpan={{ base: '5', md: '2'  }}>
+              <Card />
+            </GridItem>
+            <GridItem rowSpan={1} colSpan={{ base: '5', md: '2'  }}>
+              <Card />
+            </GridItem>
+          </Grid>
+        </Stack>
+      </Container>
+    </ContentWrapper>
   );
 }

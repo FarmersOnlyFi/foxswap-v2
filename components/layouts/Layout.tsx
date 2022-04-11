@@ -14,19 +14,14 @@ const Layout = ({ children }) => {
     >
       {isDesktop ? <Sidebar /> : <Navbar />}
       <Box
+        as="main"
         bg="purple.900"
         pt={{ base: '0', lg: '3' }}
         flex="1"
-        height="100%"
+        height="full"
       >
-        <Box
-          as="main"
-          bg="#212429"
-          height="100%"
-          borderTopLeftRadius={{ base: 'none', lg: '2rem' }}
-        >
-          {children}
-        </Box>
+
+        {children}
       </Box>
     </Flex>
   )

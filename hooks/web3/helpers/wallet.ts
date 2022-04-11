@@ -14,11 +14,9 @@ import { nodes } from './get-rpc-url';
 const setupNetwork = async (): Promise<boolean> => {
   const provider = window.ethereum;
   if (provider) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+
     const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
     try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       await provider.request({
         method: 'wallet_addEthereumChain',
@@ -64,7 +62,8 @@ const registerToken = async (
   tokenDecimals: number
 ): Promise<void> => {
 
-  const tokenAdded = await window.ethereum.request({
+  // @ts-expect-error
+  const tokenAdded: = await window.ethereum.request({
     method: 'wallet_watchAsset',
     params: {
       type: 'ERC20',

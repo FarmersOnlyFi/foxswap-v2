@@ -68,25 +68,34 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
-  useColorModeValue,
+  useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react'
 import * as React from 'react'
 import { Logo } from '@/components/elements/Logo/Logo'
 import { Sidebar } from '@/components/modules/Sidebar/Sidebar'
 import { ToggleButton } from '@/components/modules/ToggleButton/ToggleButton'
+import {useWeb3React} from "@web3-react/core";
+import useEagerConnect from "@/hooks/useEagerConnect";
+import Account from "@/components/modules/Account/Account";
+import {FiMenu} from "react-icons/fi";
 
 export const Navbar = () => {
   const { isOpen, onToggle, onClose } = useDisclosure()
+  const { account, library } = useWeb3React();
+  const triedToEagerConnect = useEagerConnect();
+  const isDesktop = useBreakpointValue({ base: false, lg: true })
+  const isConnected = typeof account === "string" && !!library;
   return (
     <Box
-      width="full"
       py="4"
       px={{ base: '4', md: '8' }}
       bg="transparent"
     >
       <Flex justify="space-between">
-        <Logo />
+        <Box boxSize="3xs" pb={0} maxH={65}>
+          <Logo />
+        </Box>
         <ToggleButton isOpen={isOpen} aria-label="Open Menu" onClick={onToggle} />
         <Drawer
           isOpen={isOpen}

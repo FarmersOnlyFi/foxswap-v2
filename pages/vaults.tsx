@@ -5,12 +5,10 @@ import { VaultHeader } from "@/components/modules/VaultHeader/VaultHeader";
 
 const Vaults = () => {
   return (
-    <>
+    <TableContainer>
       <VaultHeader />
-      <TableContainer>
-        <VaultTable size={'lg'} />
-      </TableContainer>
-    </>
+      <VaultTable size={'lg'} />
+    </TableContainer>
   )
 }
 
