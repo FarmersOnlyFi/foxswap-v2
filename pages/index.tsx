@@ -11,11 +11,7 @@ function Home() {
 
   const isConnected = typeof account === "string" && !!library;
 
-  return (
-    <>
-      <Dashboard />
-    </>
-  );
+  return <Dashboard />
 }
 
 export default Home;

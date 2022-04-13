@@ -17,7 +17,7 @@ import {
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
 import { useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
@@ -26,6 +26,10 @@ import { getFoxVaultAddress } from "@/utils/addressHelpers";
 import VaultABI from '@/config/abi/autofox.json'
 import { isAddress } from "@ethersproject/address";
 import { Contract } from "@ethersproject/contracts";
+import HRC20_ABI from "@/contracts/HRC20.json";
+import multicall from "@/utils/multicall";
+import {parseBalance} from "../../../util";
+import { getVaultCalls } from "@/utils/fetchVault";
 
 
 const members = [
@@ -81,28 +85,53 @@ const members = [
   },
 ]
 
-const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
-  const [arg1, arg2, ...params] = args
-  // it's a contract
-  if (isAddress(arg1)) {
-    const address = arg1;
-    const method = arg2;
-    const contract = new Contract(address, abi, library.getSigner());
-    return contract[method];
-  }
-  // it's a eth call
-  const method = arg1
-  return library[method](arg2, ...params)
-}
+// const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
+//   const [arg1, arg2, ...params] = args
+//   // it's a contract
+//   if (isAddress(arg1)) {
+//     const address = arg1;
+//     const method = arg2;
+//     const contract = new Contract(address, abi, library.getSigner());
+//     return contract[method];
+//   }
+//   // it's a eth call
+//   const method = arg1
+//   return library[method](arg2, ...params)
+// }
 
+type VaultData = Array<{
+  symbol: string;
+  balance: string;
+}>;
+
+const vaultCalls = getVaultCalls();
 
 export const VaultTable = (props: TableProps) => {
-  const { account, library } = useWeb3React()
-  const [open, setOpen] = useState(false)
-  const [totalShares, setTotalShares] = useState(null)
-  const { data, mutate } = useSWR([getFoxVaultAddress(), 'callFee', account], {
-    fetcher: fetcher(library, VaultABI)
-  })
+  // const { account, library } = useWeb3React();
+  const [open, setOpen] = useState(false);
+  const [vaultData, setVaultData] = useState<VaultData>([]);
+  useEffect(() => {
+    async function fetchData() {
+      console.log('fetching data');
+      const result = await multicall(HRC20_ABI, vaultCalls.map(call => ({
+        address: call.address,
+        name: call.name,
+        params: call.params,
+      })));
+
+      // augment calls with balance
+      const vaultResults: VaultData = result.map((val, i) => ({
+        symbol: vaultCalls[i].symbol,
+        balance: parseBalance(val.balance),
+      }));
+
+      setVaultData(vaultResults);
+      console.log('setVaultData');
+      console.log(vaultResults);
+    }
+    fetchData();
+  }, [vaultCalls]);
+
 
   return (
     <Table {...props}>
@@ -123,21 +152,21 @@ export const VaultTable = (props: TableProps) => {
         </Tr>
       </Thead>
       <Tbody>
-        {members.map((member) => (
-          <Tr key={member.id}>
+        {vaultData.map((vault, i) => (
+          <Tr key={i}>
             <Td>
               <DoubleCurrencyLogo />
             </Td>
             <Td>
-              <Badge size="sm" colorScheme={member.status === 'active' ? 'green' : 'red'}>
-                {member.status}
+              <Badge size="sm" colorScheme={'active' === 'active' ? 'green' : 'red'}>
+                {'active'}
               </Badge>
             </Td>
             <Td>
-              <Text color="muted">{member.email}</Text>
+              <Text color="muted">{vault.symbol}</Text>
             </Td>
             <Td>
-              <Text color="muted">{member.role}</Text>
+              <Text color="muted">{vault.balance}</Text>
             </Td>
             <Td>
               <HStack spacing="1">

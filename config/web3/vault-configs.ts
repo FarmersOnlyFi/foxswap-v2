@@ -1,5 +1,4 @@
 
-import { SUSHI_SWAP_BUY_LINK, VIPER_SWAP_BUY_LINK } from 'config/links';
 import ROUTERS, { RouterName } from 'config/web3/routers';
 import { ChainID } from 'config/web3/chains';
 import LP_TOKENS, { LPTokenSymbol } from 'config/web3/lp-tokens';
@@ -10,6 +9,9 @@ import { VaultConfig } from '../constants/types';
 // TODO: should use router addresses and strat addresses for testnet
 // TODO: should configure it with LP token objects instead of redundant fields
 // TODO: should use symbol from `LP_TOKENS`
+
+const SUSHI_SWAP_BUY_LINK = 'https://app.sushi.com/swap?inputCurrency=ETH&outputCurrency=';
+const VIPER_SWAP_BUY_LINK = 'https://viper.exchange/#/swap?inputCurrency=ETH&outputCurrency=';
 
 // Vault ordering. 1st burn vaults. Then isHot Vaults
 const VAULT_CONFIGS: VaultConfig[] = [

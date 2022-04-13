@@ -57,7 +57,7 @@ export const Sidebar = () => {
               <Stack>
                 <NavButton label="Dashboard" icon={FiHome} href="/" />
                 <NavButton label="Swap" icon={FaHandsHelping} href="/trade" />
-                <NavButton label="Liquidity" icon={FaSwimmingPool} href="/pool" />
+                <NavButton label="Liquidity" icon={FaSwimmingPool} href="/liquidity" />
                 <NavButton label="Escrow" icon={FaCoins} href="/escrow" />
               </Stack>
             </Stack>
@@ -66,7 +66,7 @@ export const Sidebar = () => {
                 Earn
               </Text>
               <Stack spacing="1">
-                <NavButton label="Farms" icon={FaLeaf} href="/pool" />
+                <NavButton label="Farms" icon={FaLeaf} href="/farms" />
                 <NavButton label="Vaults" icon={FaLock} href="/vaults" />
               </Stack>
             </Stack>

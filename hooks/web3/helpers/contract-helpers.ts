@@ -3,10 +3,9 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
-
 import { simpleRPCProvider } from './providers';
-import { poolsConfig } from '../../../config/constants';
-import { PoolCategory } from '../../../config/constants/types';
+import { poolsConfig } from '@/config/constants';
+import { PoolCategory } from '@/config/constants/types';
 
 // Addresses
 import {
