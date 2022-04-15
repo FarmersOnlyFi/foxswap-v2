@@ -1,6 +1,7 @@
 
+import { BIG_TEN } from '@/hooks/web3/helpers/big-numbers';
 import BigNumber from 'bignumber.js/bignumber';
-import { BIG_TEN } from 'utils/helpers/web3/big-numbers';
+// import { BIG_TEN } from 'utils/helpers/web3/big-numbers';
 
 BigNumber.config({
   EXPONENTIAL_AT: 1000,
