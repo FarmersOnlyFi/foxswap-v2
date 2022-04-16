@@ -218,7 +218,6 @@
 //         : [],
 //     [addresses, callData, fragment]
 //   )
-//   // console.log('calls', calls)
 //
 //   const results = useCallsData(calls, options)
 //
