@@ -19,23 +19,8 @@ import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {useEffect, useState} from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
-import { useWeb3React } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
-import useSWR from "swr";
-import { getFoxVaultAddress } from "@/utils/addressHelpers";
-import VaultABI from '@/config/abi/autofox.json'
-import { isAddress } from "@ethersproject/address";
-import { Contract } from "@ethersproject/contracts";
-import HRC20_ABI from "@/contracts/HRC20.json";
-import multicall from "@/utils/multicall";
-import {parseBalance} from "../../../util";
-import { getVaultCalls } from "@/utils/fetchVault";
 import { FarmsResults, getFarms } from 'contexts/farms/hooks';
-
-type VaultData = Array<{
-  symbol: string;
-  balance: string;
-}>;
+import { getPrices } from 'contexts/farms/lpPrices';
 
 export const FarmsTable = (props: TableProps) => {
   const [open, setOpen] = useState(false);
@@ -44,7 +29,8 @@ export const FarmsTable = (props: TableProps) => {
 
     async function fetchData() {
       console.log('fetching data');
-      const farmsResults = await getFarms()
+      const lpPrices = await getPrices();
+      const farmsResults = await getFarms(lpPrices)
 
       setFarmsData(farmsResults);
       console.log('farmsResults', farmsResults);
@@ -66,6 +52,7 @@ export const FarmsTable = (props: TableProps) => {
           </Th>
           <Th>Status</Th>
           <Th>Yearly</Th>
+          <Th>Apr</Th>
           <Th>Liquidity</Th>
           <Th></Th>
         </Tr>
@@ -85,7 +72,10 @@ export const FarmsTable = (props: TableProps) => {
               <Text color="muted">{farm.farmConfig.lpSymbol}</Text>
             </Td>
             <Td>
-              <Text color="muted">{'vault.balance'}</Text>
+              <Text color="muted">{farm.apr}</Text>
+            </Td>
+            <Td>
+              <Text color="muted">{'Liquidity'}</Text>
             </Td>
             <Td>
               <HStack spacing="1">

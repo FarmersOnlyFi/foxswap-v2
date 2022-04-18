@@ -5,6 +5,9 @@ import { ChainID } from 'config/web3/chains';
 import LP_TOKENS, { LPTokenSymbol } from 'config/web3/lp-tokens';
 import { FarmConfig } from '../constants/types';
 
+// todo: make sure it's correct
+export const FOX_USDC_PID = 14;
+
 // TODO: should update code convention for configuration constants (uppercase snake_case)
 // TODO: should configure it with LP token objects instead of redundant fields
 // TODO: should use symbol from `LP_TOKENS`
