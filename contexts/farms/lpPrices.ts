@@ -3,10 +3,10 @@ import ERC_20_ABI from "config/abi/hrc20.json";
 import { BIG_TEN } from "@/hooks/web3/helpers/big-numbers";
 import { getAddress } from "@/utils/addressHelpers";
 import multicall, { Call } from "@/utils/multicall";
-import BigNumber from "bignumber.js";
 import { LP_PRICES } from "../../config/constants/lpPrices";
 import { Token } from "@/config/web3/tokens";
 import { Addresses } from "@/types/web3/general";
+import { BigNumber } from "ethers";
 
 interface LpPrice {
   tokenAmount: string;
@@ -70,10 +70,10 @@ export const getPrices = async (): Promise<LpPrices> => {
       quoteTokenDecimals,
     ] = results[i];
 
-    const tokenAmount = new BigNumber(tokenBalanceLP.toString()).div(
+    const tokenAmount = BigNumber.from(tokenBalanceLP.toString()).div(
       BIG_TEN.pow(tokenDecimals.toString())
     );
-    const quoteTokenAmount = new BigNumber(quoteTokenBalanceLP.toString()).div(
+    const quoteTokenAmount = BigNumber.from(quoteTokenBalanceLP.toString()).div(
       BIG_TEN.pow(quoteTokenDecimals.toString())
     );
 
@@ -81,7 +81,7 @@ export const getPrices = async (): Promise<LpPrices> => {
       ...lpConfig,
       tokenAmount: tokenAmount.toJSON(),
       quoteTokenAmount: quoteTokenAmount.toJSON(),
-      price: quoteTokenAmount.div(tokenAmount).toJSON(),
+      price: tokenAmount.isZero() ? 0 : quoteTokenAmount.div(tokenAmount).toJSON(),
     };
   });
 

@@ -1,7 +1,7 @@
 
 // TODO: should remove `src\utils\formatBalance.ts` in favor of this file
 
-import BigNumber from 'bignumber.js';
+import BigNumber from 'ethers';
 import {
   BigNumber as EthersBigNumber,
   FixedNumber as EthersFixedNumber

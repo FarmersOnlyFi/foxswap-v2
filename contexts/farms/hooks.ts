@@ -4,12 +4,13 @@ import masterchefABI from "config/abi/masterchef.json";
 import FARM_CONFIGS, { FOX_USDC_PID } from "@/config/web3/farm-configs";
 import { getAddress, getMasterChefAddress } from "@/utils/addressHelpers";
 import multicall, { Call } from "@/utils/multicall";
-import { BigNumber } from "bignumber.js";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, DEFAULT_TOKEN_DECIMAL } from "config";
 import { FarmConfig } from "@/config/constants/types";
 import TOKENS, { Token, TokenSymbol } from "@/config/web3/tokens";
 import { BIG_ZERO } from "@/hooks/web3/helpers/big-numbers";
 import { LpPrices } from "./lpPrices";
+import { parseBalance } from "../../util";
+import { BigNumber } from "ethers";
 
 // mocks to enforce correct chunk size when aggregating results
 type FarmCallsErc20 = [Call, Call, Call, Call];
@@ -34,20 +35,20 @@ export type FarmsResults = Array<{
 const getPrice = (prices: LpPrices, token: TokenSymbol): BigNumber => {
   if (token === TokenSymbol.USDC || token === TokenSymbol.UST || token === TokenSymbol.USDT ||
       token === TokenSymbol.BSCBUSD || token === TokenSymbol.BUSD || token === TokenSymbol.DAI) {
-    return new BigNumber(1);
+    return BigNumber.from(1);
   }
   const tokenPrice = prices.find(f => f.name === token);
   if (tokenPrice) {
     if (tokenPrice.quoteToken === TOKENS[TokenSymbol.WONE]) {
       const onePrice = prices.find(f => f.name === TokenSymbol.WONE);
-      return new BigNumber(onePrice.price).times(tokenPrice.price);
+      return BigNumber.from(onePrice.price).mul(tokenPrice.price);
     }
-    return new BigNumber(tokenPrice.price);
+    return BigNumber.from(tokenPrice.price);
   }
   console.log('ERROR: CANNOT FIND PRICE FOR token');
   console.log(token);
   console.log(prices);
-  return new BigNumber(0);
+  return BIG_ZERO;
 };
 
 const convertQuoteTokensToUsd = (
@@ -64,11 +65,11 @@ const convertQuoteTokensToUsd = (
     quoteToken === TOKENS[TokenSymbol.BUSD] ||
     quoteToken === TOKENS[TokenSymbol.DAI]
   ) {
-    return new BigNumber(2).times(quoteTokenAmount);
+    return BigNumber.from(2).mul(quoteTokenAmount);
   }
   const quoteTokenPrice = getPrice(prices, quoteToken.SYMBOL);
   if (quoteTokenPrice) {
-    return new BigNumber(2).times(quoteTokenPrice).times(quoteTokenAmount);
+    return BigNumber.from(2).mul(quoteTokenPrice).mul(quoteTokenAmount);
   }
   console.log("ERROR: CANNOT FIND PRICE FOR QuoteToken");
   console.log(quoteToken);
@@ -87,14 +88,15 @@ const getFarmApr = (
   poolWeight: BigNumber,
   cakePriceUsd: BigNumber,
   poolLiquidityUsd: BigNumber
-): number => {
+): BigNumber => {
   const yearlyCakeRewardAllocation =
-    CAKE_PER_BLOCK.times(BLOCKS_PER_YEAR).times(poolWeight);
+    CAKE_PER_BLOCK.mul(BLOCKS_PER_YEAR).mul(poolWeight);
   const apr = yearlyCakeRewardAllocation
-    .times(cakePriceUsd)
+    .mul(cakePriceUsd)
     .div(poolLiquidityUsd)
-    .times(100);
-  return apr.isNaN() || !apr.isFinite() ? null : apr.toNumber();
+    .mul(100);
+  // return apr.isNaN() || !apr.isFinite() ? null : apr;
+  return apr;
 };
 
 export const getFarms = async (
@@ -182,47 +184,47 @@ export const getFarms = async (
     const [info, totalAllocPoint] = resultMasterchef[i];
 
     // Ratio in % a LP tokens that are in staking, vs the total number in circulation
-    const lpTokenRatio = new BigNumber(lpTokenBalanceMC.toString()).div(
-      new BigNumber(lpTotalSupply.toString())
+    const lpTokenRatio = BigNumber.from(lpTokenBalanceMC.toString()).div(
+      BigNumber.from(lpTotalSupply.toString())
     );
 
     // Amount of token0 in 1 LP token
     const perc1LpOfTotal = DEFAULT_TOKEN_DECIMAL.div(
-      new BigNumber(lpTotalSupply.toString())
+      BigNumber.from(lpTotalSupply.toString())
     );
-    let tokenPerLp = perc1LpOfTotal.times(tokenBalanceLP);
-    let quoteTokenPerLp = perc1LpOfTotal.times(quoteTokenBalanceLP);
+    let tokenPerLp = perc1LpOfTotal.mul(tokenBalanceLP);
+    let quoteTokenPerLp = perc1LpOfTotal.mul(quoteTokenBalanceLP);
 
     // Total value in staking in quote token value
-    let lpTotalInQuoteToken = new BigNumber(quoteTokenBalanceLP.toString())
+    let lpTotalInQuoteToken = BigNumber.from(quoteTokenBalanceLP.toString())
       .div(DEFAULT_TOKEN_DECIMAL)
-      .times(new BigNumber(2))
-      .times(lpTokenRatio);
+      .mul(BigNumber.from(2))
+      .mul(lpTokenRatio);
 
     // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
-    let tokenAmount = new BigNumber(tokenBalanceLP.toString()).times(
+    let tokenAmount = BigNumber.from(tokenBalanceLP.toString()).mul(
       lpTokenRatio
     );
-    let tokenPriceVsQuote = new BigNumber(0);
-    let quoteTokenAmount = new BigNumber(quoteTokenBalanceLP.toString()).times(
+    let tokenPriceVsQuote: BigNumber = BIG_ZERO;
+    let quoteTokenAmount = BigNumber.from(quoteTokenBalanceLP.toString()).mul(
       lpTokenRatio
     );
 
     // handle solo pools
     if (farmConfig.pid === 0) {
-      tokenPriceVsQuote = new BigNumber(1);
-      tokenPerLp = new BigNumber(1);
-      quoteTokenPerLp = new BigNumber(1);
-      tokenAmount = new BigNumber(lpTokenBalanceMC.toString());
+      tokenPriceVsQuote = BigNumber.from(1);
+      tokenPerLp = BigNumber.from(1);
+      quoteTokenPerLp = BigNumber.from(1);
+      tokenAmount = BigNumber.from(lpTokenBalanceMC.toString());
       quoteTokenAmount = tokenAmount.div(2);
-      lpTotalInQuoteToken = tokenAmount.times(tokenPriceVsQuote);
+      lpTotalInQuoteToken = tokenAmount.mul(tokenPriceVsQuote);
     } else {
       tokenPriceVsQuote = quoteTokenAmount.div(tokenAmount);
     }
 
-    const allocPoint = new BigNumber(info.allocPoint._hex.toString());
+    const allocPoint = BigNumber.from(info.allocPoint._hex.toString());
     const poolWeight = allocPoint.div(
-      new BigNumber(totalAllocPoint.toString())
+      BigNumber.from(totalAllocPoint.toString())
     );
 
     if (farmConfig.pid === FOX_USDC_PID) {
@@ -233,7 +235,7 @@ export const getFarms = async (
       farmConfig,
       tokenAmount: tokenAmount.toJSON(),
       quoteTokenAmount: quoteTokenAmount,
-      lpTotalSupply: new BigNumber(lpTotalSupply.toString()).toJSON(),
+      lpTotalSupply: BigNumber.from(lpTotalSupply.toString()).toJSON(),
       lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
       tokenPriceVsQuote,
       poolWeight: poolWeight,
@@ -252,8 +254,8 @@ export const getFarms = async (
     let totalLiquidity;
 
     if (farm.farmConfig.pid === 0) {
-      totalLiquidity = foxPriceInUSD.times(farm.tokenAmount);
-      debugger;
+      totalLiquidity = foxPriceInUSD.mul(farm.tokenAmount);
+      // debugger;
     } else {
       totalLiquidity = convertQuoteTokensToUsd(
       farm.quoteTokenAmount,
@@ -265,9 +267,10 @@ export const getFarms = async (
     if (farm.farmConfig.lpSymbol === 'FOX') {
       console.log('FOX')
       console.log(farm.poolWeight, foxPriceInUSD, totalLiquidity);
-      debugger;
+      // debugger;
     }
     const apr = getFarmApr(farm.poolWeight, foxPriceInUSD, totalLiquidity);
+    const aprr = parseBalance(apr);
 
     // @todo
     // apy, liquidity: totalLiquidity
@@ -276,7 +279,7 @@ export const getFarms = async (
       ...farm,
       poolWeight: farm.poolWeight.toJSON(),
       quoteTokenAmount: farm.quoteTokenAmount.toJSON(),
-      apr,
+      apr: 123,
     };
   });
 };
