@@ -1,10 +1,11 @@
 
 // TODO: should remove `src\utils\formatBalance.ts` in favor of this file
 
-import BigNumber from 'ethers';
+import { BigNumber } from 'ethers';
 import {
   BigNumber as EthersBigNumber,
-  FixedNumber as EthersFixedNumber
+  FixedNumber as EthersFixedNumber,
+  FixedNumber
 } from '@ethersproject/bignumber';
 import { formatUnits } from '@ethersproject/units';
 
@@ -15,11 +16,11 @@ import { BIG_TEN } from './big-numbers';
  */
 
 const getDecimalAmount = (amount: BigNumber, decimals = 18): BigNumber => {
-  return new BigNumber(amount).times(BIG_TEN.pow(decimals));
+  return BigNumber.from(amount).mul(BIG_TEN.pow(decimals));
 };
 
 const getBalanceAmount = (amount: BigNumber, decimals = 18): BigNumber => {
-  return new BigNumber(amount).dividedBy(BIG_TEN.pow(decimals));
+  return BigNumber.from(amount).div(BIG_TEN.pow(decimals));
 };
 
 /**
@@ -32,7 +33,8 @@ const getBalanceNumber = (balance: BigNumber, decimals = 18): number => {
 
 const getFullDisplayBalance = (balance: BigNumber, decimals = 18, displayDecimals?: number): string => {
 
-  return getBalanceAmount(balance, decimals).toFixed(displayDecimals);
+  return FixedNumber.fromValue(getBalanceAmount(balance, decimals), displayDecimals).toString();
+  // return .toFixed(displayDecimals);
 };
 
 const formatNumber = (number: number, minPrecision = 2, maxPrecision = 2): string => {

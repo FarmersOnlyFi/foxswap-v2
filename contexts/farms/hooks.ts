@@ -7,7 +7,7 @@ import multicall, { Call } from "@/utils/multicall";
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, DEFAULT_TOKEN_DECIMAL } from "config";
 import { FarmConfig } from "@/config/constants/types";
 import TOKENS, { Token, TokenSymbol } from "@/config/web3/tokens";
-import { BIG_ZERO } from "@/hooks/web3/helpers/big-numbers";
+import { BIG_ONE, BIG_ZERO } from "@/hooks/web3/helpers/big-numbers";
 import { LpPrices } from "./lpPrices";
 import { parseBalance } from "../../util";
 import { BigNumber } from "ethers";
@@ -91,6 +91,9 @@ const getFarmApr = (
 ): BigNumber => {
   const yearlyCakeRewardAllocation =
     CAKE_PER_BLOCK.mul(BLOCKS_PER_YEAR).mul(poolWeight);
+  if (poolLiquidityUsd.isZero()) {
+    return null;
+  }
   const apr = yearlyCakeRewardAllocation
     .mul(cakePriceUsd)
     .div(poolLiquidityUsd)
@@ -192,8 +195,9 @@ export const getFarms = async (
     const perc1LpOfTotal = DEFAULT_TOKEN_DECIMAL.div(
       BigNumber.from(lpTotalSupply.toString())
     );
-    let tokenPerLp = perc1LpOfTotal.mul(tokenBalanceLP);
-    let quoteTokenPerLp = perc1LpOfTotal.mul(quoteTokenBalanceLP);
+    // tokenBalanceLP.toString();
+    let tokenPerLp = perc1LpOfTotal.mul(tokenBalanceLP.toString());
+    let quoteTokenPerLp = perc1LpOfTotal.mul(quoteTokenBalanceLP.toString());
 
     // Total value in staking in quote token value
     let lpTotalInQuoteToken = BigNumber.from(quoteTokenBalanceLP.toString())
@@ -205,7 +209,7 @@ export const getFarms = async (
     let tokenAmount = BigNumber.from(tokenBalanceLP.toString()).mul(
       lpTokenRatio
     );
-    let tokenPriceVsQuote: BigNumber = BIG_ZERO;
+    let tokenPriceVsQuote = BIG_ZERO;
     let quoteTokenAmount = BigNumber.from(quoteTokenBalanceLP.toString()).mul(
       lpTokenRatio
     );
@@ -219,7 +223,7 @@ export const getFarms = async (
       quoteTokenAmount = tokenAmount.div(2);
       lpTotalInQuoteToken = tokenAmount.mul(tokenPriceVsQuote);
     } else {
-      tokenPriceVsQuote = quoteTokenAmount.div(tokenAmount);
+      tokenPriceVsQuote = tokenAmount.isZero() ? BIG_ONE : quoteTokenAmount.div(tokenAmount);
     }
 
     const allocPoint = BigNumber.from(info.allocPoint._hex.toString());
@@ -270,7 +274,7 @@ export const getFarms = async (
       // debugger;
     }
     const apr = getFarmApr(farm.poolWeight, foxPriceInUSD, totalLiquidity);
-    const aprr = parseBalance(apr);
+    // const aprr = parseBalance(apr);
 
     // @todo
     // apy, liquidity: totalLiquidity
@@ -279,7 +283,7 @@ export const getFarms = async (
       ...farm,
       poolWeight: farm.poolWeight.toJSON(),
       quoteTokenAmount: farm.quoteTokenAmount.toJSON(),
-      apr: 123,
+      apr: apr?.toNumber(),
     };
   });
 };
