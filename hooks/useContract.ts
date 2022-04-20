@@ -21,5 +21,5 @@ export default function useContract<T extends Contract = Contract>(
 
       return null;
     }
-  }, [address, ABI, library, account]) as T;
+  }, [address, ABI, library, account, chainID]) as T;
 }

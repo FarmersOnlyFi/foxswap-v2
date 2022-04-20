@@ -36,7 +36,7 @@ export default function TradeTemplate() {
             gap={4}
             p={6}
           >
-            <GridItem rowSpan={2} colSpan={{ base: '5', md: '3'  }}>
+            <GridItem rowSpan={2} colSpan={{ base: 5, md: 3  }}>
               <Card minH="67vh">
                 <Tabs variant={'solid-rounded'} colorScheme='purple' p={4}>
                   <TabList>
@@ -45,19 +45,29 @@ export default function TradeTemplate() {
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                      <CurrencyInputPanel />
+                      <CurrencyInputPanel
+                        value={'0'}
+                        onUserInput={(event) => {console.log(event)}}
+                        showMaxButton={true}
+                        id="1"
+                      />
                     </TabPanel>
                     <TabPanel>
-                      <CurrencyInputPanel />
+                      <CurrencyInputPanel
+                        value={'0'}
+                        onUserInput={(event) => {console.log(event)}}
+                        showMaxButton={true}
+                        id="1"
+                      />
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
               </Card>
             </GridItem>
-            <GridItem rowSpan={1} colSpan={{ base: '5', md: '2'  }}>
+            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
               <Card />
             </GridItem>
-            <GridItem rowSpan={1} colSpan={{ base: '5', md: '2'  }}>
+            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
               <Card />
             </GridItem>
           </Grid>

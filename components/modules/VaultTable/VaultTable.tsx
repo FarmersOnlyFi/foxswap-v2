@@ -166,7 +166,7 @@ export const VaultTable = (props: TableProps) => {
               <Text color="muted">{vault.symbol}</Text>
             </Td>
             <Td>
-              <Text color="muted">{vault.balance}</Text>
+              <Text color="muted">${vault.balance.toString()}</Text>
             </Td>
             <Td>
               <HStack spacing="1">

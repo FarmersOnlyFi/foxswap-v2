@@ -63,7 +63,7 @@ const registerToken = async (
 ): Promise<void> => {
 
   // @ts-expect-error
-  const tokenAdded: = await window.ethereum.request({
+  const tokenAdded = await window.ethereum.request({
     method: 'wallet_watchAsset',
     params: {
       type: 'ERC20',

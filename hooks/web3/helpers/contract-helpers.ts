@@ -73,13 +73,13 @@ import MasterBreederAbi from '../../../config/abi/masterchef.json'
 import PitAbi from '../../../config/abi/gov-token.json'
 import BondAbi from '../../../config/abi/custom-bond.json'
 import SocksControllerAbi from '../../../config/abi/unisocks.json'
-import { abi as PairAbi } from '@foxswap/core/build/IUniswapV2Pair.json'
-import { abi as MerkleAbi } from '@uniswap/merkle-distributor/build/MerkleDistributor.json'
-import { abi as GovernanceAbi } from '@uniswap/governance/build/GovernorAlpha.json'
-import { abi as UniAbi } from '@uniswap/governance/build/Uni.json'
-import { abi as GovTokenAbi } from '@venomswap/contracts/build/GovernanceToken.json'
-import { abi as StakingRewardsAbi } from '@uniswap/liquidity-staker/build/StakingRewards.json'
-import { abi as PitBreederAbi } from '@venomswap/contracts/build/PitBreeder.json'
+import PairAbi from '@foxswap/core/build/IUniswapV2Pair.json'
+import MerkleAbi from '@uniswap/merkle-distributor/build/MerkleDistributor.json'
+import GovernanceAbi from '@uniswap/governance/build/GovernorAlpha.json'
+import UniAbi from '@uniswap/governance/build/Uni.json'
+import GovTokenAbi from '@venomswap/contracts/build/GovernanceToken.json'
+import StakingRewardsAbi from '@uniswap/liquidity-staker/build/StakingRewards.json'
+import PitBreederAbi from '@venomswap/contracts/build/PitBreeder.json'
 import {
   getArgentWalletAddress,
   getENSRegistrarAddress,
@@ -219,23 +219,23 @@ const getBytes32TokenContract = (address: string, signer?: Signer | Provider): C
 };
 
 const getUniContract = (signer?: Signer | Provider): Contract => {
-  return getContract(UniAbi, getGovTokenAddress(), signer);
+  return getContract(UniAbi.abi, getGovTokenAddress(), signer);
 };
 
 const getPairContract = (address: string, signer?: Signer | Provider): Contract => {
-  return getContract(PairAbi, address, signer);
+  return getContract(PairAbi.abi, address, signer);
 };
 
 const getMerkleDistributorContract = (signer?: Signer | Provider): Contract => {
-  return getContract(MerkleAbi, getMerkleDistribution(), signer);
+  return getContract(MerkleAbi.abi, getMerkleDistribution(), signer);
 };
 
 const getGovernanceContract = (signer?: Signer | Provider): Contract => {
-  return getContract(GovernanceAbi, getGovernanceAddress(), signer);
+  return getContract(GovernanceAbi.abi, getGovernanceAddress(), signer);
 };
 
 const getGovTokenContract = (signer?: Signer | Provider): Contract => {
-  return getContract(GovTokenAbi, getGovTokenAddress(), signer);
+  return getContract(GovTokenAbi.abi, getGovTokenAddress(), signer);
 };
 
 const getPitContract = (signer?: Signer | Provider): Contract => {
@@ -243,11 +243,11 @@ const getPitContract = (signer?: Signer | Provider): Contract => {
 };
 
 const getPitBreederContract = (signer?: Signer | Provider): Contract => {
-  return getContract(PitBreederAbi, getPitBreeder(), signer);
+  return getContract(PitBreederAbi.abi, getPitBreeder(), signer);
 };
 
 const getStakingContract = (address: string, signer?: Signer | Provider): Contract => {
-  return getContract(StakingRewardsAbi, address, signer);
+  return getContract(StakingRewardsAbi.abi, address, signer);
 };
 
 const getMasterBreederContract = (signer?: Signer | Provider): Contract => {
