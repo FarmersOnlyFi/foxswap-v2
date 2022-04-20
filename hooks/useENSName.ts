@@ -1,11 +1,11 @@
 import type { Web3Provider } from "@ethersproject/providers";
-import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 export default function useENSName(
   address: string | null | undefined,
 ): string {
-  const { library, chainId } = useWeb3React<Web3Provider>();
+  const { library, chainId } = useActiveWeb3React();
   const [ENSName, setENSName] = useState("");
 
   useEffect(() => {

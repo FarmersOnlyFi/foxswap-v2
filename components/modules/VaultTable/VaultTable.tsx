@@ -17,19 +17,13 @@ import {
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
-import { useWeb3React } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
-import useSWR from "swr";
-import { getFoxVaultAddress } from "@/utils/addressHelpers";
-import VaultABI from '@/config/abi/autofox.json'
-import { isAddress } from "@ethersproject/address";
-import { Contract } from "@ethersproject/contracts";
 import HRC20_ABI from "@/contracts/HRC20.json";
 import multicall from "@/utils/multicall";
-import {parseBalance} from "../../../util";
+import { parseBalance } from "../../../util";
 import { getVaultCalls } from "@/utils/fetchVault";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 
 const members = [
@@ -107,7 +101,7 @@ type VaultData = Array<{
 const vaultCalls = getVaultCalls();
 
 export const VaultTable = (props: TableProps) => {
-  // const { account, library } = useWeb3React();
+  const { account, library } = useActiveWeb3React();
   const [open, setOpen] = useState(false);
   const [vaultData, setVaultData] = useState<VaultData>([]);
   useEffect(() => {

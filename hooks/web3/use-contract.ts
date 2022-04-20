@@ -33,7 +33,6 @@ import {
   getTokenContract,
   getENSRegistrarContract,
   getENSResolverContract} from './helpers/contract-helpers';
-import {useWeb3React} from "@web3-react/core";
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -173,7 +172,7 @@ const useFoxVaultContract = (): Contract => {
   const {
     account,
     library
-  } = useWeb3React();
+  } = useActiveWeb3React();
   // This hook is slightly different from others
   // Calls were failing if unconnected user goes to farm auction page
   // Using library instead of library.getSigner() fixes the problem for unconnected users

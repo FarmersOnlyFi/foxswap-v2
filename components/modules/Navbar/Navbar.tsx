@@ -13,13 +13,12 @@
 // import NextLink from "next/link";
 // import Account from "../Account/Account";
 // import useEagerConnect from "../../../hooks/useEagerConnect";
-// import { useWeb3React } from "@web3-react/core";
 //
 //
 
 //
 // export const Navbar = () => {
-//   const { account, library } = useWeb3React();
+//   const { account, library } = useActiveWeb3React();
 //   const triedToEagerConnect = useEagerConnect();
 //   const isDesktop = useBreakpointValue({ base: false, lg: true })
 //   const isConnected = typeof account === "string" && !!library;
@@ -75,14 +74,12 @@ import * as React from 'react'
 import { Logo } from '@/components/elements/Logo/Logo'
 import { Sidebar } from '@/components/modules/Sidebar/Sidebar'
 import { ToggleButton } from '@/components/modules/ToggleButton/ToggleButton'
-import {useWeb3React} from "@web3-react/core";
 import useEagerConnect from "@/hooks/useEagerConnect";
-import Account from "@/components/modules/Account/Account";
-import {FiMenu} from "react-icons/fi";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 export const Navbar = () => {
   const { isOpen, onToggle, onClose } = useDisclosure()
-  const { account, library } = useWeb3React();
+  const { account, library } = useActiveWeb3React();
   const triedToEagerConnect = useEagerConnect();
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const isConnected = typeof account === "string" && !!library;

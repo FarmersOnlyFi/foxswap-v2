@@ -1,11 +1,11 @@
 
 // MEMO: inspired by pancakeswap project
 import * as React from 'react';
-import { useWeb3React } from '@web3-react/core';
 import { StaticJsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import { simpleRPCProvider } from './helpers/providers';
 import { ChainID } from '@/config/web3/chains';
+import { useWeb3React } from "@web3-react/core";
 
 
 type Web3ReactContectProvider <T> = Web3ReactContextInterface<T> & { library: T }

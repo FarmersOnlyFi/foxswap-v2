@@ -25,12 +25,12 @@ import {
 import { Logo } from '@/components/elements/Logo/Logo'
 import { NavButton } from '@/components/modules/NavButton/NavButton'
 import Account from "@/components/modules/Account/Account";
-import {useWeb3React} from "@web3-react/core";
 import useEagerConnect from "@/hooks/useEagerConnect";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 // linear-gradient(120deg, #212429, #000000)
 export const Sidebar = () => {
-  const { account, library } = useWeb3React();
+  const { account, library } = useActiveWeb3React();
   const triedToEagerConnect = useEagerConnect();
   const isConnected = typeof account === "string" && !!library;
 

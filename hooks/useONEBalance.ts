@@ -1,7 +1,7 @@
 import type { Web3Provider } from "@ethersproject/providers";
-import { useWeb3React } from "@web3-react/core";
 import useSWR from "swr";
 import useKeepSWRDataLiveAsBlocksArrive from "./useKeepSWRDataLiveAsBlocksArrive";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 function getETHBalance(library: Web3Provider) {
   return async (_: string, address: string) => {
@@ -12,7 +12,7 @@ function getETHBalance(library: Web3Provider) {
 }
 
 export default function useONEBalance(address: string, suspense = false) {
-  const { library, chainId } = useWeb3React();
+  const { library, chainId } = useActiveWeb3React();
 
   const shouldFetch = typeof address === "string" && !!library;
 

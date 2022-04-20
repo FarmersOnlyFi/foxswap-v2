@@ -1,4 +1,3 @@
-import { useWeb3React } from "@web3-react/core";
 import { UserRejectedRequestError } from "@web3-react/injected-connector";
 import { useEffect, useState } from "react";
 import { injected } from "../../../connectors";
@@ -10,13 +9,14 @@ import {FaWallet} from "react-icons/fa";
 import * as React from "react";
 import useONEBalance from "@/hooks/useONEBalance";
 import {Web3Provider} from "@ethersproject/providers";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 type AccountProps = {
   triedToEagerConnect: boolean;
 };
 
 const Account = ({ triedToEagerConnect }: AccountProps) => {
-  const { active, error, activate, chainId, account, setError } = useWeb3React<Web3Provider>();
+  const { active, error, activate, chainId, account, setError } = useActiveWeb3React();
 
   const {
     isMetaMaskInstalled,
