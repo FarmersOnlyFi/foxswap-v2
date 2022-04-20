@@ -110,16 +110,17 @@ export const etherJsFetcher = (
   const multiCallProvider = new providers.MulticallProvider(provider as any)
 
   return async (...args: any[]) => {
-    let parsed: any[]
+    let parsed: any[] | null = null;
     try {
       parsed = JSON.parse(args[0])
     } catch (e) {
       // fallback silently because wasn't a JSON object aka simple key
     }
-    const [arg1] = parsed || args
+    const [arg1] = (parsed ?? args)
 
     // it's a batch call
-    if (Array.isArray(arg1)) {
+    // @todo which array should we iterate over
+    if (Array.isArray(arg1) && Array.isArray(parsed)) {
       return Promise.all(
         parsed.map(key => multiCall(key, multiCallProvider, ABIs))
       )

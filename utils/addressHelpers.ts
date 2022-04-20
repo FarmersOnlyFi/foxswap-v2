@@ -4,7 +4,7 @@ import { Addresses } from "../types/web3/general";
 
 export const getAddress = (address: Addresses): string => {
   const mainNetChainId = 1666600000;
-  const chainId = process.env.REACT_APP_CHAIN_ID;
+  const chainId = process.env.REACT_APP_CHAIN_ID!;
 
   return address[chainId] ? address[chainId] : address[mainNetChainId];
 };

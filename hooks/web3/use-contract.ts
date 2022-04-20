@@ -31,26 +31,8 @@ import {
   getAutofoxContract,
   getZapperContract,
   getTokenContract,
-  getFactoryV1Contract,
-  getMigratorV2Contract,
-  getExchangeV1Contract,
-  getWONEContract,
-  getArgentWalletDetectorContract,
   getENSRegistrarContract,
-  getENSResolverContract,
-  getBytes32TokenContract,
-  getPairContract,
-  getMulticallContract,
-  getMerkleDistributorContract,
-  getUniContract,
-  getGovTokenContract,
-  getGovernanceContract,
-  getPitContract,
-  getPitBreederContract,
-  getStakingContract,
-  getMasterBreederContract,
-  getBondingContract, getSocksControllerContract
-} from './helpers/contract-helpers';
+  getENSResolverContract} from './helpers/contract-helpers';
 import {useWeb3React} from "@web3-react/core";
 
 /**
@@ -231,31 +213,6 @@ const useTokenContract = (address: string): Contract => {
   return React.useMemo(() => getTokenContract(address, library.getSigner()), [library]);
 };
 
-const useFactoryV1Contract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getFactoryV1Contract(library.getSigner()), [library]);
-}
-
-const useMigratorV2Contract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getMigratorV2Contract(library.getSigner()), [library]);
-}
-
-const useExchangeV1Contract = (address?: string): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getExchangeV1Contract(address, library.getSigner()), [library]);
-};
-
-const useWONEContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getWONEContract(library.getSigner()), [library]);
-};
-
-const useArgentWalletDetectorContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getArgentWalletDetectorContract(library.getSigner()), [library]);
-};
-
 export const useENSRegistrarContract = (): Contract | null => {
   const { library } = useActiveWeb3React()
   return React.useMemo(() => getENSRegistrarContract(library.getSigner()), [library]);
@@ -264,66 +221,6 @@ export const useENSRegistrarContract = (): Contract | null => {
 export const useENSResolverContract = (address: string): Contract | null => {
   const { library } = useActiveWeb3React()
   return React.useMemo(() => getENSResolverContract(address, library.getSigner()), [library]);
-};
-
-const useBytes32TokenContract = (address?: string): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getBytes32TokenContract(address, library.getSigner()), [library]);
-};
-
-const usePairContract = (address?: string): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getPairContract(address, library.getSigner()), [library]);};
-
-const useMulticallContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getMulticallContract(library.getSigner()), [library]);
-};
-
-const useMerkleDistributorContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getMerkleDistributorContract(library.getSigner()), [library]);
-};
-
-const useGovernanceContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getGovernanceContract(library.getSigner()), [library]);};
-
-const useUniContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getUniContract(library.getSigner()), [library]);};
-
-const useGovTokenContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getGovTokenContract(library.getSigner()), [library]);};
-
-const usePitContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getPitContract(library.getSigner()), [library]);
-};
-
-const usePitBreederContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getPitBreederContract(library.getSigner()), [library]);
-};
-
-function useStakingContract(address?: string): Contract | null {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getStakingContract(address, library.getSigner()), [library]);
-}
-
-const useMasterBreederContract = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getMasterBreederContract(library.getSigner()), [library]);
-};
-
-const useBondingContract = (address: string): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getBondingContract(address, library.getSigner()), [library]);};
-
-const useSocksController = (): Contract | null => {
-  const { library } = useActiveWeb3React()
-  return React.useMemo(() => getSocksControllerContract(library.getSigner()), [library]);
 };
 
 export {

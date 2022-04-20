@@ -69,7 +69,7 @@ const Account = ({ triedToEagerConnect }: AccountProps) => {
       ) : (
         <Button
           {...{
-            href: formatEtherscanLink("Account", [chainId, account]),
+            href: chainId != null && account != null ? formatEtherscanLink("Account", [chainId, account]) : '',
             target: "_blank",
             rel: "noopener noreferrer",
           }}
@@ -81,7 +81,7 @@ const Account = ({ triedToEagerConnect }: AccountProps) => {
           }}
         >
           {/*{oneBalance}*/}
-          {ENSName || `${shortenHex(account, 4)}`}
+          {ENSName ?? (account != null ? `${shortenHex(account, 4)}` : '')}
         </Button>
         // <Button
         //   onClick={startOnboarding}

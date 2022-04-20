@@ -14,9 +14,10 @@ import { BigNumber } from "ethers";
 
 // mocks to enforce correct chunk size when aggregating results
 type FarmCallsErc20 = [Call, Call, Call, Call];
-const farmCallsErc20Mock: FarmCallsErc20 = [, , , ,];
+const mockCall: Call = {address: '', name: 'mock' }
+const farmCallsErc20Mock: FarmCallsErc20 = [mockCall, mockCall, mockCall, mockCall,];
 type FarmCallsMasterchef = [Call, Call];
-const FarmCallsMasterchefMock: FarmCallsMasterchef = [, ,];
+const FarmCallsMasterchefMock: FarmCallsMasterchef = [mockCall, mockCall];
 
 export type FarmsResults = Array<{
   farmConfig: FarmConfig;
@@ -29,7 +30,7 @@ export type FarmsResults = Array<{
   depositFeeBP: any;
   tokenPerLp: string;
   quoteTokenPerLp: string;
-  apr: number,
+  apr: number | null,
 }>;
 
 const getPrice = (prices: LpPrices, token: TokenSymbol): BigNumber => {
@@ -41,7 +42,7 @@ const getPrice = (prices: LpPrices, token: TokenSymbol): BigNumber => {
   if (tokenPrice) {
     if (tokenPrice.quoteToken === TOKENS[TokenSymbol.WONE]) {
       const onePrice = prices.find(f => f.name === TokenSymbol.WONE);
-      return BigNumber.from(onePrice.price).mul(tokenPrice.price);
+      return BigNumber.from(onePrice!.price).mul(tokenPrice.price);
     }
     return BigNumber.from(tokenPrice.price);
   }
@@ -88,7 +89,7 @@ const getFarmApr = (
   poolWeight: BigNumber,
   cakePriceUsd: BigNumber,
   poolLiquidityUsd: BigNumber
-): BigNumber => {
+): BigNumber | null => {
   const yearlyCakeRewardAllocation =
     CAKE_PER_BLOCK.mul(BLOCKS_PER_YEAR).mul(poolWeight);
   if (poolLiquidityUsd.isZero()) {
@@ -174,7 +175,7 @@ export const getFarms = async (
     );
   }
 
-  let foxPriceInUSD: BigNumber;
+  let foxPriceInUSD: BigNumber | null = null;
 
   const farms = FARM_CONFIGS.map((farmConfig, i) => {
     const [
@@ -258,11 +259,10 @@ export const getFarms = async (
     let totalLiquidity;
 
     if (farm.farmConfig.pid === 0) {
-      totalLiquidity = foxPriceInUSD.mul(farm.tokenAmount);
-      // debugger;
+      totalLiquidity = foxPriceInUSD!.mul(farm.tokenAmount);
     } else {
       totalLiquidity = convertQuoteTokensToUsd(
-      farm.quoteTokenAmount,
+        farm.quoteTokenAmount,
         farm.farmConfig.quoteToken,
         lpPrices,
       );
@@ -273,7 +273,7 @@ export const getFarms = async (
       console.log(farm.poolWeight, foxPriceInUSD, totalLiquidity);
       // debugger;
     }
-    const apr = getFarmApr(farm.poolWeight, foxPriceInUSD, totalLiquidity);
+    const apr = getFarmApr(farm.poolWeight, foxPriceInUSD!, totalLiquidity);
     // const aprr = parseBalance(apr);
 
     // @todo
@@ -283,7 +283,7 @@ export const getFarms = async (
       ...farm,
       poolWeight: farm.poolWeight.toJSON(),
       quoteTokenAmount: farm.quoteTokenAmount.toJSON(),
-      apr: apr?.toNumber(),
+      apr: apr?.toNumber() ?? null,
     };
   });
 };

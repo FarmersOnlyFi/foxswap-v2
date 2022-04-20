@@ -3,7 +3,8 @@
 // Set of helper functions to facilitate wallet setup
 import {
   BASE_HARMONY_SCAN_URL,
-  BASE_URL
+  BASE_URL,
+  ChainID
 } from 'config/web3/chains';
 import { nodes } from './get-rpc-url';
 
@@ -15,7 +16,7 @@ const setupNetwork = async (): Promise<boolean> => {
   const provider = window.ethereum;
   if (provider) {
 
-    const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
+    const chainId = ChainID.Mainnet;
     try {
       // @ts-expect-error
       await provider.request({
