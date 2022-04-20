@@ -8,7 +8,7 @@ import ROUTERS, {
   RouterName
 } from './routers';
 import { ChainID } from './chains';
-import { Addresses } from "../../types/web3/general";
+import { Addresses } from "@/types/web3/general";
 
 interface LPToken {
   readonly SYMBOL: string;

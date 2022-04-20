@@ -3,10 +3,10 @@
 // Set of helper functions to facilitate wallet setup
 import {
   BASE_HARMONY_SCAN_URL,
+  BASE_RPC_PROVIDER,
   BASE_URL,
-  ChainID
+  ChainID, RPC_URL
 } from 'config/web3/chains';
-import { nodes } from './get-rpc-url';
 
 /**
  * Prompt the user to add Harmony as a network on Metamask, or switch to Harmony if the wallet is on a different network
@@ -30,7 +30,7 @@ const setupNetwork = async (): Promise<boolean> => {
               symbol: 'one',
               decimals: 18
             },
-            rpcUrls: nodes,
+            rpcUrls: [RPC_URL],
             blockExplorerUrls: [`${BASE_HARMONY_SCAN_URL}/`]
           }
         ]

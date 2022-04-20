@@ -1,7 +1,6 @@
 import { ethers } from 'ethers';
 import { getMulticallContract } from '@/hooks/web3/helpers/contract-helpers';
-import HRC20_ABI from '@/contracts/HRC20.json'
-import {useEffect, useState} from "react";
+
 type MultiCallResponse<T> = T | null
 
 interface Call {

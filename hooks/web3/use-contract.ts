@@ -32,7 +32,8 @@ import {
   getZapperContract,
   getTokenContract,
   getENSRegistrarContract,
-  getENSResolverContract} from './helpers/contract-helpers';
+  getENSResolverContract
+} from './helpers/contract-helpers';
 
 /**
  * Helper hooks to get specific contracts (by ABI)
