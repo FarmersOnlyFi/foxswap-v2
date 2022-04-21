@@ -1,4 +1,3 @@
-import type { Web3Provider } from "@ethersproject/providers";
 import useTokenBalance from "../../../hooks/useTokenBalance";
 import { parseBalance } from "../../../util";
 import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";

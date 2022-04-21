@@ -4,7 +4,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
 import { poolsConfig } from '@/config/constants';
-import { PoolCategory } from '@/config/constants/types';
+import {PoolCategory, PoolConfig} from '@/config/constants/types';
 import { RPC_PROVIDER } from "@/config/web3/chains";
 
 // Addresses
@@ -116,12 +116,15 @@ const getIfoV2Contract = (address: string, signer?: Signer | Provider): Contract
 };
 const getSousChefContract = (id: number, signer?: Signer | Provider): Contract => {
   const config = poolsConfig.find(pool => pool.sousId === id);
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef;
-  return getContract(abi, getAddress(config.contractAddress), signer);
+  const address = !!config ? getAddress(config.contractAddress) : ''
+  const abi = config?.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef;
+  return getContract(abi, address, signer);
 };
+
 const getSousChefV2Contract = (id: number, signer?: Signer | Provider): Contract => {
   const config = poolsConfig.find(pool => pool.sousId === id);
-  return getContract(sousChefV2, getAddress(config.contractAddress), signer);
+  const address = !!config ? getAddress(config.contractAddress) : ''
+  return getContract(sousChefV2, address, signer);
 };
 const getPointCenterIfoContract = (signer?: Signer | Provider): Contract => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), signer);

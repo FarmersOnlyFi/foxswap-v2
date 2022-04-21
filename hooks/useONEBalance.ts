@@ -1,9 +1,10 @@
 import type { Web3Provider } from "@ethersproject/providers";
 import useSWR from "swr";
 import useKeepSWRDataLiveAsBlocksArrive from "./useKeepSWRDataLiveAsBlocksArrive";
-import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
+import useActiveWeb3React, {Web3ReactContextProvider} from "@/hooks/web3/use-active-web3-react";
+import {StaticJsonRpcProvider} from "@ethersproject/providers";
 
-function getETHBalance(library: Web3Provider) {
+function getONEBalance(library: StaticJsonRpcProvider | Web3Provider) {
   return async (_: string, address: string) => {
     const balance = await library.getBalance(address);
 
@@ -11,14 +12,12 @@ function getETHBalance(library: Web3Provider) {
   };
 }
 
-export default function useONEBalance(address: string, suspense = false) {
+export default function useONEBalance(address: string | null, suspense = false) {
   const { library, chainId } = useActiveWeb3React();
 
-  const shouldFetch = typeof address === "string" && !!library;
-
   const result = useSWR(
-    shouldFetch ? ["ONEBalance", address, chainId] : null,
-    getETHBalance(library),
+    !!library ? ["ONEBalance", address, chainId] : null,
+    getONEBalance(library),
     {
       suspense,
     }

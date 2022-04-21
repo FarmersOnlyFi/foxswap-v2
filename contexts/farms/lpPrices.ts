@@ -20,8 +20,14 @@ interface LpPrice {
 
 export type LpPrices = Array<LpPrice>;
 
+const mockCallFiller: Call = {
+  address: '',
+  name: "balanceOf",
+  params: []
+}
 type LpPriceCalls = [Call, Call, Call, Call];
-const LpPricesCallsMock: LpPriceCalls = [, , , ,];
+
+const LpPricesCallsMock: LpPriceCalls = [mockCallFiller, mockCallFiller, mockCallFiller, mockCallFiller];
 
 export const getPrices = async (): Promise<LpPrices> => {
   console.count('getPrices');

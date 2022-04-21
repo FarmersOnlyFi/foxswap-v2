@@ -1,4 +1,4 @@
-import { Addresses } from "W/types/web3/general";
+import { Addresses } from "types/web3/general";
 import { ChainID } from './chains';
 
 

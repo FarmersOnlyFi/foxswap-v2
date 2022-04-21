@@ -1,9 +1,9 @@
 import useSWR from "swr";
-import type { ERC20 } from "../contracts/types";
 import useKeepSWRDataLiveAsBlocksArrive from "./useKeepSWRDataLiveAsBlocksArrive";
 import { useHRC20Contract } from "@/hooks/web3/use-contract";
+import { Contract } from "@ethersproject/contracts";
 
-function getTokenBalance(contract: ERC20) {
+function getTokenBalance(contract: Contract) {
   return async (_: string, address: string) => {
     const balance = await contract.balanceOf(address);
 
@@ -12,19 +12,14 @@ function getTokenBalance(contract: ERC20) {
 }
 
 export default function useTokenBalance(
-  address: string,
+  address: string | null | undefined,
   tokenAddress: string,
   suspense = false
 ) {
   const contract = useHRC20Contract(tokenAddress);
 
-  const shouldFetch =
-    typeof address === "string" &&
-    typeof tokenAddress === "string" &&
-    !!contract;
-
   const result = useSWR(
-    shouldFetch ? ["TokenBalance", address, tokenAddress] : null,
+    !!contract ? ["TokenBalance", address, tokenAddress] : null,
     getTokenBalance(contract),
     {
       suspense,

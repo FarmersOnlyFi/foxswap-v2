@@ -1,11 +1,8 @@
-
-// MEMO: inspired by pancakeswap project
-// Set of helper functions to facilitate wallet setup
 import {
   BASE_HARMONY_SCAN_URL,
-  BASE_RPC_PROVIDER,
   BASE_URL,
-  ChainID, RPC_URL
+  RPC_URL,
+  ChainID,
 } from 'config/web3/chains';
 
 /**
