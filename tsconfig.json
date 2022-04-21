@@ -23,10 +23,11 @@
       "@/config/*": ["config/*"],
       "@/contracts/*": ["contracts/*"],
       "@/hooks/*": ["hooks/*"],
+      "@/public/*": ["public/*"],
       "@/styles/*": ["styles/*"],
-      "@/utils/*": ["utils/*"],
       "@/theme/*": ["theme/*"],
-      "@/types/*": ["types/*"]
+      "@/types/*": ["types/*"],
+      "@/utils/*": ["utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

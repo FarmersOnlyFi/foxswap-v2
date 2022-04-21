@@ -18,7 +18,6 @@ export const getVaultCalls = (): VaultCall[] => {
   const calls: Array<VaultCall> = [];
 
   vaults.map(vault => {
-    console.log(vault)
     if (vault.stakingPoolAddress) {
       masterchefAddress = getAddress(vault.stakingPoolAddress)
     }
