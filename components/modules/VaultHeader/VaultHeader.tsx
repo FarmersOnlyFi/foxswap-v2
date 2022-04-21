@@ -17,7 +17,7 @@ export const VaultHeader = () => {
   return (
     <Box
       as="section"
-      bg="linear-gradient(120deg, #212429, #000000)"
+      bg="bg-canvas"
       pt={{ base: '4', md: '8' }}
       pb={{ base: '12', md: '24' }}
       padding={12}

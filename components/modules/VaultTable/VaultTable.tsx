@@ -25,74 +25,6 @@ import { parseBalance } from "../../../util";
 import { getVaultCalls } from "@/utils/fetchVault";
 import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
-
-const members = [
-  {
-    id: '1',
-    name: 'Christian Nwamba',
-    handle: '@christian',
-    email: '30.56 %',
-    avatarUrl: 'https://bit.ly/code-beast',
-    status: 'active',
-    role: '$93,324',
-    rating: 4,
-  },
-  {
-    id: '2',
-    name: 'Kent C. Dodds',
-    handle: '@kent',
-    email: '30.56 %',
-    avatarUrl: 'https://bit.ly/kent-c-dodds',
-    status: 'active',
-    role: '$35,338',
-    rating: 4,
-  },
-  {
-    id: '3',
-    name: 'Prosper Otemuyiwa',
-    handle: '@prosper',
-    email: '30.56 %',
-    avatarUrl: 'https://bit.ly/prosper-baba',
-    status: 'active',
-    role: '$5,768',
-    rating: 4,
-  },
-  {
-    id: '4',
-    name: 'Ryan Florence',
-    handle: '@ryan',
-    email: '30.56 %',
-    avatarUrl: 'https://bit.ly/ryan-florence',
-    status: 'active',
-    role: '$345,768',
-    rating: 4,
-  },
-  {
-    id: '5',
-    name: 'Segun Adebayo',
-    handle: '@segun',
-    email: '30.56 %',
-    avatarUrl: 'https://bit.ly/sage-adebayo',
-    status: 'active',
-    role: '$345,768',
-    rating: 4,
-  },
-]
-
-// const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
-//   const [arg1, arg2, ...params] = args
-//   // it's a contract
-//   if (isAddress(arg1)) {
-//     const address = arg1;
-//     const method = arg2;
-//     const contract = new Contract(address, abi, library.getSigner());
-//     return contract[method];
-//   }
-//   // it's a eth call
-//   const method = arg1
-//   return library[method](arg2, ...params)
-// }
-
 type VaultData = Array<{
   symbol: string;
   balance: string;
@@ -120,8 +52,6 @@ export const VaultTable = (props: TableProps) => {
       }));
 
       setVaultData(vaultResults);
-      console.log('setVaultData');
-      console.log(vaultResults);
     }
     fetchData();
   }, [vaultCalls]);

@@ -1,8 +1,7 @@
 import { Currency } from '@foxswap/sdk'
 import React from 'react'
 import CurrencyLogo from '/public/assets/fox-logo.png'
-import {Avatar, AvatarGroup} from "@chakra-ui/react";
-
+import {Image, AvatarGroup} from "@chakra-ui/react";
 
 interface DoubleCurrencyLogoProps {
   margin?: boolean
@@ -19,9 +18,15 @@ interface DoubleCurrencyLogoProps {
 // }: DoubleCurrencyLogoProps) => {
 export const DoubleCurrencyLogo = () => {
   return (
-    <AvatarGroup size={'lg'} max={2}>
-      <Avatar src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/foxswap-circle_05.svg' />
-      <Avatar src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/foxswap-circle_03.svg' />
+    <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
+      <Image
+        src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
+        alt={'currency0'}
+      />
+      <Image
+        src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
+        alt={'currency1'}
+      />
     </AvatarGroup>
   )
 }

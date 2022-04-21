@@ -11,7 +11,7 @@ const ContentWrapper = (props: BoxProps) => {
 
   return (
     <Box
-      bg="linear-gradient(120deg, #212429, #000000)"
+      bg="bg-canvas"
       minH="100vh"
       borderTopLeftRadius={{ base: 'none', lg: '2rem' }}
       {...props}
