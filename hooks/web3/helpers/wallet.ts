@@ -34,9 +34,13 @@ const setupNetwork = async (): Promise<boolean> => {
       });
 
       return true;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to setup the network in MetaMask:', error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to setup the network in MetaMask:', error.message);
+      } else {
+        console.error('Failed to setup the network in MetaMask:', error);
+      }
       return false;
     }
   } else {
