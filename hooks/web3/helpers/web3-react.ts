@@ -24,7 +24,6 @@ const bscConnector = new BscConnector({ supportedChainIds: [chainID] });
 const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletConnectConnector,
-  [ConnectorNames.BSC]: bscConnector
 };
 
 const getLibrary = (provider: any): Web3Provider => {
