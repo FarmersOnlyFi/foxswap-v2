@@ -1,12 +1,9 @@
 import * as React from "react";
 import ContentWrapper from "@/components/elements/ContentWrapper/ContentWrapper";
+import TokenList from "@/components/modules/TokenList/TokenList";
 
 const User = () => {
-  return (
-    <ContentWrapper>
-      <p>Im a user</p>
-    </ContentWrapper>
-  )
+  return <TokenList />
 }
 
 export default User

@@ -30,7 +30,7 @@ export function CurrencySearch({
 }: CurrencySearchProps) {
   const fixedList = useRef<FixedSizeList>()
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const tokens = useDefaultTokenList()
+    const tokens = useDefaultTokenList()
   const debouncedQuery = useDebounce(searchQuery, 200)
   const isAddressSearch = isAddress(debouncedQuery)
 

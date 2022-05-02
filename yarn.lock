@@ -1513,6 +1513,11 @@
     react-transition-group "^4.4.1"
     styled-system "^5.1.5"
 
+"@foxswap/core@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.0.tgz#4002ddfecd4dd9e3cbe04f2e404a088c12ea7641"
+  integrity sha512-94hPc6avu2nfVntXcccq8wo/zkh37I2qC0IxELYUUepR1OVUBPrCKPJFERXD2GWB4RsbtsRgAhd+3Ki5ho4hHA==
+
 "@foxswap/core@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.1.tgz#8e8dbb567bf50154d5158183afa7eb78ad7efa85"
@@ -1522,6 +1527,24 @@
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.3.tgz#e4bf6cda4d93976689e46ca54182bbe7e33c7254"
   integrity sha512-FkcmcoyJFHX23Sg73vheSDmyL74PzmNP835W666ycJ3fSrq5HeLOaDhQFF8aRJvj4QAriYQOncNqBKvMMqJGKQ==
+
+"@foxswap/default-token-list@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.3.2.tgz#01bfe1121b2e817eab067794b8eeea0c4498964e"
+  integrity sha512-Tsz0nz2EharQtWJ0LDZikBlDbu7QIo8ejtfC+MNXEMlZkOvnubwMqjxx7p8u0BKYhJh7no8M98usUuENuZkt7Q==
+
+"@foxswap/lib@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/lib/-/lib-1.0.0.tgz#4713a9001009c80504eca980fce5bac01089797a"
+  integrity sha512-6HsZh8CziexSx+YNsnifGujvJHJ/eMtaS5r0h33GL0y7inbXiYsAqtLZH5oKi6x9etK7J3qjoxLabTEAVqKO0w==
+
+"@foxswap/periphery@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/periphery/-/periphery-1.0.0.tgz#6c17998fcf51ac76be4292a8d59a893670023d8c"
+  integrity sha512-zhY4fxndNZgsa6ehZ8MIfmLW579kpyXSUUhp4jlf0ZFxM0AeYaK1yrSM0/IKjZay3NbfYXUSw5zoE8NESJnSig==
+  dependencies:
+    "@foxswap/core" "1.0.0"
+    "@foxswap/lib" "1.0.0"
 
 "@foxswap/sdk@^2.2.3":
   version "2.2.3"

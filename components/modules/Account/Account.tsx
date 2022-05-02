@@ -25,7 +25,6 @@ type AccountProps = {
 
 const Account = ({ triedToEagerConnect }: AccountProps) => {
   const { activateBrowserWallet, account, chainId } = useEthers();
-  console.log(account)
   const oneBalance = useEtherBalance(account, {chainId: Harmony.chainId})
   return (
     <Box>
