@@ -1,8 +1,11 @@
 import {Box, Container, Flex, useBreakpointValue} from "@chakra-ui/react";
 import {Sidebar} from "@/components/modules/Sidebar/Sidebar";
 import {Navbar} from "@/components/modules/Navbar/Navbar";
+import React from "react";
 
-const Layout = ({ children }) => {
+// export const a = React.createElement("div")
+
+const Layout = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true })
 
   return (

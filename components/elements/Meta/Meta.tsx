@@ -1,6 +1,10 @@
 import Head from 'next/head'
 
-const Meta = ({ title, keywords, description }) => {
+const Meta = ({ title, keywords, description }: {
+  title: string,
+  keywords: string,
+  description: string,
+}) => {
   return (
     <Head>
       <meta name='viewport' content='width=device-width, initial-scale=1' />

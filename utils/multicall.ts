@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import { getMulticallContract } from '@/hooks/web3/helpers/contract-helpers';
+import { Result } from 'ethers/lib/utils';
 
 type MultiCallResponse<T> = T | null
 
@@ -13,14 +14,15 @@ interface MulticallOptions {
   requireSuccess?: boolean;
 }
 
-const multicall = async <T = any>(abi: any[], calls: Call[]): Promise<T> => {
+const multicall = async <T extends Result = Result>(abi: any[], calls: Call[]): Promise<T> => {
   const multi = getMulticallContract();
   const itf = new ethers.utils.Interface(abi);
 
   const calldata = calls.map(call => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)]);
-  const { returnData } = await multi.aggregate(calldata);
+  const { returnData } = await multi.aggregate(calldata) as { returnData: Array<any> };
   const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call));
 
+  // @ts-expect-error
   return res;
 };
 
@@ -41,13 +43,14 @@ const multicallv2 = async <T = any>(
   const itf = new ethers.utils.Interface(abi);
 
   const calldata = calls.map(call => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)]);
-  const returnData = await multi.tryAggregate(requireSuccess, calldata);
+  const returnData: Array<any> = await multi.tryAggregate(requireSuccess, calldata);
 
   const res = returnData.map((call, i) => {
     const [result, data] = call;
     return result ? itf.decodeFunctionResult(calls[i].name, data) : null;
   });
 
+  // @ts-expect-error
   return res;
 };
 

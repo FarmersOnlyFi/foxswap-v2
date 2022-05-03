@@ -1,6 +1,6 @@
 import { Currency, Token } from "@foxswap/sdk";
 import {useRef, useState} from "react";
-import { List as FixedSizeList } from 'react-window'
+// import { List as FixedSizeList } from 'react-window'
 import {useDefaultTokenList} from "@/utils/lists";
 import {isAddress} from "@ethersproject/address";
 import useDebounce from "@/hooks/useDebounce";
@@ -28,7 +28,7 @@ export function CurrencySearch({
   showImportView,
   setImportToken
 }: CurrencySearchProps) {
-  const fixedList = useRef<FixedSizeList>()
+  // const fixedList = useRef<FixedSizeList>()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const tokens = useDefaultTokenList()
   const debouncedQuery = useDebounce(searchQuery, 200)

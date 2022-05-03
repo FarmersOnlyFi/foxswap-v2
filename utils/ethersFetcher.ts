@@ -23,7 +23,7 @@ class ABINotFound extends Error {
   }
 }
 
-const isObject = obj => {
+const isObject = (obj: unknown): boolean => {
   return typeof obj === 'object' && !Array.isArray(obj) && obj !== null
 }
 
@@ -34,7 +34,7 @@ const parseExtended = (params: any[]) => {
   return extended
 }
 
-const parseParams = params => {
+const parseParams = (params: Array<any>) => {
   const [address, method, ...otherParams] = params
   const extended = parseExtended(otherParams)
   if (Object.values(extended).filter(Boolean).length > 0) {
@@ -61,7 +61,7 @@ export function getContract(
 export const call = (
   parameters: string[],
   provider: ethersProviders.Provider,
-  ABIs
+  ABIs?: Map<string, any>
 ): Promise<any> => {
   const [address, method, ...otherParams] = parameters
   // it's a contract
@@ -75,13 +75,14 @@ export const call = (
   }
   const param2 = method
   const baseMethod = address // getBalance, getTransactionCount, etc
+  // @ts-expect-error
   return provider[baseMethod](param2, ...otherParams)
 }
 export const multiCall = (
-  parameters: string | any[],
+  parameters: any[],
   provider: providers.MulticallProvider,
-  ABIs
-) => {
+  ABIs?: Map<string, any>,
+): any => {
   const {
     params: [address, method, otherParams],
     extended
@@ -98,6 +99,7 @@ export const multiCall = (
   }
   const param2 = method
   const baseMethod = address
+  // @ts-expect-error
   return provider[baseMethod](param2, ...otherParams, extended.blockTag)
 }
 

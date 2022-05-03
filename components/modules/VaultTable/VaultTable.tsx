@@ -1,7 +1,5 @@
 import {
-  Avatar,
   Badge,
-  Box,
   HStack,
   Icon,
   IconButton,
@@ -24,6 +22,7 @@ import multicall from "@/utils/multicall";
 import { parseBalance } from "../../../util";
 import { getVaultCalls } from "@/utils/fetchVault";
 import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
+import { BigNumberish } from '@ethersproject/bignumber';
 
 type VaultData = Array<{
   symbol: string;
@@ -33,13 +32,12 @@ type VaultData = Array<{
 const vaultCalls = getVaultCalls();
 
 export const VaultTable = (props: TableProps) => {
-  const { account, library } = useActiveWeb3React();
   const [open, setOpen] = useState(false);
   const [vaultData, setVaultData] = useState<VaultData>([]);
   useEffect(() => {
     async function fetchData() {
       console.log('fetching data');
-      const result = await multicall(HRC20_ABI, vaultCalls.map(call => ({
+      const result = await multicall<Array<{ balance: BigNumberish}>>(HRC20_ABI, vaultCalls.map(call => ({
         address: call.address,
         name: call.name,
         params: call.params,
@@ -54,7 +52,7 @@ export const VaultTable = (props: TableProps) => {
       setVaultData(vaultResults);
     }
     fetchData();
-  }, [vaultCalls]);
+  }, []);
 
 
   return (
