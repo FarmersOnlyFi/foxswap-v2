@@ -10,6 +10,10 @@
     "compile-contract-types": "typechain --target ethers-v5 --out-dir './contracts/types' './contracts/*.json'",
     "postinstall": "yarn compile-contract-types"
   },
+  "resolutions": {
+    "@types/react": "17.0.38",
+    "@types/react-dom": "17.0.38"
+  },
   "dependencies": {
     "@0xsequence/multicall": "^0.36.7",
     "@binance-chain/bsc-connector": "^1.0.0",
