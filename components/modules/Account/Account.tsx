@@ -29,7 +29,7 @@ const Account = ({ triedToEagerConnect }: AccountProps) => {
 
           <Text>
           {shortenHex(account, 3)}
-            <Badge colorScheme={'teal'} variant={'subtle'} borderRadius={'12px'} ml='1' fontSize='0.8em'>
+            <Badge colorScheme={'teal'} variant={'subtle'} borderRadius={12} ml='1' fontSize='0.8em'>
               {oneBalance ? `${parseBalance(oneBalance, 18, 2)} ONE` : <SkeletonText />}
             </Badge>
           </Text>

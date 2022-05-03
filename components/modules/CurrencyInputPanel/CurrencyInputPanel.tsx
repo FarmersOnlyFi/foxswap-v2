@@ -1,14 +1,19 @@
 import {
-  Text,
   NumberInput,
   NumberInputField,
   Stack,
-  Box, FormControl, FormLabel, Avatar, Image, AvatarGroup, Divider
+  Box,
+  FormControl,
+  FormLabel,
+  Image,
+  AvatarGroup,
+  Button,
+  Badge,
+  Text
 } from "@chakra-ui/react";
 import { Currency, CurrencyAmount, Pair } from '@foxswap/sdk'
-import Container from "@/components/elements/Container";
-import {lighten} from "@chakra-ui/theme-tools";
-import React from "react";
+
+
 
 interface CurrencyInputPanelProps {
   value: string
@@ -30,8 +35,17 @@ interface CurrencyInputPanelProps {
   overrideSelectedCurrencyBalance?: CurrencyAmount | null
 }
 
-  export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
 
+const HexIcon = (
+    <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
+    <Image
+      src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
+      alt={'currency1'}
+    />
+  </AvatarGroup>
+)
+
+export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   return (
     <Box
       as="form"
@@ -41,35 +55,68 @@ interface CurrencyInputPanelProps {
     >
       <Stack>
         <FormLabel>From</FormLabel>
-        <FormControl id="fromCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} p={4} bg="gray.700">
+        <FormControl id="fromCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} px={4} bg="gray.700">
           <Stack isInline>
-            <NumberInput placeholder="large size" size="lg" justifySelf="start" w="65%" variant="unstyled">
+            <NumberInput
+              placeholder="From Currency"
+              size="lg"
+              alignSelf="center"
+              w="65%"
+              variant="unstyled"
+            >
               <NumberInputField fontSize={22} placeholder="0.00" bg="gray.700" />
             </NumberInput>
-            <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
-              <Image
-                src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
-                alt={'currency0'}
-              />
-            </AvatarGroup>
-            <Text>Select</Text>
+            <Button colorScheme='teal' p={2} leftIcon={HexIcon}>
+              <Text as='samp'>
+                select
+              </Text>
+            </Button>
           </Stack>
         </FormControl>
         <FormLabel pt={4}>To</FormLabel>
-        <FormControl id="toCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} p={4} bg="gray.700">
+        <FormControl
+          id="toCurrency"
+          border="1px solid #B9BFFF"
+          borderRadius={12}
+          p={4}
+          bg="gray.700"
+        >
           <Stack isInline>
-            <NumberInput placeholder="large size" size="lg" justifySelf="start" w="65%" variant="unstyled">
-              <NumberInputField bg="gray.800" fontSize={22} placeholder="0.00" bg={'gray.700'}/>
+            <NumberInput
+              placeholder="To Currency"
+              size="lg"
+              alignSelf="center"
+              w="65%"
+              variant="unstyled"
+            >
+              <NumberInputField bg="gray.700" fontSize={22} placeholder="0.00" />
             </NumberInput>
-            <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
-              <Image
-                src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
-                alt={'currency1'}
-              />
-            </AvatarGroup>
-            <Text>Select</Text>
+            <Stack isInline>
+            <Button
+              colorScheme="teal"
+              px={2}
+              leftIcon={HexIcon}
+            >
+              <Text as="samp">select</Text>
+            </Button>
+            </Stack>
           </Stack>
         </FormControl>
+        <Stack direction='row' justify={'space-between'}>
+          {
+            ['25','50', '75', '100'].map((percent: string) => (
+            <Badge
+              key={percent.replace('%','')}
+              colorScheme='teal'
+              variant={'subtle'}
+              w={85}
+              textAlign={'center'}
+            >
+              {`${percent}%`}
+            </Badge>
+          ))
+          })
+        </Stack>
       </Stack>
     </Box>
   )
