@@ -5,11 +5,10 @@ import {
   Divider,
   Flex,
   Stack,
-  Box, IconButton
+  Box
 } from '@chakra-ui/react'
 import * as React from 'react'
 import {
-  FiBarChart2,
   FiBook,
   FiHome
 } from 'react-icons/fi'

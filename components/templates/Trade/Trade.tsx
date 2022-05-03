@@ -8,8 +8,9 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Select,
-  useBreakpointValue, Grid, GridItem, Flex
+  useBreakpointValue,
+  Grid,
+  GridItem
 } from "@chakra-ui/react";
 import Card from "@/components/elements/Card/Card";
 import ContentWrapper from "@/components/elements/ContentWrapper/ContentWrapper";
@@ -64,12 +65,12 @@ export default function TradeTemplate() {
                 </Tabs>
               </Card>
             </GridItem>
-            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
-              <Card />
-            </GridItem>
-            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
-              <Card />
-            </GridItem>
+            {/*<GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>*/}
+            {/*  <Card />*/}
+            {/*</GridItem>*/}
+            {/*<GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>*/}
+            {/*  <Card />*/}
+            {/*</GridItem>*/}
           </Grid>
         </Stack>
       </Container>

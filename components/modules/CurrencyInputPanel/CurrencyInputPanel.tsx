@@ -1,15 +1,14 @@
 import {
-  Select,
   Text,
   NumberInput,
   NumberInputField,
-  StackDivider,
   Stack,
-  useColorModeValue,
-  Box, FormControl, FormLabel, Avatar
+  Box, FormControl, FormLabel, Avatar, Image, AvatarGroup, Divider
 } from "@chakra-ui/react";
 import { Currency, CurrencyAmount, Pair } from '@foxswap/sdk'
 import Container from "@/components/elements/Container";
+import {lighten} from "@chakra-ui/theme-tools";
+import React from "react";
 
 interface CurrencyInputPanelProps {
   value: string
@@ -31,39 +30,45 @@ interface CurrencyInputPanelProps {
   overrideSelectedCurrencyBalance?: CurrencyAmount | null
 }
 
-export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
+  export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
 
   return (
     <Box
       as="form"
-      bg="purple.800"
       borderRadius="lg"
       p={8}
       {...props}
     >
       <Stack>
-        <FormControl id="fromCurrency" py={4}>
-          <FormLabel>From</FormLabel>
-          <NumberInput placeholder="large size" size="lg">
-            <NumberInputField bg="gray.800" />
-            <Select size="lg" bg="gray.800" />
-          </NumberInput>
+        <FormLabel>From</FormLabel>
+        <FormControl id="fromCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} p={4} bg="gray.700">
+          <Stack isInline>
+            <NumberInput placeholder="large size" size="lg" justifySelf="start" w="65%" variant="unstyled">
+              <NumberInputField fontSize={22} placeholder="0.00" bg="gray.700" />
+            </NumberInput>
+            <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
+              <Image
+                src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
+                alt={'currency0'}
+              />
+            </AvatarGroup>
+            <Text>Select</Text>
+          </Stack>
         </FormControl>
-        <FormControl id="toCurrency" py={4}>
-          <FormLabel>To</FormLabel>
-          <NumberInput placeholder="large size" size="lg">
-            <Stack isInline>
-              <NumberInputField bg="gray.800" />
-                <Box>
-                  <Stack spacing="3" ps="2" isInline>
-
-                  <Avatar name={'ONE'} src={'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/WONE.png'} />
-                  <Text as='kbd' fontSize="2xl">ONE</Text>
-                  </Stack>
-
-                </Box>
-            </Stack>
-          </NumberInput>
+        <FormLabel pt={4}>To</FormLabel>
+        <FormControl id="toCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} p={4} bg="gray.700">
+          <Stack isInline>
+            <NumberInput placeholder="large size" size="lg" justifySelf="start" w="65%" variant="unstyled">
+              <NumberInputField bg="gray.800" fontSize={22} placeholder="0.00" bg={'gray.700'}/>
+            </NumberInput>
+            <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
+              <Image
+                src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
+                alt={'currency1'}
+              />
+            </AvatarGroup>
+            <Text>Select</Text>
+          </Stack>
         </FormControl>
       </Stack>
     </Box>
