@@ -65,12 +65,12 @@ export default function TradeTemplate() {
                 </Tabs>
               </Card>
             </GridItem>
-            {/*<GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>*/}
-            {/*  <Card />*/}
-            {/*</GridItem>*/}
-            {/*<GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>*/}
-            {/*  <Card />*/}
-            {/*</GridItem>*/}
+            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
+              <Card />
+            </GridItem>
+            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
+              <Card />
+            </GridItem>
           </Grid>
         </Stack>
       </Container>

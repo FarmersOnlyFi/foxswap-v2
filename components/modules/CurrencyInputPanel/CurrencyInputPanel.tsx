@@ -9,9 +9,10 @@ import {
   AvatarGroup,
   Button,
   Badge,
-  Text
+  Text, Avatar, useDisclosure
 } from "@chakra-ui/react";
 import { Currency, CurrencyAmount, Pair } from '@foxswap/sdk'
+import CurrencyModal from "@/components/modules/Modal/CurrencyModal";
 
 
 
@@ -36,16 +37,15 @@ interface CurrencyInputPanelProps {
 }
 
 
-const HexIcon = (
-    <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
-    <Image
-      src='https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/Hexagon.svg'
-      alt={'currency1'}
-    />
+const SelectIcon = (
+  <AvatarGroup max={2} boxSize={30} spacing={'-0.55rem'}>
+    <Avatar size={'sm'} bg={'blackAlpha.800'} src="https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/LogoMark/With+Padding/FoxSwap_Logomark_space_white.svg" />
   </AvatarGroup>
 )
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <Box
       as="form"
@@ -53,6 +53,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
       p={8}
       {...props}
     >
+      <CurrencyModal isOpen={isOpen} onClose={onClose} />
       <Stack>
         <FormLabel>From</FormLabel>
         <FormControl id="fromCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} px={4} bg="gray.700">
@@ -66,7 +67,13 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
             >
               <NumberInputField fontSize={22} placeholder="0.00" bg="gray.700" />
             </NumberInput>
-            <Button colorScheme='teal' p={2} leftIcon={HexIcon}>
+            <Button
+              colorScheme='teal'
+              p={2}
+              leftIcon={SelectIcon}
+              justifySelf="end"
+              onClick={onOpen}
+            >
               <Text as='samp'>
                 select
               </Text>
@@ -92,13 +99,13 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               <NumberInputField bg="gray.700" fontSize={22} placeholder="0.00" />
             </NumberInput>
             <Stack isInline>
-            <Button
-              colorScheme="teal"
-              px={2}
-              leftIcon={HexIcon}
-            >
-              <Text as="samp">select</Text>
-            </Button>
+              <Button
+                colorScheme="teal"
+                px={2}
+                leftIcon={SelectIcon}
+              >
+                <Text as="samp">select</Text>
+              </Button>
             </Stack>
           </Stack>
         </FormControl>
