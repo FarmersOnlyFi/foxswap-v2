@@ -4,7 +4,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
 import { poolsConfig } from '@/config/constants';
-import {PoolCategory, PoolConfig} from '@/config/constants/types';
+import { PoolCategory } from '@/config/constants/types';
 import { RPC_PROVIDER } from "@/config/web3/chains";
 
 // Addresses

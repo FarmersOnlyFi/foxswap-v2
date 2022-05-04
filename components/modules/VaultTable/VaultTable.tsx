@@ -33,7 +33,6 @@ type VaultData = Array<{
 const vaultCalls = getVaultCalls();
 
 export const VaultTable = (props: TableProps) => {
-  const { account, library } = useActiveWeb3React();
   const [open, setOpen] = useState(false);
   const [vaultData, setVaultData] = useState<VaultData>([]);
   useEffect(() => {

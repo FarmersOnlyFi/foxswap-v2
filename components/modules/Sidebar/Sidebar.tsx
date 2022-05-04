@@ -24,14 +24,8 @@ import {
 import { Logo } from '@/components/elements/Logo/Logo'
 import { NavButton } from '@/components/modules/NavButton/NavButton'
 import Account from "@/components/modules/Account/Account";
-import useEagerConnect from "@/hooks/useEagerConnect";
-import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
-// linear-gradient(120deg, #212429, #000000)
 export const Sidebar = () => {
-  const { account, library } = useActiveWeb3React();
-  const triedToEagerConnect = useEagerConnect();
-  const isConnected = typeof account === "string" && !!library;
 
   return (
     <Flex as="section" minH="100vh">
@@ -47,7 +41,7 @@ export const Sidebar = () => {
             <Box boxSize="3xs" pb={0} maxH={50}>
               <Logo />
             </Box>
-            <Account triedToEagerConnect={triedToEagerConnect} />
+            <Account />
             <Divider />
             <Stack>
               <Text fontSize="sm" color="on-accent-muted" fontWeight="medium">
