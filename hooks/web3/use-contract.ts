@@ -33,7 +33,7 @@ import {
   getTokenContract,
   getENSRegistrarContract,
   getENSResolverContract
-} from './helpers/contract-helpers';
+} from './contract-helpers';
 
 /**
  * Helper hooks to get specific contracts (by ABI)

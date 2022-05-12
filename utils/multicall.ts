@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import { getMulticallContract } from '@/hooks/web3/helpers/contract-helpers';
 import { Result } from 'ethers/lib/utils';
+import { getMulticallContract } from '@/hooks/web3/contract-helpers';
 
 type MultiCallResponse<T> = T | null
 

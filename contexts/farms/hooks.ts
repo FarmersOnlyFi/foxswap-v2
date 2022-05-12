@@ -4,12 +4,10 @@ import masterchefABI from "config/abi/masterchef.json";
 import FARM_CONFIGS, { FOX_USDC_PID } from "@/config/web3/farm-configs";
 import { getAddress, getMasterChefAddress } from "@/utils/addressHelpers";
 import multicall, { Call } from "@/utils/multicall";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, DEFAULT_TOKEN_DECIMAL } from "config";
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, DEFAULT_TOKEN_DECIMAL, BIG_ONE, BIG_ZERO } from "config";
 import { FarmConfig } from "@/config/constants/types";
 import TOKENS, { Token, TokenSymbol } from "@/config/web3/tokens";
-import { BIG_ONE, BIG_ZERO } from "@/hooks/web3/helpers/big-numbers";
 import { LpPrices } from "./lpPrices";
-import { parseBalance } from "../../util";
 import { BigNumber } from "ethers";
 
 // mocks to enforce correct chunk size when aggregating results

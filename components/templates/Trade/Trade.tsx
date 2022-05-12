@@ -8,14 +8,35 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Select,
-  useBreakpointValue, Grid, GridItem, Flex
+  useBreakpointValue,
+  Grid,
+  GridItem, Button
 } from "@chakra-ui/react";
 import Card from "@/components/elements/Card/Card";
 import ContentWrapper from "@/components/elements/ContentWrapper/ContentWrapper";
 import CurrencyInputPanel from "@/components/modules/CurrencyInputPanel/CurrencyInputPanel";
+import {Currency, SwapParameters} from "@foxswap/sdk";
+import { Contract } from "@ethersproject/contracts";
+import {Harmony, useContractFunction, useEtherBalance, useEthers, useGasPrice} from "@usedapp/core";
+import useContract from "@/hooks/useContract";
+import HRC20_ABI from "@/contracts/HRC20.json"
+
+interface SwapCall {
+  contract: Contract
+  parameters: SwapParameters
+}
+
+interface SwapState {
+  inputCurrency: Currency,
+  outputCurrency: Currency,
+  typedAmount: string,
+  isExactIn: boolean,
+  recipient: null
+}
+
 
 export default function TradeTemplate() {
+
   return (
     <ContentWrapper>
       <Container py="8">

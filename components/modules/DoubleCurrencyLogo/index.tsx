@@ -1,6 +1,5 @@
 import { Currency } from '@foxswap/sdk'
 import React from 'react'
-import CurrencyLogo from '/public/assets/fox-logo.png'
 import {Image, AvatarGroup} from "@chakra-ui/react";
 
 interface DoubleCurrencyLogoProps {
@@ -10,12 +9,6 @@ interface DoubleCurrencyLogoProps {
   currency1?: Currency
 }
 
-// export const DoubleCurrencyLogo = ({
-//   currency0,
-//   currency1,
-//   size = 16,
-//   margin = false
-// }: DoubleCurrencyLogoProps) => {
 export const DoubleCurrencyLogo = () => {
   return (
     <AvatarGroup max={2} boxSize={35} spacing={'-0.55rem'}>
