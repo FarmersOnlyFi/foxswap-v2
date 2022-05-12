@@ -1,98 +1,87 @@
-import { useWeb3React } from "@web3-react/core";
-import { UserRejectedRequestError } from "@web3-react/injected-connector";
-import { useEffect, useState } from "react";
-import { injected } from "../../../connectors";
-import useENSName from "../../../hooks/useENSName";
-import useMetaMaskOnboarding from "../../../hooks/useMetaMaskOnboarding";
-import {formatEtherscanLink, parseBalance, shortenHex} from "../../../util";
-import {Button, Stack} from "@chakra-ui/react";
-import {FaWallet} from "react-icons/fa";
+import { formatEtherscanLink, parseBalance, shortenHex } from "../../../util";
+import { Badge, Box, Button, SkeletonText, Text } from "@chakra-ui/react";
+import { FaWallet } from "react-icons/fa";
 import * as React from "react";
-import useONEBalance from "@/hooks/useONEBalance";
-import {Web3Provider} from "@ethersproject/providers";
+import {
+  Harmony,
+  shortenAddress,
+  useEtherBalance,
+  useEthers
+} from "@usedapp/core";
 
-type AccountProps = {
-  triedToEagerConnect: boolean;
-};
 
-const Account = ({ triedToEagerConnect }: AccountProps) => {
-  const { active, error, activate, chainId, account, setError } = useWeb3React<Web3Provider>();
 
-  const {
-    isMetaMaskInstalled,
-    isWeb3Available,
-    startOnboarding,
-    stopOnboarding,
-  } = useMetaMaskOnboarding();
+const Account = () => {
+  const { activateBrowserWallet, account, chainId, switchNetwork } = useEthers();
+  const oneBalance = useEtherBalance(account, {chainId: Harmony.chainId})
 
-  // const { data: balance } = useONEBalance(account);
-  // const oneBalance = parseBalance(balance)
-  // manage connecting contexts for injected connector
-  const [connecting, setConnecting] = useState(false);
-  useEffect(() => {
-    if (active || error) {
-      setConnecting(false);
-      stopOnboarding();
-    }
-  }, [active, error, stopOnboarding]);
-
-  const ENSName = useENSName(account);
-
-  if (error || !triedToEagerConnect) {
-    return null;
+  const ConnectWallet = () => {
+    return (
+      <Button
+        leftIcon={<FaWallet />}
+        fontWeight={600}
+        _hover={{
+          borderColor: "teal.400"
+        }}
+        variant='solid'
+        onClick={() => activateBrowserWallet()}
+      >
+        Connect Wallet
+      </Button>
+    )
   }
 
-  return (
-    <Stack pt={6}>
-      {isWeb3Available && !account ? (
-        <Button
-          leftIcon={<FaWallet />}
-          fontWeight={600}
-          bg="teal.400"
-          variant='solid'
-          disabled={connecting}
-          onClick={() => {
-            setConnecting(true);
+  const ActiveWallet = () => {
+    return (
+      <Button
+        {...{
+          href: formatEtherscanLink("Account", [chainId as number, account as string]),
+          target: "_blank",
+          rel: "noopener noreferrer",
+        }}
+        w={'100%'}
+        leftIcon={<FaWallet />}
+        fontWeight={600}
+        variant={'solid'}
+        bg="teal.500"
+      >
+        <Text>{shortenAddress(account as string)}</Text>
+      </Button>
+    )
+  }
 
-            activate(injected, undefined, true).catch((error) => {
-              // ignore the error if it's a user rejected request
-              if (error instanceof UserRejectedRequestError) {
-                setConnecting(false);
-              } else {
-                setError(error);
-              }
-            });
-          }}
-        >
-          Connect Wallet
-        </Button>
+  const SwitchNetwork = () => {
+    return (
+      <Button
+        leftIcon={<FaWallet />}
+        fontWeight={600}
+        _hover={{
+          borderColor: "teal.400"
+        }}
+        variant='solid'
+        onClick={() => switchNetwork(Harmony.chainId)}
+      >
+        Switch Network
+      </Button>
+    )
+  }
+
+  const ChainFilter = () => {
+    return chainId === Harmony.chainId
+    ? <ActiveWallet />
+    : <SwitchNetwork />
+  }
+
+
+  return (
+    <Box>
+      {!account ? (
+        <ConnectWallet />
       ) : (
-        <Button
-          {...{
-            href: formatEtherscanLink("Account", [chainId, account]),
-            target: "_blank",
-            rel: "noopener noreferrer",
-          }}
-          leftIcon={<FaWallet />}
-          fontWeight={600}
-          variant="outline"
-          _hover={{
-            borderColor: "teal.400"
-          }}
-        >
-          {/*{oneBalance}*/}
-          {ENSName || `${shortenHex(account, 4)}`}
-        </Button>
-        // <Button
-        //   onClick={startOnboarding}
-        //   bg="teal.400"
-        //   variant='solid'
-        // >
-        //   Install Metamask
-        // </Button>
+        <ChainFilter />
       )}
-    </Stack>
-  );
+    </Box>
+  )
 }
 
 export default Account;

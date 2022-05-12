@@ -7,7 +7,6 @@ import {
   Text,
   LinkOverlay
 } from '@chakra-ui/react'
-import { styled } from "@chakra-ui/react";
 import Link from 'next/link'
 import * as React from 'react'
 

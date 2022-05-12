@@ -1,7 +1,7 @@
 import { LpPrices } from "@/types/types";
 import LP_TOKENS, { LPTokenSymbol } from '../web3/lp-tokens';
 
-const lpPrices: LpPrices[] = [
+export const LP_PRICES: LpPrices[] = [
   {
     name: 'FUZZ',
     token: LP_TOKENS[LPTokenSymbol.UST_FUZZ].TOKEN_B,
@@ -128,7 +128,4 @@ const lpPrices: LpPrices[] = [
     quoteToken: LP_TOKENS[LPTokenSymbol.WONE_WBTC_SUSHISWAP].TOKEN_A,
     lpAddress: LP_TOKENS[LPTokenSymbol.WONE_WBTC_SUSHISWAP].ADDRESSES
   }
-
 ];
-
-export default lpPrices;

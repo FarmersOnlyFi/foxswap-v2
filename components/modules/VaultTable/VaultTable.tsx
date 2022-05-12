@@ -17,12 +17,13 @@ import {
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
 import HRC20_ABI from "@/contracts/HRC20.json";
 import multicall from "@/utils/multicall";
 import { parseBalance } from "../../../util";
 import { getVaultCalls } from "@/utils/fetchVault";
+import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 
 type VaultData = Array<{
   symbol: string;
@@ -88,7 +89,7 @@ export const VaultTable = (props: TableProps) => {
               <Text color="muted">{vault.symbol}</Text>
             </Td>
             <Td>
-              <Text color="muted">{vault.balance}</Text>
+              <Text color="muted">${vault.balance.toString()}</Text>
             </Td>
             <Td>
               <HStack spacing="1">

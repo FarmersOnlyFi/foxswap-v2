@@ -19,7 +19,7 @@ const ETHERSCAN_PREFIXES = {
 export function formatEtherscanLink(
   type: "Account" | "Transaction",
   data: [number, string]
-) {
+): string {
   switch (type) {
     case "Account": {
       const [chainId, address] = data;

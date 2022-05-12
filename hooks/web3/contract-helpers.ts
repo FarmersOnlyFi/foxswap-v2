@@ -3,9 +3,9 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
-import { simpleRPCProvider } from './providers';
 import { poolsConfig } from '@/config/constants';
 import { PoolCategory } from '@/config/constants/types';
+import { RPC_PROVIDER } from "@/config/web3/chains";
 
 // Addresses
 import {
@@ -30,56 +30,58 @@ import {
   getAutoFoxAddress,
   getMulticallAddress,
   getFoxVaultAddress
-} from '../../../utils/addressHelpers';
+} from '@/utils/addressHelpers';
 
 // ABI
-import profileABI from '../../../config/abi/pancakeProfile.json';
-import pancakeRabbitsAbi from '../../../config/abi/pancakeRabbits.json';
-import bunnyFactoryAbi from '../../../config/abi/bunnyFactory.json';
-import bunnySpecialAbi from '../../../config/abi/bunnySpecial.json';
-import hrc20ABI from '../../../config/abi/hrc20.json';
-import erc721Abi from '../../../config/abi/erc721.json';
-import cakeAbi from '../../../config/abi/cake.json';
-import ifoV1Abi from '../../../config/abi/ifoV1.json';
-import ifoV2Abi from '../../../config/abi/ifoV2.json';
-import pointCenterIfo from '../../../config/abi/pointCenterIfo.json';
-import lotteryAbi from '../../../config/abi/lottery.json';
-import barAbi from '../../../config/abi/mochiBar.json';
-import hMochiAbi from '../../../config/abi/hMochi.json';
-import lotteryTicketAbi from '../../../config/abi/lotteryNft.json';
-import masterChef from '../../../config/abi/masterchef.json';
-import vaultChef from '../../../config/abi/vaultChef.json';
-import sousChef from '../../../config/abi/sousChef.json';
-import sousChefV2 from '../../../config/abi/sousChefV2.json';
-import sousChefBnb from '../../../config/abi/sousChefBnb.json';
-import claimRefundAbi from '../../../config/abi/claimRefund.json';
-import tradingCompetitionAbi from '../../../config/abi/tradingCompetition.json';
-import easterNftAbi from '../../../config/abi/easterNft.json';
-import predictionsAbi from '../../../config/abi/predictions.json';
-import chainlinkOracleAbi from '../../../config/abi/chainlinkOracle.json';
-import autofoxAbi from '../../../config/abi/autofox.json';
-import zapperAbi from '../../../config/abi/zap.json';
-import MultiCallAbi from '../../../config/abi/Multicall.json';
-import JewelAbi from '../../../config/abi/jewel.json';
-import FactoryV1 from '../../../config/abi/v1_factory.json'
-import ExchangeV1 from '../../../config/abi/v1_exchange.json'
-import MigratorAbi from '../../../config/abi/migrator.json'
-import WONEAbi from '../../../config/abi/weth.json'
-import ArgentAbi from '../../../config/abi/argent-wallet-detector.json'
-import EnsResolverAbi from '../../../config/abi/ens-public-resolver.json'
-import EnsRegistrarAbi from '../../../config/abi/ens-registrar.json'
-import Byte32Abi from '../../../config/abi/erc20_bytes32.json'
-import MasterBreederAbi from '../../../config/abi/masterchef.json'
-import PitAbi from '../../../config/abi/gov-token.json'
-import BondAbi from '../../../config/abi/custom-bond.json'
-import SocksControllerAbi from '../../../config/abi/unisocks.json'
-import { abi as PairAbi } from '@foxswap/core/build/IUniswapV2Pair.json'
-import { abi as MerkleAbi } from '@uniswap/merkle-distributor/build/MerkleDistributor.json'
-import { abi as GovernanceAbi } from '@uniswap/governance/build/GovernorAlpha.json'
-import { abi as UniAbi } from '@uniswap/governance/build/Uni.json'
-import { abi as GovTokenAbi } from '@venomswap/contracts/build/GovernanceToken.json'
-import { abi as StakingRewardsAbi } from '@uniswap/liquidity-staker/build/StakingRewards.json'
-import { abi as PitBreederAbi } from '@venomswap/contracts/build/PitBreeder.json'
+import profileABI from '@/config/abi/pancakeProfile.json';
+import pancakeRabbitsAbi from '@/config/abi/pancakeRabbits.json';
+import bunnyFactoryAbi from '@/config/abi/bunnyFactory.json';
+import bunnySpecialAbi from '@/config/abi/bunnySpecial.json';
+import hrc20ABI from '@/config/abi/hrc20.json';
+import erc721Abi from '@/config/abi/erc721.json';
+import cakeAbi from '@/config/abi/cake.json';
+import ifoV1Abi from '@/config/abi/ifoV1.json';
+import ifoV2Abi from '@/config/abi/ifoV2.json';
+import pointCenterIfo from '@/config/abi/pointCenterIfo.json';
+import lotteryAbi from '@/config/abi/lottery.json';
+import barAbi from '@/config/abi/mochiBar.json';
+import hMochiAbi from '@/config/abi/hMochi.json';
+import lotteryTicketAbi from '@/config/abi/lotteryNft.json';
+import masterChef from '@/config/abi/masterchef.json';
+import vaultChef from '@/config/abi/vaultChef.json';
+import sousChef from '@/config/abi/sousChef.json';
+import sousChefV2 from '@/config/abi/sousChefV2.json';
+import sousChefBnb from '@/config/abi/sousChefBnb.json';
+import claimRefundAbi from '@/config/abi/claimRefund.json';
+import tradingCompetitionAbi from '@/config/abi/tradingCompetition.json';
+import easterNftAbi from '@/config/abi/easterNft.json';
+import predictionsAbi from '@/config/abi/predictions.json';
+import chainlinkOracleAbi from '@/config/abi/chainlinkOracle.json';
+import autofoxAbi from '@/config/abi/autofox.json';
+import zapperAbi from '@/config/abi/zap.json';
+import MultiCallAbi from '@/config/abi/Multicall.json';
+import JewelAbi from '@/config/abi/jewel.json';
+import FactoryV1 from '@/config/abi/v1_factory.json'
+import ExchangeV1 from '@/config/abi/v1_exchange.json'
+import MigratorAbi from '@/config/abi/migrator.json'
+import WONEAbi from '@/config/abi/weth.json'
+import ArgentAbi from '@/config/abi/argent-wallet-detector.json'
+import EnsResolverAbi from '@/config/abi/ens-public-resolver.json'
+import EnsRegistrarAbi from '@/config/abi/ens-registrar.json'
+import Byte32Abi from '@/config/abi/erc20_bytes32.json'
+import MasterBreederAbi from '@/config/abi/masterchef.json'
+import PitAbi from '@/config/abi/gov-token.json'
+import BondAbi from '@/config/abi/custom-bond.json'
+import SocksControllerAbi from '@/config/abi/unisocks.json'
+import PairAbi from '@foxswap/core/build/IUniswapV2Pair.json'
+
+// TODO: Put these contracts into our own repo (Uniswap, Venomswap, etc.)
+import MerkleAbi from '@uniswap/merkle-distributor/build/MerkleDistributor.json'
+import GovernanceAbi from '@uniswap/governance/build/GovernorAlpha.json'
+import UniAbi from '@uniswap/governance/build/Uni.json'
+import GovTokenAbi from '@venomswap/contracts/build/GovernanceToken.json'
+import StakingRewardsAbi from '@uniswap/liquidity-staker/build/StakingRewards.json'
+import PitBreederAbi from '@venomswap/contracts/build/PitBreeder.json'
 import {
   getArgentWalletAddress,
   getENSRegistrarAddress,
@@ -93,12 +95,18 @@ import {
   getPitBreeder,
   getSocksController,
   getWONEAddress,
-} from "../../../utils/addressHelpers";
+} from "@/utils/addressHelpers";
+import {utils} from "ethers";
 
 const getContract = (abi: any, address: string, signer?: Signer | Provider) => {
-  const signerOrProvider = signer ?? simpleRPCProvider;
+  const signerOrProvider = signer ?? RPC_PROVIDER;
   return new Contract(address, abi, signerOrProvider);
 };
+
+export const getContractInterface = (abi: any, address: string) => {
+  const abiInterface = new utils.Interface(abi)
+  return new Contract(address, abiInterface) as any
+}
 
 const getHRC20Contract = (address: string, signer?: Signer | Provider): Contract => {
   return getContract(hrc20ABI, address, signer);
@@ -114,12 +122,15 @@ const getIfoV2Contract = (address: string, signer?: Signer | Provider): Contract
 };
 const getSousChefContract = (id: number, signer?: Signer | Provider): Contract => {
   const config = poolsConfig.find(pool => pool.sousId === id);
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef;
-  return getContract(abi, getAddress(config.contractAddress), signer);
+  const address = !!config ? getAddress(config.contractAddress) : ''
+  const abi = config?.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef;
+  return getContract(abi, address, signer);
 };
+
 const getSousChefV2Contract = (id: number, signer?: Signer | Provider): Contract => {
   const config = poolsConfig.find(pool => pool.sousId === id);
-  return getContract(sousChefV2, getAddress(config.contractAddress), signer);
+  const address = !!config ? getAddress(config.contractAddress) : ''
+  return getContract(sousChefV2, address, signer);
 };
 const getPointCenterIfoContract = (signer?: Signer | Provider): Contract => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), signer);
@@ -219,23 +230,23 @@ const getBytes32TokenContract = (address: string, signer?: Signer | Provider): C
 };
 
 const getUniContract = (signer?: Signer | Provider): Contract => {
-  return getContract(UniAbi, getGovTokenAddress(), signer);
+  return getContract(UniAbi.abi, getGovTokenAddress(), signer);
 };
 
 const getPairContract = (address: string, signer?: Signer | Provider): Contract => {
-  return getContract(PairAbi, address, signer);
+  return getContract(PairAbi.abi, address, signer);
 };
 
 const getMerkleDistributorContract = (signer?: Signer | Provider): Contract => {
-  return getContract(MerkleAbi, getMerkleDistribution(), signer);
+  return getContract(MerkleAbi.abi, getMerkleDistribution(), signer);
 };
 
 const getGovernanceContract = (signer?: Signer | Provider): Contract => {
-  return getContract(GovernanceAbi, getGovernanceAddress(), signer);
+  return getContract(GovernanceAbi.abi, getGovernanceAddress(), signer);
 };
 
 const getGovTokenContract = (signer?: Signer | Provider): Contract => {
-  return getContract(GovTokenAbi, getGovTokenAddress(), signer);
+  return getContract(GovTokenAbi.abi, getGovTokenAddress(), signer);
 };
 
 const getPitContract = (signer?: Signer | Provider): Contract => {
@@ -243,11 +254,11 @@ const getPitContract = (signer?: Signer | Provider): Contract => {
 };
 
 const getPitBreederContract = (signer?: Signer | Provider): Contract => {
-  return getContract(PitBreederAbi, getPitBreeder(), signer);
+  return getContract(PitBreederAbi.abi, getPitBreeder(), signer);
 };
 
 const getStakingContract = (address: string, signer?: Signer | Provider): Contract => {
-  return getContract(StakingRewardsAbi, address, signer);
+  return getContract(StakingRewardsAbi.abi, address, signer);
 };
 
 const getMasterBreederContract = (signer?: Signer | Provider): Contract => {

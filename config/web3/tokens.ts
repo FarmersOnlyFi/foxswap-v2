@@ -1,9 +1,9 @@
-import { Addresses } from "../../types/web3/general";
+import { Addresses } from "types/web3/general";
 import { ChainID } from './chains';
 
 
 interface Token {
-  readonly SYMBOL: string;
+  readonly SYMBOL: TokenSymbol;
   readonly ADDRESSES: Addresses;
   readonly DECIMALS: number;
   readonly PROJECT_LINK: string;

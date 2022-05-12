@@ -8,14 +8,35 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Select,
-  useBreakpointValue, Grid, GridItem, Flex
+  useBreakpointValue,
+  Grid,
+  GridItem, Button
 } from "@chakra-ui/react";
 import Card from "@/components/elements/Card/Card";
 import ContentWrapper from "@/components/elements/ContentWrapper/ContentWrapper";
 import CurrencyInputPanel from "@/components/modules/CurrencyInputPanel/CurrencyInputPanel";
+import {Currency, SwapParameters} from "@foxswap/sdk";
+import { Contract } from "@ethersproject/contracts";
+import {Harmony, useContractFunction, useEtherBalance, useEthers, useGasPrice} from "@usedapp/core";
+import useContract from "@/hooks/useContract";
+import HRC20_ABI from "@/contracts/HRC20.json"
+
+interface SwapCall {
+  contract: Contract
+  parameters: SwapParameters
+}
+
+interface SwapState {
+  inputCurrency: Currency,
+  outputCurrency: Currency,
+  typedAmount: string,
+  isExactIn: boolean,
+  recipient: null
+}
+
 
 export default function TradeTemplate() {
+
   return (
     <ContentWrapper>
       <Container py="8">
@@ -36,7 +57,7 @@ export default function TradeTemplate() {
             gap={4}
             p={6}
           >
-            <GridItem rowSpan={2} colSpan={{ base: '5', md: '3'  }}>
+            <GridItem rowSpan={2} colSpan={{ base: 5, md: 3  }}>
               <Card minH="67vh">
                 <Tabs variant={'solid-rounded'} colorScheme='purple' p={4}>
                   <TabList>
@@ -45,19 +66,29 @@ export default function TradeTemplate() {
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                      <CurrencyInputPanel />
+                      <CurrencyInputPanel
+                        value={'0'}
+                        onUserInput={(event) => {console.log(event)}}
+                        showMaxButton={true}
+                        id="1"
+                      />
                     </TabPanel>
                     <TabPanel>
-                      <CurrencyInputPanel />
+                      <CurrencyInputPanel
+                        value={'0'}
+                        onUserInput={(event) => {console.log(event)}}
+                        showMaxButton={true}
+                        id="1"
+                      />
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
               </Card>
             </GridItem>
-            <GridItem rowSpan={1} colSpan={{ base: '5', md: '2'  }}>
+            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
               <Card />
             </GridItem>
-            <GridItem rowSpan={1} colSpan={{ base: '5', md: '2'  }}>
+            <GridItem rowSpan={1} colSpan={{ base: 5, md: 2  }}>
               <Card />
             </GridItem>
           </Grid>

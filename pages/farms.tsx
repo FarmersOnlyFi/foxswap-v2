@@ -1,13 +1,12 @@
 import * as React from "react";
 import { TableContainer } from "@chakra-ui/react";
-import { VaultTable } from "@/components/modules/VaultTable/VaultTable";
-import { VaultHeader } from "@/components/modules/VaultHeader/VaultHeader";
-
+import { FarmsTable } from "@/components/modules/FarmsTable/FarmsTable";
+import MulticallItems from "@/components/modules/MulticallList";
 const Vaults = () => {
   return (
     <TableContainer>
-      <VaultHeader />
-      <VaultTable size={'lg'} />
+      <MulticallItems />
+      {/*<FarmsTable size={'lg'} />*/}
     </TableContainer>
   )
 }
