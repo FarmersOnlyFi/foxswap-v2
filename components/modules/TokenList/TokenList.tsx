@@ -2,7 +2,13 @@ import React from 'react'
 import { formatUnits } from '@ethersproject/units'
 import { useEthers } from '@usedapp/core'
 import DEFAULT_TOKEN_LIST from '@foxswap/default-token-list'
-import {Avatar, Box, Center, HStack, Skeleton, SkeletonText, Stack, StackDivider, Text} from "@chakra-ui/react";
+import {
+  Avatar,
+  HStack,
+  Stack,
+  StackDivider,
+  Text
+} from "@chakra-ui/react";
 import useTokenListBalance from "@/hooks/useTokenListBalance";
 
 const tokenList = DEFAULT_TOKEN_LIST.tokens

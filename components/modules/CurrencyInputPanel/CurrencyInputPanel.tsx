@@ -5,14 +5,26 @@ import {
   Box,
   FormControl,
   FormLabel,
-  Image,
   AvatarGroup,
   Button,
   Badge,
-  Text, Avatar, useDisclosure
+  Text,
+  Avatar,
+  useDisclosure, Wrap, effect
 } from "@chakra-ui/react";
-import { Currency, CurrencyAmount, Pair } from '@foxswap/sdk'
+import {Currency, CurrencyAmount, Pair, WETH} from '@foxswap/sdk'
 import CurrencyModal from "@/components/modules/Modal/CurrencyModal";
+import {Harmony, useContractFunction, useEtherBalance, useEthers, useGasPrice, useNotifications} from "@usedapp/core";
+import useContract from "@/hooks/useContract";
+import WETH_ABI from "@/config/abi/weth.json";
+import * as React from "react";
+import {BIG_ONE, BIG_ZERO} from "@/config/index";
+import {formatEther, parseUnits} from "@ethersproject/units";
+import {useEffect, useState} from "react";
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
+import {getFoxVaultAddress, getGovTokenAddress, getPitAddress, getVaultChefAddress} from "@/utils/addressHelpers";
+import {parseBalance} from "../../../util";
 
 
 
@@ -43,8 +55,37 @@ const SelectIcon = (
   </AvatarGroup>
 )
 
+interface SwapState {
+  inputCurrency: Currency,
+  outputCurrency: Currency,
+  typedAmount: string,
+  isExactIn: boolean,
+  recipient: null
+}
+
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { chainId } = useEthers()
+  const [inputValue, setInputValue] = useState('0')
+  const token = WETH[chainId ? chainId : Harmony.chainId]
+
+
+  const WrapTokenComponent = () => {
+    const typedValue = parseUnits(inputValue.toString(), token.decimals)
+    const contract = useContract(token.address, WETH_ABI)
+    const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+    const { status } = state
+    const wrapToken = () => void send({ value: typedValue })
+
+    return (
+      <>
+        <Button onClick={() => wrapToken()}>Wrap</Button>
+        <p>Status: {status}</p>
+      </>
+    )
+  }
+
+  const handleInput = (e) => setInputValue(e.target.value)
 
   return (
     <Box
@@ -65,7 +106,12 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               w="65%"
               variant="unstyled"
             >
-              <NumberInputField fontSize={22} placeholder="0.00" bg="gray.700" />
+              <NumberInputField
+                fontSize={22}
+                placeholder="0.00"
+                bg="gray.700"
+                onChange={handleInput}
+              />
             </NumberInput>
             <Button
               colorScheme='teal'
@@ -112,18 +158,19 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
         <Stack direction='row' justify={'space-between'}>
           {
             ['25','50', '75', '100'].map((percent: string) => (
-            <Badge
-              key={percent.replace('%','')}
-              colorScheme='teal'
-              variant={'subtle'}
-              w={85}
-              textAlign={'center'}
-            >
-              {`${percent}%`}
-            </Badge>
-          ))
+              <Badge
+                key={percent.replace('%','')}
+                colorScheme='teal'
+                variant={'subtle'}
+                w={85}
+                textAlign={'center'}
+              >
+                {`${percent}%`}
+              </Badge>
+            ))
           })
         </Stack>
+        <WrapTokenComponent />
       </Stack>
     </Box>
   )

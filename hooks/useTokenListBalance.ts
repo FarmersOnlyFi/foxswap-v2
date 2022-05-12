@@ -1,8 +1,7 @@
 import { Contract } from "ethers";
-import { ERC20Interface, useCalls } from "@usedapp/core";
-import DEFAULT_TOKEN_LIST from '@foxswap/default-token-list'
-import {CallResult} from "@usedapp/core/dist/esm/src/helpers";
+import { ERC20Interface, useCalls, CallResult } from "@usedapp/core";
 
+// TODO: Create type for tokenList arg
 export default function useTokenListBalance(
   tokenList?: any[],
   account?: string | null

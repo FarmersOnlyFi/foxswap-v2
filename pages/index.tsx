@@ -2,7 +2,7 @@
 // import { Dashboard } from "@/components/templates/Dashboard/Dashboard";
 // import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
 import React from "react";
-import { formatEther} from "@ethersproject/units";
+import { formatEther } from "@ethersproject/units";
 import { useEtherBalance, useEthers } from "@usedapp/core";
 
 // const DAI_TOKEN_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";

@@ -96,11 +96,17 @@ import {
   getSocksController,
   getWONEAddress,
 } from "@/utils/addressHelpers";
+import {utils} from "ethers";
 
 const getContract = (abi: any, address: string, signer?: Signer | Provider) => {
   const signerOrProvider = signer ?? RPC_PROVIDER;
   return new Contract(address, abi, signerOrProvider);
 };
+
+export const getContractInterface = (abi: any, address: string) => {
+  const abiInterface = new utils.Interface(abi)
+  return new Contract(address, abiInterface) as any
+}
 
 const getHRC20Contract = (address: string, signer?: Signer | Provider): Contract => {
   return getContract(hrc20ABI, address, signer);

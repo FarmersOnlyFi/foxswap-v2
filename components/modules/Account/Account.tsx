@@ -2,7 +2,12 @@ import { formatEtherscanLink, parseBalance, shortenHex } from "../../../util";
 import { Badge, Box, Button, SkeletonText, Text } from "@chakra-ui/react";
 import { FaWallet } from "react-icons/fa";
 import * as React from "react";
-import {Harmony, shortenAddress, useEtherBalance, useEthers} from "@usedapp/core";
+import {
+  Harmony,
+  shortenAddress,
+  useEtherBalance,
+  useEthers
+} from "@usedapp/core";
 
 
 
