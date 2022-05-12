@@ -10,8 +10,7 @@ import {
 import { Button } from "@chakra-ui/react";
 import TokenList from "@/components/modules/TokenList/TokenList";
 
-
-export default function CurrencySearchModal({ isOpen, onClose }) {
+export default function CurrencySearchModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   return (
     <Modal
       onClose={onClose}

@@ -12,7 +12,7 @@ import {
   Avatar,
   useDisclosure, Wrap, effect
 } from "@chakra-ui/react";
-import {Currency, CurrencyAmount, Pair, WETH} from '@foxswap/sdk'
+import {Currency, CurrencyAmount, Pair, Token, WETH} from '@foxswap/sdk'
 import CurrencyModal from "@/components/modules/Modal/CurrencyModal";
 import {Harmony, useContractFunction, useEtherBalance, useEthers, useGasPrice, useNotifications} from "@usedapp/core";
 import useContract from "@/hooks/useContract";
@@ -65,10 +65,9 @@ interface SwapState {
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { chainId } = useEthers()
   const [inputValue, setInputValue] = useState('0')
-  const token = WETH[chainId ? chainId : Harmony.chainId]
-
+  // @ts-expect-error
+  const token = WETH[Harmony.chainId] as Token;
 
   const WrapTokenComponent = () => {
     const typedValue = parseUnits(inputValue.toString(), token.decimals)
@@ -85,7 +84,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
     )
   }
 
-  const handleInput = (e) => setInputValue(e.target.value)
+  const handleInput = (e: any) => setInputValue(e?.target?.value)
 
   return (
     <Box
