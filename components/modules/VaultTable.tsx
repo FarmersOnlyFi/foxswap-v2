@@ -16,12 +16,10 @@ import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
+import { DoubleCurrencyLogo } from "./DoubleCurrencyLogo";
 import HRC20_ABI from "@/contracts/HRC20.json";
 import multicall from "@/utils/multicall";
-import { parseBalance } from "../../../util";
-import { getVaultCalls } from "@/utils/fetchVault";
-import useActiveWeb3React from "@/hooks/web3/use-active-web3-react";
+import { parseBalance } from "../../util";
 import { BigNumberish } from '@ethersproject/bignumber';
 
 type VaultData = Array<{
@@ -29,7 +27,7 @@ type VaultData = Array<{
   balance: string;
 }>;
 
-const vaultCalls = getVaultCalls();
+const vaultCalls: any = [];
 
 export const VaultTable = (props: TableProps) => {
   const [open, setOpen] = useState(false);

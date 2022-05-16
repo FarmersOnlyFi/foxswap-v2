@@ -8,9 +8,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import * as React from 'react'
-import { Logo } from '@/components/elements/Logo/Logo'
-import { Sidebar } from '@/components/modules/Sidebar/Sidebar'
-import { ToggleButton } from '@/components/modules/ToggleButton/ToggleButton'
+import { Logo } from '@/components/elements/Logo'
+import { Sidebar } from '@/components/modules/Sidebar'
+import { ToggleButton } from '@/components/modules/ToggleButton'
 
 export const Navbar = () => {
   const { isOpen, onToggle, onClose } = useDisclosure()

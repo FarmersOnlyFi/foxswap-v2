@@ -1,13 +1,8 @@
-import { Web3ReactProvider } from "@web3-react/core";
 import type { AppProps } from "next/app";
-import getLibrary from "../getLibrary";
-import "../styles/globals.css";
-import { ChakraProvider, CSSReset } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import mainTheme from '../theme'
 import Layout from "@/components/layouts/Layout";
-import {Config, Harmony, DAppProvider} from "@usedapp/core";
-import {getDefaultProvider} from "ethers";
-import {ReactNode} from "react";
+import { Config, Harmony, DAppProvider } from "@usedapp/core";
 
 const config: Config = {
   readOnlyChainId: Harmony.chainId,

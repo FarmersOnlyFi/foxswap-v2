@@ -4,7 +4,7 @@ import masterchefABI from "config/abi/masterchef.json";
 import FARM_CONFIGS, { FOX_USDC_PID } from "@/config/web3/farm-configs";
 import { getAddress, getMasterChefAddress } from "@/utils/addressHelpers";
 import multicall, { Call } from "@/utils/multicall";
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, DEFAULT_TOKEN_DECIMAL, BIG_ONE, BIG_ZERO } from "config";
+import { BLOCKS_PER_YEAR, FOX_PER_BLOCK, DEFAULT_TOKEN_DECIMAL, BIG_ONE, BIG_ZERO } from "config";
 import { FarmConfig } from "@/config/constants/types";
 import TOKENS, { Token, TokenSymbol } from "@/config/web3/tokens";
 import { LpPrices } from "./lpPrices";
@@ -89,7 +89,7 @@ const getFarmApr = (
   poolLiquidityUsd: BigNumber
 ): BigNumber | null => {
   const yearlyCakeRewardAllocation =
-    CAKE_PER_BLOCK.mul(BLOCKS_PER_YEAR).mul(poolWeight);
+    FOX_PER_BLOCK.mul(BLOCKS_PER_YEAR).mul(poolWeight);
   if (poolLiquidityUsd.isZero()) {
     return null;
   }

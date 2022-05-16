@@ -1,6 +1,6 @@
 import {Box, BoxProps, useColorMode, FlexProps, useBreakpointValue, Flex} from '@chakra-ui/react'
-import {Sidebar} from "@/components/modules/Sidebar/Sidebar";
-import {Navbar} from "@/components/modules/Navbar/Navbar";
+import {Sidebar} from "@/components/modules/Sidebar";
+import {Navbar} from "@/components/modules/Navbar";
 
 const ContentWrapper = (props: BoxProps) => {
   const { colorMode } = useColorMode()

@@ -1,7 +1,5 @@
 import {
-  Avatar,
   Badge,
-  Box,
   HStack,
   Icon,
   IconButton,
@@ -18,7 +16,7 @@ import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {useEffect, useState} from "react";
-import { DoubleCurrencyLogo } from "../DoubleCurrencyLogo";
+import { DoubleCurrencyLogo } from "./DoubleCurrencyLogo";
 import { FarmsResults, getFarms } from 'contexts/farms/hooks';
 import { getPrices } from 'contexts/farms/lpPrices';
 
@@ -26,7 +24,6 @@ export const FarmsTable = (props: TableProps) => {
   const [open, setOpen] = useState(false);
   const [farmsData, setFarmsData] = useState<FarmsResults>([]);
   useEffect(() => {
-
     async function fetchData() {
       console.log('fetching data');
       const lpPrices = await getPrices();

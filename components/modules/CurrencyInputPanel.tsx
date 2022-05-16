@@ -10,27 +10,23 @@ import {
   Badge,
   Text,
   Avatar,
-  useDisclosure, Wrap, effect
+  useDisclosure, InputLeftAddon
 } from "@chakra-ui/react";
 import {Currency, CurrencyAmount, Pair, Token, WETH} from '@foxswap/sdk'
-import CurrencyModal from "@/components/modules/Modal/CurrencyModal";
+import CurrencyModal from "@/components/modules/CurrencyModal";
 import {Harmony, useContractFunction, useEtherBalance, useEthers, useGasPrice, useNotifications} from "@usedapp/core";
-import useContract from "@/hooks/useContract";
 import WETH_ABI from "@/config/abi/weth.json";
+import MASTER_BREEDER_ABI from "@/config/abi/masterchef.json"
 import * as React from "react";
-import {BIG_ONE, BIG_ZERO} from "@/config/index";
 import {formatEther, parseUnits} from "@ethersproject/units";
 import {useEffect, useState} from "react";
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
-import {getFoxVaultAddress, getGovTokenAddress, getPitAddress, getVaultChefAddress} from "@/utils/addressHelpers";
-import {parseBalance} from "../../../util";
-
+import {getContractInterface} from "@/hooks/web3/contract-helpers";
+import {getMasterBreeder} from "@/utils/addressHelpers";
 
 
 interface CurrencyInputPanelProps {
   value: string
-  onUserInput: (value: string) => void
+  // onUserInput: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean
   label?: string
@@ -68,10 +64,10 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const [inputValue, setInputValue] = useState('0')
   // @ts-expect-error
   const token = WETH[Harmony.chainId] as Token;
+  const typedValue = parseUnits(inputValue.toString(), token.decimals)
 
   const WrapTokenComponent = () => {
-    const typedValue = parseUnits(inputValue.toString(), token.decimals)
-    const contract = useContract(token.address, WETH_ABI)
+    const contract = getContractInterface(WETH_ABI, token.address)
     const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
     const { status } = state
     const wrapToken = () => void send({ value: typedValue })
@@ -90,16 +86,21 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
     <Box
       as="form"
       borderRadius="lg"
-      p={8}
+      p={12}
       {...props}
     >
       <CurrencyModal isOpen={isOpen} onClose={onClose} />
       <Stack>
-        <FormLabel>From</FormLabel>
-        <FormControl id="fromCurrency" py={4} border="1px solid #B9BFFF" borderRadius={12} px={4} bg="gray.700">
+        <FormControl
+          id="fromCurrency"
+          p={4}
+          my={4}
+          // border="1px solid #B9BFFF"
+          borderRadius={12}
+          bg="gray.700"
+        >
           <Stack isInline>
             <NumberInput
-              placeholder="From Currency"
               size="lg"
               alignSelf="center"
               w="65%"
@@ -125,39 +126,46 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
             </Button>
           </Stack>
         </FormControl>
-        <FormLabel pt={4}>To</FormLabel>
         <FormControl
-          id="toCurrency"
-          border="1px solid #B9BFFF"
-          borderRadius={12}
+          id="fromCurrency"
           p={4}
+          my={4}
+          // border="1px solid #B9BFFF"
+          borderRadius={12}
           bg="gray.700"
         >
           <Stack isInline>
             <NumberInput
-              placeholder="To Currency"
               size="lg"
               alignSelf="center"
               w="65%"
               variant="unstyled"
             >
-              <NumberInputField bg="gray.700" fontSize={22} placeholder="0.00" />
+              <NumberInputField
+                fontSize={22}
+                placeholder="0.00"
+                bg="gray.700"
+                onChange={handleInput}
+              />
             </NumberInput>
-            <Stack isInline>
-              <Button
-                colorScheme="teal"
-                px={2}
-                leftIcon={SelectIcon}
-              >
-                <Text as="samp">select</Text>
-              </Button>
-            </Stack>
+            <Button
+              colorScheme='teal'
+              p={2}
+              leftIcon={SelectIcon}
+              justifySelf="end"
+              onClick={onOpen}
+            >
+              <Text as='samp'>
+                select
+              </Text>
+            </Button>
           </Stack>
         </FormControl>
-        <Stack direction='row' justify={'space-between'}>
+        <Stack direction='row' justify={'space-around'} p={4}>
           {
             ['25','50', '75', '100'].map((percent: string) => (
               <Badge
+                as={'button'}
                 key={percent.replace('%','')}
                 colorScheme='teal'
                 variant={'subtle'}

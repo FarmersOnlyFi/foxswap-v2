@@ -6,7 +6,7 @@
 // import {Contract} from "@ethersproject/contracts";
 // import {useEffect, useState} from "react";
 // import {getPrices} from "../../contexts/farms/lpPrices";
-
+export {}
 // export default function MulticallItems() {
 //   const [calls, setCalls] = useState<Call[]>([])
 //   const abiInterface = new utils.Interface(MultiCallABI)

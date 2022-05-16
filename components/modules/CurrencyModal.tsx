@@ -8,7 +8,7 @@ import {
   ModalOverlay
 } from "@chakra-ui/modal";
 import { Button } from "@chakra-ui/react";
-import TokenList from "@/components/modules/TokenList/TokenList";
+import TokenList from "@/components/modules/TokenList";
 
 export default function CurrencySearchModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   return (

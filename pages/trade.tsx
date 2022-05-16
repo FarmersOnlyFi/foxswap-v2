@@ -1,6 +1,6 @@
 import * as React from "react";
-import TradeTemplate from "@/components/templates/Trade/Trade";
+import TradeTemplate from "@/components/templates/Trade";
 
-export default function Trade() {
-  return <TradeTemplate />
-}
+const Trade = () => <TradeTemplate />
+
+export default Trade

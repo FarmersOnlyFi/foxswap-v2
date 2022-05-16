@@ -1,15 +1,6 @@
 import * as React from "react";
-import { TableContainer } from "@chakra-ui/react";
-import { VaultTable } from "@/components/modules/VaultTable/VaultTable";
-import { VaultHeader } from "@/components/modules/VaultHeader/VaultHeader";
+import VaultsTemplate from "@/components/templates/Vaults";
 
-const Vaults = () => {
-  return (
-    <TableContainer>
-      <VaultHeader />
-      <VaultTable size={'lg'} />
-    </TableContainer>
-  )
-}
+const Vaults = () => <VaultsTemplate />
 
 export default Vaults

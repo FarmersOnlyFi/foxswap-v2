@@ -21,9 +21,9 @@ import {
   FaCertificate,
   FaLeaf
 } from 'react-icons/fa'
-import { Logo } from '@/components/elements/Logo/Logo'
-import { NavButton } from '@/components/modules/NavButton/NavButton'
-import Account from "@/components/modules/Account/Account";
+import { Logo } from '@/components/elements/Logo'
+import { NavButton } from '@/components/modules/NavButton'
+import Account from "@/components/modules/Account";
 
 export const Sidebar = () => {
 
