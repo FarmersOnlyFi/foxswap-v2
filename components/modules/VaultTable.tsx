@@ -35,7 +35,7 @@ export const VaultTable = (props: TableProps) => {
   useEffect(() => {
     async function fetchData() {
       console.log('fetching data');
-      const result = await multicall<Array<{ balance: BigNumberish}>>(HRC20_ABI, vaultCalls.map(call => ({
+      const result = await multicall<Array<{ balance: BigNumberish}>>(HRC20_ABI, vaultCalls.map((call: any) => ({
         address: call.address,
         name: call.name,
         params: call.params,

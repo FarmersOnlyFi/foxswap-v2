@@ -19,6 +19,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/config/*": ["config/*"],
+      "@/contexts/*": ["contexts/*"],
       "@/contracts/*": ["contracts/*"],
       "@/hooks/*": ["hooks/*"],
       "@/public/*": ["public/*"],

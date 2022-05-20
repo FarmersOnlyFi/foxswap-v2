@@ -1,14 +1,14 @@
 import erc20 from "config/abi/hrc20.json";
 import masterchefABI from "config/abi/masterchef.json";
 
-import FARM_CONFIGS, { FOX_USDC_PID } from "@/config/web3/farm-configs";
-import { getAddress, getMasterChefAddress } from "@/utils/addressHelpers";
-import multicall, { Call } from "@/utils/multicall";
-import { BLOCKS_PER_YEAR, FOX_PER_BLOCK, DEFAULT_TOKEN_DECIMAL, BIG_ONE, BIG_ZERO } from "config";
-import { FarmConfig } from "@/config/constants/types";
-import TOKENS, { Token, TokenSymbol } from "@/config/web3/tokens";
-import { LpPrices } from "./lpPrices";
-import { BigNumber } from "ethers";
+import FARM_CONFIGS, {FOX_USDC_PID} from "@/config/web3/farm-configs";
+import {getAddress, getMasterChefAddress} from "@/utils/addressHelpers";
+import multicall, {Call} from "@/utils/multicall";
+import {BIG_ONE, BIG_ZERO, BLOCKS_PER_YEAR, DEFAULT_TOKEN_DECIMAL, FOX_PER_BLOCK} from "config";
+import {FarmConfig} from "@/config/constants/types";
+import TOKENS, {Token, TokenSymbol} from "@/config/web3/tokens";
+import {LpPrices} from "./lpPrices";
+import {BigNumber} from "ethers";
 
 // mocks to enforce correct chunk size when aggregating results
 type FarmCallsErc20 = [Call, Call, Call, Call];
@@ -79,26 +79,24 @@ const convertQuoteTokensToUsd = (
 /**
  * Get farm APR value in %
  * @param poolWeight allocationPoint / totalAllocationPoint
- * @param cakePriceUsd Cake price in USD
+ * @param foxPriceUsd Fox price in USD
  * @param poolLiquidityUsd Total pool liquidity in USD
  * @returns
  */
 const getFarmApr = (
   poolWeight: BigNumber,
-  cakePriceUsd: BigNumber,
+  foxPriceUsd: BigNumber,
   poolLiquidityUsd: BigNumber
 ): BigNumber | null => {
-  const yearlyCakeRewardAllocation =
+  const yearlyFoxRewardAllocation =
     FOX_PER_BLOCK.mul(BLOCKS_PER_YEAR).mul(poolWeight);
   if (poolLiquidityUsd.isZero()) {
     return null;
   }
-  const apr = yearlyCakeRewardAllocation
-    .mul(cakePriceUsd)
+  return yearlyFoxRewardAllocation
+    .mul(foxPriceUsd)
     .div(poolLiquidityUsd)
     .mul(100);
-  // return apr.isNaN() || !apr.isFinite() ? null : apr;
-  return apr;
 };
 
 export const getFarms = async (

@@ -9,13 +9,13 @@ import {
   StackDivider,
   Text
 } from "@chakra-ui/react";
-import useTokenListBalance from "@/hooks/useTokenListBalance";
+import useTokenBalances from "@/hooks/useTokenBalances";
 
 const tokenList = DEFAULT_TOKEN_LIST.tokens
 
 export default function TokenList() {
   const { account } = useEthers()
-  const balances = useTokenListBalance(tokenList, account)
+  const balances = useTokenBalances(tokenList, account)
 
   return (
       <Stack divider={ <StackDivider borderColor={'red'} /> }>

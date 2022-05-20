@@ -4,7 +4,6 @@ import {
   Stack,
   Box,
   FormControl,
-  FormLabel,
   AvatarGroup,
   Button,
   Badge,
@@ -22,13 +21,16 @@ import {formatEther, parseUnits} from "@ethersproject/units";
 import {useEffect, useState} from "react";
 import {getContractInterface} from "@/hooks/web3/contract-helpers";
 import {getMasterBreeder} from "@/utils/addressHelpers";
+import useSwapContext from "@/contexts/swap/context";
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
 
 
 interface CurrencyInputPanelProps {
   value: string
   // onUserInput: (value: string) => void
   onMax?: () => void
-  showMaxButton: boolean
+  // showMaxButton: boolean
   label?: string
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
@@ -51,21 +53,14 @@ const SelectIcon = (
   </AvatarGroup>
 )
 
-interface SwapState {
-  inputCurrency: Currency,
-  outputCurrency: Currency,
-  typedAmount: string,
-  isExactIn: boolean,
-  recipient: null
-}
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [inputValue, setInputValue] = useState('0')
+  const { setTypedAmount, typedAmount } = useSwapContext()
   // @ts-expect-error
   const token = WETH[Harmony.chainId] as Token;
   const typedValue = parseUnits(inputValue.toString(), token.decimals)
-
   const WrapTokenComponent = () => {
     const contract = getContractInterface(WETH_ABI, token.address)
     const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
@@ -80,7 +75,17 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
     )
   }
 
-  const handleInput = (e: any) => setInputValue(e?.target?.value)
+  const TestInputClick = () => {
+    return (
+      <>
+        <Button onClick={() => setTypedAmount(inputValue)}>
+          Inputcheck
+        </Button>
+      </>
+    )
+  }
+
+  const handleInput = (e: any) => setTypedAmount(e?.target?.value)
 
   return (
     <Box

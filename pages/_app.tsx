@@ -3,6 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import mainTheme from '../theme'
 import Layout from "@/components/layouts/Layout";
 import { Config, Harmony, DAppProvider } from "@usedapp/core";
+import {SwapProvider} from "@/contexts/swap/context";
 
 const config: Config = {
   readOnlyChainId: Harmony.chainId,
@@ -15,9 +16,11 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <DAppProvider config={config}>
       <ChakraProvider resetCSS theme={mainTheme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SwapProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SwapProvider>
       </ChakraProvider>
     </DAppProvider>
   );

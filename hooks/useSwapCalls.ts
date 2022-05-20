@@ -2,10 +2,10 @@ import {DEFAULT_CURRENCIES, Trade, Currency, Token, HARMONY, Percent, Router, JS
 import { utils } from "ethers";
 import { Contract } from "@ethersproject/contracts";
 import { abi as IFoxswapV2RouterABI } from '@foxswap/periphery/build/IUniswapV2Router02.json'
-import {getRouterAddress} from "@/utils/addressHelpers";
+import { getRouterAddress } from "@/utils/addressHelpers";
 import {Harmony, useContractFunction, useEthers, useLookupAddress} from "@usedapp/core";
-import {useCallback} from "react";
-import {BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE} from "@/config/index";
+import {useCallback, useMemo} from "react";
+import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from "@/config/index";
 
 /*
 # Call 1 with ONE
@@ -94,7 +94,7 @@ const swapState = {
 }
 const BASE_CURRENCY = HARMONY
 
-export default function useSwap(
+export default function useSwapCalls(
   trade: Trade,
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE,
   recipient: string
@@ -102,14 +102,16 @@ export default function useSwap(
   const deadline = DEFAULT_DEADLINE_FROM_NOW
   const routerInterface = new utils.Interface(IFoxswapV2RouterABI)
   const contract = new Contract(getRouterAddress(), routerInterface) as any
+  const swapMethods = []
 
-  const swapMethods = Router.swapCallParameters(trade, {
-    feeOnTransfer: trade.tradeType === TradeType.EXACT_INPUT,
-    allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-    recipient,
-    deadline: deadline
-  })
+  swapMethods.push(
+    Router.swapCallParameters(trade, {
+      feeOnTransfer: trade.tradeType === TradeType.EXACT_INPUT,
+      allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+      recipient,
+      deadline: deadline
+    })
+  )
 
+  return swapMethods.map(parameters => ({ parameters, contract }))
 }
-
-// 1.

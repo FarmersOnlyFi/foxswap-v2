@@ -2,7 +2,7 @@ import { Contract } from "ethers";
 import { ERC20Interface, useCalls, CallResult } from "@usedapp/core";
 
 // TODO: Create type for tokenList arg
-export default function useTokenListBalance(
+export default function useTokenBalances(
   tokenList?: any[],
   account?: string | null
 ): CallResult<Contract, string>[] {

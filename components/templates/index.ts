@@ -1,5 +1,5 @@
 export * from './Dashboard'
-export * from './Trade'
+export * from './Swap'
 export * from './Vaults'
 export * from './Farms'
 export * from './User'
