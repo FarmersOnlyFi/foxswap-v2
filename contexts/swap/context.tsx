@@ -34,7 +34,7 @@ export const SwapProvider = ({ children }: any) => {
     })
   }
 
-  const setTypedAmount = (typedAmount: string) => {
+  const setTypedAmount = (isInputField: boolean, typedAmount: string) => {
     dispatch({
       type: "SET_TYPED_AMOUNT",
       payload: {
