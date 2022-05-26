@@ -45,11 +45,11 @@ export const Sidebar = () => {
             <Divider />
             <Stack>
               <Text fontSize="sm" color="on-accent-muted" fontWeight="medium">
-                Trade
+                Exchange
               </Text>
               <Stack>
                 <NavButton label="Dashboard" icon={FiHome} href="/" />
-                <NavButton label="Swap" icon={FaHandsHelping} href="/trade" />
+                <NavButton label="Swap" icon={FaHandsHelping} href="/swap" />
                 <NavButton label="Liquidity" icon={FaSwimmingPool} href="/liquidity" />
                 <NavButton label="Escrow" icon={FaCoins} href="/escrow" />
               </Stack>

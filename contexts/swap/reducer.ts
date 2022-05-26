@@ -1,5 +1,4 @@
 import { Currency } from "@foxswap/sdk";
-import {ReducerAction, ReducerState} from "react";
 
 interface SwapState {
   readonly inputCurrency: Currency | undefined,
@@ -12,13 +11,12 @@ interface SwapState {
 export const initialState: SwapState = {
   inputCurrency: undefined,
   outputCurrency: undefined,
-  typedAmount: '',
+  typedAmount: '0',
   isInputField: true,
   recipient: null
 }
 
-const swapReducer = (state: any, action: any) => {
-  const { type, payload } = action
+const swapReducer = (state: SwapState, { type, payload }: any) => {
 
   switch (type) {
     case "SWITCH_CURRENCY":
@@ -40,7 +38,7 @@ const swapReducer = (state: any, action: any) => {
       }
       return {
         ...state,
-
+        field
       }
     case "SET_RECIPIENT":
       console.log("SET_RECIPIENT", payload)
@@ -53,6 +51,12 @@ const swapReducer = (state: any, action: any) => {
       return {
         ...state,
         typedAmount: payload.typedAmount
+      }
+    case "SET_FIELD_TYPE":
+      console.log("SET_FIELD_TYPE", payload)
+      return {
+        ...state,
+        isInputField: payload.isInputField
       }
     default:
       throw new Error(`No case for type ${type} - Swap Reducer`)

@@ -9,21 +9,18 @@ import {
   Badge,
   Text,
   Avatar,
-  useDisclosure, InputLeftAddon
+  ScaleFade,
+  useDisclosure
 } from "@chakra-ui/react";
 import {Currency, CurrencyAmount, Pair, Token, WETH} from '@foxswap/sdk'
 import CurrencyModal from "@/components/modules/CurrencyModal";
-import {Harmony, useContractFunction, useEtherBalance, useEthers, useGasPrice, useNotifications} from "@usedapp/core";
+import {Harmony, useContractFunction} from "@usedapp/core";
 import WETH_ABI from "@/config/abi/weth.json";
-import MASTER_BREEDER_ABI from "@/config/abi/masterchef.json"
 import * as React from "react";
 import {formatEther, parseUnits} from "@ethersproject/units";
-import {useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {getContractInterface} from "@/hooks/web3/contract-helpers";
-import {getMasterBreeder} from "@/utils/addressHelpers";
 import useSwapContext from "@/contexts/swap/context";
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
 
 
 interface CurrencyInputPanelProps {
@@ -56,16 +53,16 @@ const SelectIcon = (
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [inputValue, setInputValue] = useState('0')
   const { setTypedAmount, typedAmount } = useSwapContext()
   // @ts-expect-error
   const token = WETH[Harmony.chainId] as Token;
-  const typedValue = parseUnits(inputValue.toString(), token.decimals)
+  console.log(typedAmount)
+  // const typedValue = parseUnits(typedAmount, token.decimals)
   const WrapTokenComponent = () => {
     const contract = getContractInterface(WETH_ABI, token.address)
     const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
     const { status } = state
-    const wrapToken = () => void send({ value: typedValue })
+    const wrapToken = () => void send({ value: 1 })
 
     return (
       <>
@@ -74,18 +71,6 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
       </>
     )
   }
-
-  const TestInputClick = () => {
-    return (
-      <>
-        <Button onClick={() => setTypedAmount(inputValue)}>
-          Inputcheck
-        </Button>
-      </>
-    )
-  }
-
-  const handleInput = (e: any) => setTypedAmount(e?.target?.value)
 
   return (
     <Box
@@ -97,7 +82,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
       <CurrencyModal isOpen={isOpen} onClose={onClose} />
       <Stack>
         <FormControl
-          id="fromCurrency"
+          id="inputCurrency"
           p={4}
           my={4}
           // border="1px solid #B9BFFF"
@@ -115,7 +100,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
                 fontSize={22}
                 placeholder="0.00"
                 bg="gray.700"
-                onChange={handleInput}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setTypedAmount(e.target.value, true)}
               />
             </NumberInput>
             <Button
@@ -132,7 +117,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
           </Stack>
         </FormControl>
         <FormControl
-          id="fromCurrency"
+          id="outputCurrency"
           p={4}
           my={4}
           // border="1px solid #B9BFFF"
@@ -150,7 +135,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
                 fontSize={22}
                 placeholder="0.00"
                 bg="gray.700"
-                onChange={handleInput}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setTypedAmount(e.target.value, false)}
               />
             </NumberInput>
             <Button
@@ -158,7 +143,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               p={2}
               leftIcon={SelectIcon}
               justifySelf="end"
-              onClick={onOpen}
+              onClick={onOpen; }
             >
               <Text as='samp'>
                 select

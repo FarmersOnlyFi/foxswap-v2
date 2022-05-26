@@ -34,11 +34,20 @@ export const SwapProvider = ({ children }: any) => {
     })
   }
 
-  const setTypedAmount = (isInputField: boolean, typedAmount: string) => {
+  const setTypedAmount = (typedAmount: string) => {
     dispatch({
       type: "SET_TYPED_AMOUNT",
       payload: {
         typedAmount: typedAmount
+      }
+    })
+  }
+
+  const setFieldType = (isInputField: boolean) => {
+    dispatch({
+      type: "SET_FIELD_TYPE",
+      payload: {
+        isInputField: isInputField
       }
     })
   }
@@ -48,7 +57,8 @@ export const SwapProvider = ({ children }: any) => {
     switchCurrency,
     selectCurrency,
     setRecipient,
-    setTypedAmount
+    setTypedAmount,
+    setFieldType
   }
 
   return <SwapContext.Provider value={providerValue}>{children}</SwapContext.Provider>

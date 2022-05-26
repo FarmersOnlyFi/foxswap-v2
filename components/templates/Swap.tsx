@@ -25,6 +25,7 @@ interface SwapCall {
 
 const SwapTemplate = () => {
   const { setRecipient, recipient } = useSwapContext()
+
   const { account } = useEthers()
   console.log(recipient)
   useEffect(() => {
@@ -44,7 +45,7 @@ const SwapTemplate = () => {
           align={{base: 'start', lg: 'center'}}
         >
           <Heading size={useBreakpointValue({base: 'xs', md: 'sm'})} fontWeight="medium" fontSize={26}>
-            Trade
+            Swap
           </Heading>
         </Stack>
         <Stack spacing={{base: '8', md: '6'}}>
