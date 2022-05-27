@@ -18,10 +18,6 @@ interface CurrencyModalProps {
 
 export default function CurrencySearchModal({ isOpen, onClose }: CurrencyModalProps) {
   const { inputCurrency, outputCurrency, isInputField, setFieldType } = useSwapContext()
-  // const
-  // onClose = () => {
-  //
-  // }
 
   return (
     <Modal

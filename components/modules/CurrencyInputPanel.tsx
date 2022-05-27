@@ -143,7 +143,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               p={2}
               leftIcon={SelectIcon}
               justifySelf="end"
-              onClick={onOpen; }
+              onClick={onOpen}
             >
               <Text as='samp'>
                 select
