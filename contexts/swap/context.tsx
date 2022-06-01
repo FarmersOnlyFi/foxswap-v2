@@ -1,6 +1,7 @@
 import {createContext, useContext, useReducer} from 'react'
 import swapReducer, { initialState } from "./reducer";
 import { Currency } from "@foxswap/sdk";
+import {string} from "prop-types";
 
 export const SwapContext = createContext(initialState)
 
@@ -18,11 +19,19 @@ export const SwapProvider = ({ children }: any) => {
     })
   }
 
-  const selectCurrency = (currency: Currency) => {
+  const selectCurrency = (currency: Currency, logoURI: string, isInputField: boolean) => {
+    const data = isInputField ? {
+      inputCurrency: currency,
+      inputLogoURI: logoURI
+    } : {
+      outputCurrency: currency,
+      outputLogoURI: logoURI
+    }
     dispatch({
       type: "SELECT_CURRENCY",
-      payload: state.isInputField ? { inputCurrency: currency } : { outputCurrency: currency }
+      payload: data
     })
+    console.log(state, {...state})
   }
 
   const setRecipient = (recipient: string) => {

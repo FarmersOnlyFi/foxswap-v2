@@ -4,7 +4,7 @@ import DEFAULT_TOKEN_LIST from '@foxswap/default-token-list'
 import {
   Avatar,
   Box,
-  HStack,
+  HStack, SkeletonCircle,
   Spacer,
   Spinner,
   Stack,
@@ -13,17 +13,21 @@ import {
 } from "@chakra-ui/react";
 import useTokenBalances from "@/hooks/useTokenBalances";
 import { parseBalance } from "../../util";
+import useSwapContext from "@/contexts/swap/context";
+import {Currency} from "@foxswap/sdk";
+import {CurrencyModalProps} from "@/components/modules/CurrencyModal";
 
 const tokenList = DEFAULT_TOKEN_LIST.tokens
 
 export default function TokenList() {
-  const { account, chainId } = useEthers()
+  const { account } = useEthers()
   const balances = useTokenBalances(tokenList, account)
+  const { selectCurrency } = useSwapContext()
   return (
     <Stack>
       {tokenList && tokenList.map((token, idx) => {
         const balance = balances[idx]
-        if (token.chainId !== chainId) return
+        // @ts-ignore
         return (
           <Box
             as={'button'}
@@ -33,9 +37,11 @@ export default function TokenList() {
               cursor: 'pointer',
               borderRadius: '12px'
             }}
-            p={2}>
+            p={2}
+            onClick={console.log('list hit')}
+          >
             <HStack>
-              <Avatar src={token.logoURI} boxSize="9" />
+              <Avatar src={token.logoURI} icon={<SkeletonCircle />} boxSize="9" />
               <Stack mb={0}>
                 <Text fontWeight="medium" color="emphasized" align={'start'}>
                   {token.symbol}

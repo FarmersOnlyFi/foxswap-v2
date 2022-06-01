@@ -1,23 +1,26 @@
 import { Currency } from "@foxswap/sdk";
 
 interface SwapState {
-  readonly inputCurrency: Currency | undefined,
-  readonly outputCurrency: Currency | undefined,
-  readonly typedAmount: string,
+  readonly inputCurrency: Currency | undefined
+  readonly outputCurrency: Currency | undefined
+  readonly inputLogoURI: string
+  readonly outputLogoURI: string
+  readonly typedAmount: string | undefined | null
   readonly isInputField: boolean, // True is Input, False is Output
-  readonly recipient: string | null
+  readonly recipient: string | undefined | null
 }
 
 export const initialState: SwapState = {
   inputCurrency: undefined,
   outputCurrency: undefined,
+  inputLogoURI: '',
+  outputLogoURI: '',
   typedAmount: '0',
   isInputField: true,
   recipient: null
 }
 
 const swapReducer = (state: SwapState, { type, payload }: any) => {
-
   switch (type) {
     case "SWITCH_CURRENCY":
       console.log("SWITCH_CURRENCY", payload)
@@ -31,15 +34,14 @@ const swapReducer = (state: SwapState, { type, payload }: any) => {
       console.log("SELECT_CURRENCY", payload)
       const field = 'inputCurrency' in payload ? {
         ...state,
-        inputCurrency: payload.inputCurrency
+        inputCurrency: payload.inputCurrency,
+        inputLogoURI: payload.inputLogoURI
       } : {
         ...state,
-        outputCurrency: payload.outputCurrency
+        outputCurrency: payload.outputCurrency,
+        outputLogoURI: payload.outputLogoURI
       }
-      return {
-        ...state,
-        field
-      }
+      return field
     case "SET_RECIPIENT":
       console.log("SET_RECIPIENT", payload)
       return {
@@ -59,7 +61,7 @@ const swapReducer = (state: SwapState, { type, payload }: any) => {
         isInputField: payload.isInputField
       }
     default:
-      throw new Error(`No case for type ${type} - Swap Reducer`)
+      return state
   }
 }
 

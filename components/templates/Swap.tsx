@@ -24,16 +24,8 @@ interface SwapCall {
 }
 
 const SwapTemplate = () => {
-  const { setRecipient, recipient } = useSwapContext()
-
   const { account } = useEthers()
-  console.log(recipient)
-  useEffect(() => {
-    return () => {
-      setRecipient(account)
-    };
-  }, [recipient]);
-  
+  const { setRecipient, recipient } = useSwapContext()
 
   return (
     <ContentWrapper>

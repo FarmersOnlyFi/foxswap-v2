@@ -10,7 +10,7 @@ import {
   Text,
   Avatar,
   ScaleFade,
-  useDisclosure
+  useDisclosure, SkeletonCircle
 } from "@chakra-ui/react";
 import {Currency, CurrencyAmount, Pair, Token, WETH} from '@foxswap/sdk'
 import CurrencyModal from "@/components/modules/CurrencyModal";
@@ -43,20 +43,33 @@ interface CurrencyInputPanelProps {
   overrideSelectedCurrencyBalance?: CurrencyAmount | null
 }
 
+const CurrencyInputIcon = () => {
+  const { inputLogoURI } = useSwapContext()
+  return (
+    <AvatarGroup max={2} boxSize={30} spacing={'-0.55rem'}>
+      <Avatar size={'sm'} bg={'blackAlpha.800'} src={inputLogoURI} />
+    </AvatarGroup>
+  )
+}
 
-const SelectIcon = (
-  <AvatarGroup max={2} boxSize={30} spacing={'-0.55rem'}>
-    <Avatar size={'sm'} bg={'blackAlpha.800'} src="https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/LogoMark/With+Padding/FoxSwap_Logomark_space_white.svg" />
-  </AvatarGroup>
-)
+const CurrencyOutputIcon = () => {
+  const { outputLogoURI } = useSwapContext()
+  
+  return (
+    <AvatarGroup max={2} boxSize={30} spacing={'-0.55rem'}>
+      <Avatar size={'sm'} bg={'blackAlpha.800'} src={outputLogoURI} />
+    </AvatarGroup>
+  )
+
+}
 
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { setTypedAmount, typedAmount } = useSwapContext()
+  const { setTypedAmount, typedAmount, inputCurrency, outputCurrency } = useSwapContext()
+
   // @ts-expect-error
   const token = WETH[Harmony.chainId] as Token;
-  console.log(typedAmount)
   // const typedValue = parseUnits(typedAmount, token.decimals)
   const WrapTokenComponent = () => {
     const contract = getContractInterface(WETH_ABI, token.address)
@@ -70,6 +83,10 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
         <p>Status: {status}</p>
       </>
     )
+  }
+
+  const handleClick = (e: any, onOpen: any) => {
+    console.log(e)
   }
 
   return (
@@ -104,14 +121,18 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               />
             </NumberInput>
             <Button
+              id="inputBtn"
               colorScheme='teal'
               p={2}
-              leftIcon={SelectIcon}
+              leftIcon={<CurrencyInputIcon />}
               justifySelf="end"
-              onClick={onOpen}
+              onClick={(e) => {
+                onOpen();
+                handleClick(e, onOpen);
+              }}
             >
               <Text as='samp'>
-                select
+                {!inputCurrency ? 'select' : inputCurrency?.symbol}
               </Text>
             </Button>
           </Stack>
@@ -139,14 +160,15 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               />
             </NumberInput>
             <Button
+              id="outputBtn"
               colorScheme='teal'
               p={2}
-              leftIcon={SelectIcon}
+              leftIcon={<CurrencyOutputIcon />}
               justifySelf="end"
               onClick={onOpen}
             >
               <Text as='samp'>
-                select
+                {!outputCurrency ? 'select' : outputCurrency?.symbol}
               </Text>
             </Button>
           </Stack>
