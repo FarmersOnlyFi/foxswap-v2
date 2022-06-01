@@ -22,13 +22,15 @@ export interface CurrencyModalProps {
 }
 
 const tokenList = DEFAULT_TOKEN_LIST.tokens
-export default function CurrencySearchModal({ isOpen, onClose, isInput }: CurrencyModalProps) {
+export default function CurrencySearchModal({ isOpen, onClose }: CurrencyModalProps) {
   const { account } = useEthers()
   const balances = useTokenBalances(tokenList, account)
   const { selectCurrency, isInputField } = useSwapContext()
+
   const handleClick = (currency: Currency, logoURI: string, isInput: boolean) => {
     selectCurrency(currency, logoURI, isInput)
   }
+
   return (
     <Modal
       onClose={onClose}

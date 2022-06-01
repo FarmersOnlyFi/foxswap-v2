@@ -1528,10 +1528,10 @@
   resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.3.tgz#e4bf6cda4d93976689e46ca54182bbe7e33c7254"
   integrity sha512-FkcmcoyJFHX23Sg73vheSDmyL74PzmNP835W666ycJ3fSrq5HeLOaDhQFF8aRJvj4QAriYQOncNqBKvMMqJGKQ==
 
-"@foxswap/default-token-list@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.3.2.tgz#01bfe1121b2e817eab067794b8eeea0c4498964e"
-  integrity sha512-Tsz0nz2EharQtWJ0LDZikBlDbu7QIo8ejtfC+MNXEMlZkOvnubwMqjxx7p8u0BKYhJh7no8M98usUuENuZkt7Q==
+"@foxswap/default-token-list@^2.3.6":
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.3.6.tgz#bc8741789ec27b00a8c0e3549d108d3a5264b940"
+  integrity sha512-82oOQ8vcgOTiRFMshrtZ/a0cC1NKlTErMY70OE80GrAWnK5LG8lafDCQiknvvpO9+f0Lj8MyRUWywz3yp5ilxQ==
 
 "@foxswap/lib@1.0.0":
   version "1.0.0"
@@ -1972,9 +1972,9 @@
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
 "@types/react-dom@17.0.38":
-  version "18.0.1"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.1.tgz#cb3cc10ea91141b12c71001fede1017acfbce4db"
-  integrity sha512-jCwTXvHtRLiyVvKm9aEdHXs8rflVOGd5Sl913JZrPshfXjn8NYsTNZOz70bCsA31IR0TOqwi3ad+X4tSCBoMTw==
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.0.tgz#b13f8d098e4b0c45df4f1ed123833143b0c71141"
+  integrity sha512-49897Y0UiCGmxZqpC8Blrf6meL8QUla6eb+BBhn69dTXlmuOlzkfr7HHY/O8J25e1lTUMs+YYxSlVDAaGHCOLg==
   dependencies:
     "@types/react" "*"
 

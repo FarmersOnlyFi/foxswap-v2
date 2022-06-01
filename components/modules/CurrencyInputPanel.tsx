@@ -47,7 +47,7 @@ const CurrencyInputIcon = () => {
   const { inputLogoURI } = useSwapContext()
   return (
     <AvatarGroup max={2} boxSize={30} spacing={'-0.55rem'}>
-      <Avatar size={'sm'} bg={'blackAlpha.800'} src={inputLogoURI} />
+      <Avatar size={'sm'} bg={'blackAlpha.800'} src={inputLogoURI} icon={<SkeletonCircle />} />
     </AvatarGroup>
   )
 }
@@ -57,16 +57,15 @@ const CurrencyOutputIcon = () => {
   
   return (
     <AvatarGroup max={2} boxSize={30} spacing={'-0.55rem'}>
-      <Avatar size={'sm'} bg={'blackAlpha.800'} src={outputLogoURI} />
+      <Avatar size={'sm'} bg={'blackAlpha.800'} src={outputLogoURI} icon={<SkeletonCircle />} />
     </AvatarGroup>
   )
-
 }
 
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { setTypedAmount, typedAmount, inputCurrency, outputCurrency } = useSwapContext()
+  const { setTypedAmount, setFieldType, inputCurrency, outputCurrency } = useSwapContext()
 
   // @ts-expect-error
   const token = WETH[Harmony.chainId] as Token;
@@ -78,15 +77,8 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
     const wrapToken = () => void send({ value: 1 })
 
     return (
-      <>
-        <Button onClick={() => wrapToken()}>Wrap</Button>
-        <p>Status: {status}</p>
-      </>
+      <Button onClick={() => wrapToken()}>{!status ? 'Wrap' : status}</Button>
     )
-  }
-
-  const handleClick = (e: any, onOpen: any) => {
-    console.log(e)
   }
 
   return (
@@ -102,7 +94,6 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
           id="inputCurrency"
           p={4}
           my={4}
-          // border="1px solid #B9BFFF"
           borderRadius={12}
           bg="gray.700"
         >
@@ -125,10 +116,11 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               colorScheme='teal'
               p={2}
               leftIcon={<CurrencyInputIcon />}
-              justifySelf="end"
+              minW={'16vh'}
+              justifyContent={'start'}
               onClick={(e) => {
                 onOpen();
-                handleClick(e, onOpen);
+                setFieldType(true);
               }}
             >
               <Text as='samp'>
@@ -140,8 +132,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
         <FormControl
           id="outputCurrency"
           p={4}
-          my={4}
-          // border="1px solid #B9BFFF"
+          my={2}
           borderRadius={12}
           bg="gray.700"
         >
@@ -164,8 +155,12 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               colorScheme='teal'
               p={2}
               leftIcon={<CurrencyOutputIcon />}
-              justifySelf="end"
-              onClick={onOpen}
+              minW={'16vh'}
+              justifyContent={'start'}
+              onClick={(e) => {
+                onOpen();
+                setFieldType(false);
+              }}
             >
               <Text as='samp'>
                 {!outputCurrency ? 'select' : outputCurrency?.symbol}

@@ -11,10 +11,24 @@ interface SwapState {
 }
 
 export const initialState: SwapState = {
-  inputCurrency: undefined,
-  outputCurrency: undefined,
-  inputLogoURI: '',
-  outputLogoURI: '',
+  inputCurrency: {
+    "chainId": 1666600000,
+    "address": "0x985458E523dB3d53125813eD68c274899e9DfAb4",
+    "symbol": "1USDC",
+    "name": "USD Coin",
+    "decimals": 6,
+    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDC.png"
+  } as Currency,
+  outputCurrency: {
+    "chainId": 1666600000,
+    "address": "0x0159ED2E06DDCD46a25E74eb8e159Ce666B28687",
+    "symbol": "FOX",
+    "name": "FarmersOnly Token",
+    "decimals": 18,
+    "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/LogoMark/With+Padding/FoxSwap_Logomark_space_white.svg"
+  } as Currency,
+  inputLogoURI: 'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDC.png',
+  outputLogoURI: 'https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/LogoMark/With+Padding/FoxSwap_Logomark_space_white.svg',
   typedAmount: '0',
   isInputField: true,
   recipient: null
