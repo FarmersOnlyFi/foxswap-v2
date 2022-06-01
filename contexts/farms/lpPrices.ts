@@ -60,39 +60,39 @@ export const getPrices = async (): Promise<any> => {
 
     calls.push(...farmCalls);
   });
-  return calls
-  //
-  // const resultsFlat = await multicall(ERC_20_ABI, calls);
-  // const results: Array<any> = [];
-  // const callsPerLp = LpPricesCallsMock.length;
-  // for (let i = 0; i < resultsFlat.length; i += callsPerLp) {
-  //   results.push(resultsFlat.slice(i, i + callsPerLp));
-  // }
-  //
-  // const lpPrices = LP_PRICES.map((lpConfig, i) => {
-  //   const [
-  //     tokenBalanceLP,
-  //     quoteTokenBalanceLP,
-  //     tokenDecimals,
-  //     quoteTokenDecimals,
-  //   ] = results[i];
-  //
-  //   const tokenAmount = BigNumber.from(tokenBalanceLP.toString()).div(
-  //     BIG_TEN.pow(tokenDecimals.toString())
-  //   );
-  //   const quoteTokenAmount = BigNumber.from(quoteTokenBalanceLP.toString()).div(
-  //     BIG_TEN.pow(quoteTokenDecimals.toString())
-  //   );
-  //
-  //   return {
-  //     ...lpConfig,
-  //     tokenAmount: tokenAmount.toJSON(),
-  //     quoteTokenAmount: quoteTokenAmount.toJSON(),
-  //     price: tokenAmount.isZero() ? 0 : quoteTokenAmount.div(tokenAmount).toJSON(),
-  //   };
-  // });
-  //
-  // // console.count('getPrices results');
-  // // console.log(lpPrices);
-  // return lpPrices;
+  // return calls
+
+  const resultsFlat = await multicall(ERC_20_ABI, calls);
+  const results: Array<any> = [];
+  const callsPerLp = LpPricesCallsMock.length;
+  for (let i = 0; i < resultsFlat.length; i += callsPerLp) {
+    results.push(resultsFlat.slice(i, i + callsPerLp));
+  }
+
+  const lpPrices = LP_PRICES.map((lpConfig, i) => {
+    const [
+      tokenBalanceLP,
+      quoteTokenBalanceLP,
+      tokenDecimals,
+      quoteTokenDecimals,
+    ] = results[i];
+
+    const tokenAmount = BigNumber.from(tokenBalanceLP.toString()).div(
+      BIG_TEN.pow(tokenDecimals.toString())
+    );
+    const quoteTokenAmount = BigNumber.from(quoteTokenBalanceLP.toString()).div(
+      BIG_TEN.pow(quoteTokenDecimals.toString())
+    );
+
+    return {
+      ...lpConfig,
+      tokenAmount: tokenAmount.toJSON(),
+      quoteTokenAmount: quoteTokenAmount.toJSON(),
+      price: tokenAmount.isZero() ? 0 : quoteTokenAmount.div(tokenAmount).toJSON(),
+    };
+  });
+
+  // console.count('getPrices results');
+  // console.log(lpPrices);
+  return lpPrices;
 }

@@ -6,7 +6,6 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -20,6 +19,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/config/*": ["config/*"],
+      "@/contexts/*": ["contexts/*"],
       "@/contracts/*": ["contracts/*"],
       "@/hooks/*": ["hooks/*"],
       "@/public/*": ["public/*"],

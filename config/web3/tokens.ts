@@ -1,7 +1,6 @@
 import { Addresses } from "types/web3/general";
 import { ChainID } from './chains';
 
-
 interface Token {
   readonly SYMBOL: TokenSymbol;
   readonly ADDRESSES: Addresses;
@@ -79,7 +78,7 @@ const TOKENS: {
     SYMBOL: TokenSymbol.XFOX,
     ADDRESSES: {
       [ChainID.Testnet]: '0x02f667745A77C376Db5b232846D4b2454e533699',
-      [ChainID.Mainnet]: '0x02f667745A77C376Db5b232846D4b2454e533699'
+      [ChainID.Mainnet]: '0x02f667745A77C376Db5b232846D4b2454e533699',
     },
     DECIMALS: 18,
     PROJECT_LINK: '',

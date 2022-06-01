@@ -109,7 +109,7 @@ const CONTRACT_ADDRESSES = Object.freeze({
     [ChainID.Testnet]: '0xAB466B0656725bE5B0fD950668884E6A893bd859',
     [ChainID.Mainnet]: '0xAB466B0656725bE5B0fD950668884E6A893bd859'
   },
-  cakeVault: {
+  foxVault: {
     [ChainID.Testnet]: '0xAB466B0656725bE5B0fD950668884E6A893bd859',
     [ChainID.Mainnet]: '0xAB466B0656725bE5B0fD950668884E6A893bd859'
   },

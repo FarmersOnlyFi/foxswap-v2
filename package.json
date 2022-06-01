@@ -10,6 +10,10 @@
     "compile-contract-types": "typechain --target ethers-v5 --out-dir './contracts/types' './contracts/*.json'",
     "postinstall": "yarn compile-contract-types"
   },
+  "resolutions": {
+    "@types/react": "17.0.38",
+    "@types/react-dom": "17.0.38"
+  },
   "dependencies": {
     "@0xsequence/multicall": "^0.36.7",
     "@binance-chain/bsc-connector": "^1.0.0",
@@ -25,7 +29,7 @@
     "@ethersproject/wallet": "^5.5.0",
     "@fontsource/inter": "^4.5.7",
     "@fox/uikit": "https://github.com/FarmersOnlyFi/fox-uikit.git",
-    "@foxswap/default-token-list": "^2.3.2",
+    "@foxswap/default-token-list": "^2.3.6",
     "@foxswap/periphery": "^1.0.0",
     "@foxswap/sdk": "^2.2.3",
     "@metamask/detect-provider": "^1.2.0",
@@ -54,6 +58,8 @@
     "@typechain/ethers-v5": "^9.0.0",
     "@types/node": "^17.0.13",
     "@types/react": "^17.0.38",
+    "@types/react-dom": "^18.0.3",
+    "@types/react-window": "^1.8.5",
     "eslint": "8.8.0",
     "eslint-config-next": "12.0.9",
     "ethers": "^5.5.3",
