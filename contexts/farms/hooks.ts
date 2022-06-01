@@ -31,6 +31,27 @@ export type FarmsResults = Array<{
   apr: number | null,
 }>;
 
+type BalanceResult = [BigNumber] & {
+  balance: BigNumber;
+}
+type LpTotalSupply = [BigNumber];
+type Ecr20Result = [BalanceResult, BalanceResult, BalanceResult, LpTotalSupply];
+
+type LpToken = string;
+type AllocPoint = BigNumber;
+type LastRewardBlock = BigNumber;
+type AccFoxPerShare = BigNumber;
+type DepositFeeBP = number;
+type PoolInfo = [LpToken, AllocPoint, LastRewardBlock, DepositFeeBP] & {
+  lpToken: LpToken,
+  allocPoint: AllocPoint,
+  lastRewardBlock: LastRewardBlock,
+  accFoxPerShare: AccFoxPerShare,
+  depositFeeBP: DepositFeeBP,
+}
+type MasterChefResult = [PoolInfo, [BigNumber]];
+// @TODO add a check if number of calls and number of results matches
+
 const getPrice = (prices: LpPrices, token: TokenSymbol): BigNumber => {
   if (token === TokenSymbol.USDC || token === TokenSymbol.UST || token === TokenSymbol.USDT ||
       token === TokenSymbol.BSCBUSD || token === TokenSymbol.BUSD || token === TokenSymbol.DAI) {
@@ -150,23 +171,25 @@ export const getFarms = async (
   });
 
   const [resultErc20Flat, resultMasterchefFlat] = await Promise.all([
-    multicall<Array<[any]>>(erc20, callsErc20),
-    multicall<Array<[any]>>(masterchefABI, callsMasterchef),
+    multicall<Array<any>>(erc20, callsErc20),
+    multicall<Array<any>>(masterchefABI, callsMasterchef),
   ]);
   const callsPerFarmErc20 = farmCallsErc20Mock.length;
-  const resultErc20: Array<any> = [];
+  const resultErc20: Array<Ecr20Result> = [];
   for (let i = 0; i < resultErc20Flat.length; i += callsPerFarmErc20) {
+    // @ts-expect-error
     resultErc20.push(resultErc20Flat.slice(i, i + callsPerFarmErc20));
   }
 
   const callsPerFarmMasterchef = FarmCallsMasterchefMock.length;
-  const resultMasterchef: Array<any> = [];
+  const resultMasterchef: Array<MasterChefResult> = [];
   for (
     let i = 0;
     i < resultMasterchefFlat.length;
     i += callsPerFarmMasterchef
   ) {
     resultMasterchef.push(
+      // @ts-expect-error
       resultMasterchefFlat.slice(i, i + callsPerFarmMasterchef)
     );
   }
@@ -175,16 +198,21 @@ export const getFarms = async (
 
   const farms = FARM_CONFIGS.map((farmConfig, i) => {
     const [
-      tokenBalanceLP,
-      quoteTokenBalanceLP,
-      lpTokenBalanceMC,
-      lpTotalSupply,
+      tokenBalanceLPTmp,
+      quoteTokenBalanceLPTmp,
+      lpTokenBalanceMCTmp,
+      lpTotalSupplyTmp,
     ] = resultErc20[i];
+    const tokenBalanceLP = tokenBalanceLPTmp.balance;
+    const quoteTokenBalanceLP = quoteTokenBalanceLPTmp.balance;
+    const lpTokenBalanceMCD = lpTokenBalanceMCTmp.balance;
+    const lpTotalSupply = lpTotalSupplyTmp[0];
 
-    const [info, totalAllocPoint] = resultMasterchef[i];
+    const [poolInfo, totalAllocPointTmp] = resultMasterchef[i];
+    const totalAllocPoint = totalAllocPointTmp[0];
 
     // Ratio in % a LP tokens that are in staking, vs the total number in circulation
-    const lpTokenRatio = BigNumber.from(lpTokenBalanceMC.toString()).div(
+    const lpTokenRatio = BigNumber.from(lpTokenBalanceMCD.toString()).div(
       BigNumber.from(lpTotalSupply.toString())
     );
 
@@ -192,7 +220,6 @@ export const getFarms = async (
     const perc1LpOfTotal = DEFAULT_TOKEN_DECIMAL.div(
       BigNumber.from(lpTotalSupply.toString())
     );
-    // tokenBalanceLP.toString();
     let tokenPerLp = perc1LpOfTotal.mul(tokenBalanceLP.toString());
     let quoteTokenPerLp = perc1LpOfTotal.mul(quoteTokenBalanceLP.toString());
 
@@ -216,14 +243,14 @@ export const getFarms = async (
       tokenPriceVsQuote = BigNumber.from(1);
       tokenPerLp = BigNumber.from(1);
       quoteTokenPerLp = BigNumber.from(1);
-      tokenAmount = BigNumber.from(lpTokenBalanceMC.toString());
+      tokenAmount = BigNumber.from(lpTokenBalanceMCD.toString());
       quoteTokenAmount = tokenAmount.div(2);
       lpTotalInQuoteToken = tokenAmount.mul(tokenPriceVsQuote);
     } else {
       tokenPriceVsQuote = tokenAmount.isZero() ? BIG_ONE : quoteTokenAmount.div(tokenAmount);
     }
 
-    const allocPoint = BigNumber.from(info.allocPoint._hex.toString());
+    const allocPoint = BigNumber.from(poolInfo.allocPoint._hex.toString());
     const poolWeight = allocPoint.div(
       BigNumber.from(totalAllocPoint.toString())
     );
@@ -239,9 +266,9 @@ export const getFarms = async (
       lpTotalSupply: BigNumber.from(lpTotalSupply.toString()).toJSON(),
       lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
       tokenPriceVsQuote,
-      poolWeight: poolWeight,
+      poolWeight,
       multiplier: `${allocPoint.div(100).toString()}X`,
-      depositFeeBP: info.depositFeeBP,
+      depositFeeBP: poolInfo.depositFeeBP,
       tokenPerLp: tokenPerLp.toJSON(),
       quoteTokenPerLp: quoteTokenPerLp.toJSON(),
     };
@@ -267,7 +294,6 @@ export const getFarms = async (
     if (farm.farmConfig.lpSymbol === 'FOX') {
       console.log('FOX')
       console.log(farm.poolWeight, foxPriceInUSD, totalLiquidity);
-      // debugger;
     }
     const apr = getFarmApr(farm.poolWeight, foxPriceInUSD!, totalLiquidity);
     // const aprr = parseBalance(apr);
