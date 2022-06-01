@@ -9,9 +9,10 @@ import {
   Badge,
   Text,
   Avatar,
-  ScaleFade,
-  useDisclosure, SkeletonCircle
+  useDisclosure,
+  SkeletonCircle, IconButton, Icon, Circle
 } from "@chakra-ui/react";
+import {HiSwitchVertical} from 'react-icons/hi'
 import {Currency, CurrencyAmount, Pair, Token, WETH} from '@foxswap/sdk'
 import CurrencyModal from "@/components/modules/CurrencyModal";
 import {Harmony, useContractFunction} from "@usedapp/core";
@@ -65,7 +66,7 @@ const CurrencyOutputIcon = () => {
 
 export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { setTypedAmount, setFieldType, inputCurrency, outputCurrency } = useSwapContext()
+  const { setTypedAmount, setFieldType, switchCurrency, inputCurrency, outputCurrency } = useSwapContext()
 
   // @ts-expect-error
   const token = WETH[Harmony.chainId] as Token;
@@ -84,6 +85,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
   return (
     <Box
       as="form"
+      alignItems={'center'}
       borderRadius="lg"
       p={12}
       {...props}
@@ -93,7 +95,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
         <FormControl
           id="inputCurrency"
           p={4}
-          my={4}
+          my={2}
           borderRadius={12}
           bg="gray.700"
         >
@@ -116,7 +118,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               colorScheme='teal'
               p={2}
               leftIcon={<CurrencyInputIcon />}
-              minW={'16vh'}
+              minW={'11vh'}
               justifyContent={'start'}
               onClick={(e) => {
                 onOpen();
@@ -129,6 +131,17 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
             </Button>
           </Stack>
         </FormControl>
+          <Circle>
+            <IconButton
+              size={'sm'}
+              colorScheme={'teal'}
+              variant={'outline'}
+              icon={<HiSwitchVertical />}
+              aria-label={'Switch Currency'}
+              onClick={() => switchCurrency()}
+              isRound
+            />
+          </Circle>
         <FormControl
           id="outputCurrency"
           p={4}
@@ -155,8 +168,8 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               colorScheme='teal'
               p={2}
               leftIcon={<CurrencyOutputIcon />}
-              minW={'16vh'}
               justifyContent={'start'}
+              minW={'11vh'}
               onClick={(e) => {
                 onOpen();
                 setFieldType(false);

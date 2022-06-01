@@ -40,7 +40,7 @@ const SwapTemplate = () => {
             Swap
           </Heading>
         </Stack>
-        <Stack spacing={{base: '8', md: '6'}}>
+        <Stack spacing={{ base: '8', md: '6' }}>
           <Center>
             <Card borderRadius={18}>
               <CurrencyInputPanel

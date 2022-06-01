@@ -14,6 +14,8 @@ export const SwapProvider = ({ children }: any) => {
       payload: {
         inputCurrency: state.outputCurrency,
         outputCurrency: state.inputCurrency,
+        inputLogoURI: state.outputLogoURI,
+        outputLogoURI: state.inputLogoURI,
         isInputField: !state.isInputField
       }
     })
