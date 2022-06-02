@@ -2,11 +2,13 @@ import ERC_20_ABI from "config/abi/hrc20.json";
 
 import {BIG_TEN} from "@/config/index";
 import { getAddress } from "@/utils/addressHelpers";
-import multicall, { Call } from "@/utils/multicall";
+import multicall, { Call as MCall } from "@/utils/multicall";
+import {Call, useCalls} from "@usedapp/core"
 import { LP_PRICES } from "@/config/constants/lpPrices";
 import { Token } from "@/config/web3/tokens";
 import { Addresses } from "@/types/web3/general";
 import { BigNumber } from "ethers";
+import {Contract} from "@ethersproject/contracts";
 
 interface LpPrice {
   tokenAmount: string;
@@ -20,18 +22,50 @@ interface LpPrice {
 
 export type LpPrices = Array<LpPrice>;
 
-const mockCallFiller: Call = {
+const mockCallFiller: MCall = {
   address: '',
   name: "balanceOf",
   params: []
 }
-type LpPriceCalls = [Call, Call, Call, Call];
+
+type LpPriceCalls = [MCall, MCall, MCall, MCall];
 
 const LpPricesCallsMock: LpPriceCalls = [mockCallFiller, mockCallFiller, mockCallFiller, mockCallFiller];
 
+export const getPriceCalls = () => {
+  const calls: Array<Call> = []
+  LP_PRICES.map(async (lpConfig) => {
+    const lpAddress = getAddress(lpConfig.lpAddress)
+    const farmCalls: Array<Call> = [
+      {
+        contract: new Contract(getAddress(lpConfig.token.ADDRESSES), ERC_20_ABI) as any,
+        method: 'balanceOf',
+        args: [lpAddress]
+      },
+      {
+        contract: new Contract(getAddress(lpConfig.quoteToken.ADDRESSES), ERC_20_ABI) as any,
+        method: 'balanceOf',
+        args: [lpAddress]
+      },
+      {
+        contract: new Contract(getAddress(lpConfig.token.ADDRESSES), ERC_20_ABI) as any,
+        method: 'decimals',
+        args: []
+      },
+      {
+        contract: new Contract(getAddress(lpConfig.quoteToken.ADDRESSES), ERC_20_ABI) as any,
+        method: 'decimals',
+        args: []
+      }
+    ]
+    calls.push(...farmCalls);
+  })
+  return calls
+}
+
 export const getPrices = async (): Promise<any> => {
   // console.count('getPrices');
-  const calls: Array<Call> = []
+  const calls: Array<MCall> = []
   LP_PRICES.map(async (lpConfig) => {
     const lpAddress = getAddress(lpConfig.lpAddress);
     const farmCalls: LpPriceCalls = [

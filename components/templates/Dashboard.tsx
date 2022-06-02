@@ -13,11 +13,14 @@ import {shortenAddress, useBlockMeta, useBlockNumber, useEtherBalance, useEthers
 import {formatEther} from "@ethersproject/units";
 import {Stat} from "@/components/elements";
 import { FaAddressCard, FaCoins, FaSquare } from "react-icons/fa";
+import usePrices from "@/hooks/usePrices";
 
 const DashboardTemplate = () => {
   const { account } = useEthers();
   const etherBalance = useEtherBalance(account)
   const blockNum = useBlockNumber()
+  const priceResults = usePrices()
+  console.log(priceResults)
   return (
       <ContentWrapper>
         <Container py="8">
