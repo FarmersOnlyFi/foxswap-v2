@@ -46,7 +46,7 @@ const swapReducer = (state: SwapState, { type, payload }: any) => {
       }
     case "SELECT_CURRENCY":
       console.log("SELECT_CURRENCY", payload)
-      const field = 'inputCurrency' in payload ? {
+      return 'inputCurrency' in payload ? {
         ...state,
         inputCurrency: payload.inputCurrency,
         inputLogoURI: payload.inputLogoURI
@@ -55,7 +55,6 @@ const swapReducer = (state: SwapState, { type, payload }: any) => {
         outputCurrency: payload.outputCurrency,
         outputLogoURI: payload.outputLogoURI
       }
-      return field
     case "SET_RECIPIENT":
       console.log("SET_RECIPIENT", payload)
       return {

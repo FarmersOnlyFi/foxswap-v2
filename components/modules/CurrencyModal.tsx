@@ -25,6 +25,7 @@ const tokenList = DEFAULT_TOKEN_LIST.tokens
 export default function CurrencySearchModal({ isOpen, onClose }: CurrencyModalProps) {
   const { account } = useEthers()
   const balances = useTokenBalances(tokenList, account)
+  // @ts-ignore
   const { selectCurrency, isInputField } = useSwapContext()
 
   const handleClick = (currency: Currency, logoURI: string, isInput: boolean) => {

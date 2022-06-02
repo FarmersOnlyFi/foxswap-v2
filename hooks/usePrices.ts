@@ -44,7 +44,6 @@ export default function usePrices() {
   }
 
   const lpPrices = LP_PRICES.map((lpConfig, i) => {
-    const item = results[i]
     const [
       tokenBalanceLP,
       quoteTokenBalanceLP,
@@ -53,10 +52,10 @@ export default function usePrices() {
     ] = results[i]
 
 
-    const tokenAmount = tokenBalanceLP ? BigNumber.from(tokenBalanceLP.value.toString()).div(
+    const tokenAmount = tokenBalanceLP !== undefined ? BigNumber.from(tokenBalanceLP.value.toString()).div(
       BIG_TEN.pow(tokenDecimals.value.toString())
     ) : BIG_ZERO;
-    const quoteTokenAmount = quoteTokenBalanceLP ? BigNumber.from(quoteTokenBalanceLP.value.toString()).div(
+    const quoteTokenAmount = quoteTokenBalanceLP !== undefined ? BigNumber.from(quoteTokenBalanceLP.value.toString()).div(
       BIG_TEN.pow(quoteTokenDecimals.value.toString())
     ) : BIG_ZERO;
 

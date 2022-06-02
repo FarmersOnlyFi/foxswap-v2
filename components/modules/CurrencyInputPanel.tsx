@@ -10,39 +10,40 @@ import {
   Text,
   Avatar,
   useDisclosure,
-  SkeletonCircle, IconButton, Icon, Circle
+  SkeletonCircle,
+  IconButton,
+  Circle
 } from "@chakra-ui/react";
-import {HiSwitchVertical} from 'react-icons/hi'
-import {Currency, CurrencyAmount, Pair, Token, WETH} from '@foxswap/sdk'
+import { HiSwitchVertical } from 'react-icons/hi'
+import { Token, WETH } from '@foxswap/sdk'
 import CurrencyModal from "@/components/modules/CurrencyModal";
-import {Harmony, useContractFunction} from "@usedapp/core";
+import { Harmony, useContractFunction } from "@usedapp/core";
 import WETH_ABI from "@/config/abi/weth.json";
 import * as React from "react";
-import {formatEther, parseUnits} from "@ethersproject/units";
-import {ChangeEvent, useEffect, useState} from "react";
-import {getContractInterface} from "@/hooks/web3/contract-helpers";
+import { ChangeEvent } from "react";
+import { getContractInterface } from "@/hooks/web3/contract-helpers";
 import useSwapContext from "@/contexts/swap/context";
 
 
-interface CurrencyInputPanelProps {
-  value: string
-  // onUserInput: (value: string) => void
-  onMax?: () => void
-  // showMaxButton: boolean
-  label?: string
-  onCurrencySelect?: (currency: Currency) => void
-  currency?: Currency | null
-  disableCurrencySelect?: boolean
-  pair?: Pair | null
-  hideBalance?: boolean
-  hideInput?: boolean
-  hideCurrencySelect?: boolean
-  otherCurrency?: Currency | null
-  id: string
-  showCommonBases?: boolean
-  customBalanceText?: string
-  overrideSelectedCurrencyBalance?: CurrencyAmount | null
-}
+// interface CurrencyInputPanelProps {
+//   value: string
+//   // onUserInput: (value: string) => void
+//   onMax?: () => void
+//   // showMaxButton: boolean
+//   label?: string
+//   onCurrencySelect?: (currency: Currency) => void
+//   currency?: Currency | null
+//   disableCurrencySelect?: boolean
+//   pair?: Pair | null
+//   hideBalance?: boolean
+//   hideInput?: boolean
+//   hideCurrencySelect?: boolean
+//   otherCurrency?: Currency | null
+//   id: string
+//   showCommonBases?: boolean
+//   customBalanceText?: string
+//   overrideSelectedCurrencyBalance?: CurrencyAmount | null
+// }
 
 const CurrencyInputIcon = () => {
   const { inputLogoURI } = useSwapContext()
@@ -64,8 +65,9 @@ const CurrencyOutputIcon = () => {
 }
 
 
-export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
+export default function CurrencyInputPanel(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  // @ts-ignore
   const { setTypedAmount, setFieldType, switchCurrency, inputCurrency, outputCurrency } = useSwapContext()
 
   // @ts-expect-error
@@ -120,7 +122,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               leftIcon={<CurrencyInputIcon />}
               minW={'11vh'}
               justifyContent={'start'}
-              onClick={(e) => {
+              onClick={() => {
                 onOpen();
                 setFieldType(true);
               }}
@@ -170,7 +172,7 @@ export default function CurrencyInputPanel(props: CurrencyInputPanelProps) {
               leftIcon={<CurrencyOutputIcon />}
               justifyContent={'start'}
               minW={'11vh'}
-              onClick={(e) => {
+              onClick={() => {
                 onOpen();
                 setFieldType(false);
               }}

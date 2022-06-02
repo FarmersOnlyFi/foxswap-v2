@@ -9,7 +9,7 @@ import {
 import * as React from 'react'
 import Card from "../elements/Card";
 import ContentWrapper from "@/components/elements/ContentWrapper";
-import {shortenAddress, useBlockMeta, useBlockNumber, useEtherBalance, useEthers} from "@usedapp/core";
+import { shortenAddress, useBlockNumber, useEtherBalance, useEthers } from "@usedapp/core";
 import {formatEther} from "@ethersproject/units";
 import {Stat} from "@/components/elements";
 import { FaAddressCard, FaCoins, FaSquare } from "react-icons/fa";
@@ -21,6 +21,7 @@ const DashboardTemplate = () => {
   const blockNum = useBlockNumber()
   const priceResults = usePrices()
   console.log(priceResults)
+
   return (
       <ContentWrapper>
         <Container py="8">

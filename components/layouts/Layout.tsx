@@ -1,11 +1,10 @@
-import {Box, Container, Flex, useBreakpointValue} from "@chakra-ui/react";
-import {Sidebar} from "@/components/modules/Sidebar";
-import {Navbar} from "@/components/modules/Navbar";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Sidebar } from "@/components/modules/Sidebar";
+import { Navbar } from "@/components/modules/Navbar";
 import React from "react";
 
 const Layout = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true })
-
   return (
     <Flex
       as="section"
@@ -21,7 +20,6 @@ const Layout = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
         flex="1"
         height="full"
       >
-
         {children}
       </Box>
     </Flex>
