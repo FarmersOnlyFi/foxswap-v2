@@ -9,13 +9,13 @@ const Layout = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
     <Flex
       as="section"
       direction={{ base: 'column', lg: 'row' }}
-      bg="purple.900"
+      bg="purple.950"
       overflowY="auto"
     >
       {isDesktop ? <Sidebar /> : <Navbar />}
       <Box
         as="main"
-        bg="purple.900"
+        bg="purple.950"
         pt={{ base: '0', lg: '3' }}
         flex="1"
         height="full"

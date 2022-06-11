@@ -1,6 +1,7 @@
 import {
   Badge,
   HStack,
+  Stack,
   Icon,
   IconButton,
   Table,
@@ -10,7 +11,7 @@ import {
   Text,
   Th,
   Thead,
-  Tr,
+  Tr, SkeletonText
 } from '@chakra-ui/react'
 import * as React from 'react'
 import { IoArrowDown } from 'react-icons/io5'
@@ -19,6 +20,7 @@ import {useEffect, useState} from "react";
 import { DoubleCurrencyLogo } from "./DoubleCurrencyLogo";
 import { FarmsResults, getFarms } from 'contexts/farms/hooks';
 import { getPrices } from 'contexts/farms/lpPrices';
+import {parseBalance} from "../../util";
 
 export const FarmsTable = (props: TableProps) => {
   const [open, setOpen] = useState(false);
@@ -36,7 +38,7 @@ export const FarmsTable = (props: TableProps) => {
   }, []);
 
   return (
-    <Table {...props}>
+    <Table {...props} size={'sm'}>
       <Thead>
         <Tr>
           <Th>
@@ -47,7 +49,7 @@ export const FarmsTable = (props: TableProps) => {
               </HStack>
             </HStack>
           </Th>
-          <Th>Status</Th>
+          <Th></Th>
           <Th>Yearly</Th>
           <Th>Apr</Th>
           <Th>Liquidity</Th>
@@ -58,11 +60,18 @@ export const FarmsTable = (props: TableProps) => {
         {farmsData.map((farm, i) => (
           <Tr key={i}>
             <Td>
-              <DoubleCurrencyLogo />
+              <Stack>
+                <DoubleCurrencyLogo />
+                {farmsData[i].farmConfig.lpSymbol ? (
+                  <Text as='samp'>{farmsData[i].farmConfig.lpSymbol}</Text>
+                ) : (
+                  <SkeletonText noOfLines={1} />
+                )}
+              </Stack>
             </Td>
             <Td>
-              <Badge size="sm" colorScheme={'active' === 'active' ? 'green' : 'red'}>
-                {'active'}
+              <Badge size="sm" colorScheme={'teal'}>
+                {farmsData[i].farmConfig.router}
               </Badge>
             </Td>
             <Td>
@@ -72,7 +81,7 @@ export const FarmsTable = (props: TableProps) => {
               <Text color="muted">{farm.apr}</Text>
             </Td>
             <Td>
-              <Text color="muted">{'Liquidity'}</Text>
+              <Text color="muted">{parseBalance(farm.lpTotalSupply)}</Text>
             </Td>
             <Td>
               <HStack spacing="1">

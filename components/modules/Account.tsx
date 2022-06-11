@@ -14,7 +14,7 @@ import {
 
 const Account = () => {
   const { activateBrowserWallet, account, chainId, switchNetwork } = useEthers();
-  const ens = useLookupAddress()
+  const ens = useLookupAddress(account)
   const oneBalance = useEtherBalance(account, {chainId: Harmony.chainId})
 
   const ConnectWallet = () => {
@@ -47,7 +47,7 @@ const Account = () => {
         variant={'solid'}
         bg="teal.500"
       >
-        <Text>{ens || shortenAddress(account as string)}</Text>
+        <Text>{shortenAddress(account as string)}</Text>
       </Button>
     )
   }

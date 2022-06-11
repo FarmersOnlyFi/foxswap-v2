@@ -24,7 +24,7 @@ enum RouterName {
   Elk = 'Elk',
   DeFiKingdoms = 'DeFiKingdoms',
   ViperSwap = 'ViperSwap',
-  FarmersOnly = 'FarmersOnly',
+  FarmersOnly = 'Foxswap',
   Tranquil = 'Tranquil',
   Reverse = 'Reverse',
   PiggyBank = 'PiggyBank',
