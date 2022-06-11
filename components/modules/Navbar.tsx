@@ -34,7 +34,7 @@ export const Navbar = () => {
           trapFocus={false}
         >
           <DrawerOverlay />
-          <DrawerContent>
+          <DrawerContent bg="transparent">
             <Sidebar />
           </DrawerContent>
         </Drawer>

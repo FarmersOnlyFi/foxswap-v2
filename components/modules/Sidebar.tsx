@@ -18,15 +18,15 @@ export const Sidebar = () => {
   return (
     <Flex
       as="section"
+      boxShadow="md-dark"
       minH="100vh"
       bgGradient="linear(to-b, purple.600, teal.600)"
       borderRadius={"10"}
-      m={4}
     >
       <Flex
         flex="1"
         overflowY="auto"
-        maxW={{ base: "full", sm: "xs" }}
+        maxW={{ base: "full", sm: "md" }}
         py={{ base: "6", sm: "8" }}
         px={{ base: "4", sm: "10" }}
       >
