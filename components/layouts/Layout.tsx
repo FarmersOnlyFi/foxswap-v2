@@ -4,11 +4,11 @@ import { Navbar } from "@/components/modules/Navbar";
 import React from "react";
 
 const Layout = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
-  const isDesktop = useBreakpointValue({ base: false, lg: true })
+  const isDesktop = useBreakpointValue({ base: false, lg: true });
   return (
     <Flex
       as="section"
-      direction={{ base: 'column', lg: 'row' }}
+      direction={{ base: "column", lg: "row" }}
       bg="purple.950"
       overflowY="auto"
     >
@@ -16,14 +16,14 @@ const Layout = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
       <Box
         as="main"
         bg="purple.950"
-        pt={{ base: '0', lg: '3' }}
+        pt={{ base: "0", lg: "3" }}
         flex="1"
         height="full"
       >
         {children}
       </Box>
     </Flex>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

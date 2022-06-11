@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Heading,
   Icon,
   Input,
@@ -9,28 +8,35 @@ import {
   Stack,
   Text,
   useBreakpointValue,
-} from '@chakra-ui/react'
-import * as React from 'react'
-import { FiSearch } from 'react-icons/fi'
+} from "@chakra-ui/react";
+import * as React from "react";
+import { FiSearch } from "react-icons/fi";
 
 export const VaultHeader = () => {
   return (
     <Box
       as="section"
       bg="bg-canvas"
-      pt={{ base: '4', md: '8' }}
-      pb={{ base: '12', md: '24' }}
+      pt={{ base: "4", md: "8" }}
+      pb={{ base: "12", md: "24" }}
       padding={12}
-      borderTopLeftRadius={{ base: 'none', lg: '2rem' }}
+      borderTopLeftRadius={{ base: "none", lg: "2rem" }}
     >
-      <Stack spacing="4" direction={{ base: 'column', md: 'row' }} justify="space-between" >
+      <Stack
+        spacing="4"
+        direction={{ base: "column", md: "row" }}
+        justify="space-between"
+      >
         <Stack spacing="1">
-          <Heading size={useBreakpointValue({ base: 'xs', md: 'sm' })} fontWeight="medium">
+          <Heading
+            size={useBreakpointValue({ base: "xs", md: "sm" })}
+            fontWeight="medium"
+          >
             Vaults
           </Heading>
           <Text color="muted">Automatically compound your rewards</Text>
         </Stack>
-        <InputGroup maxW={{ sm: 'xs' }}>
+        <InputGroup maxW={{ sm: "xs" }}>
           <InputLeftElement pointerEvents="none">
             <Icon as={FiSearch} color="muted" boxSize="5" />
           </InputLeftElement>
@@ -38,5 +44,5 @@ export const VaultHeader = () => {
         </InputGroup>
       </Stack>
     </Box>
-  )
-}
+  );
+};

@@ -7,15 +7,14 @@ import {
   shortenAddress,
   useEtherBalance,
   useEthers,
-  useLookupAddress
+  useLookupAddress,
 } from "@usedapp/core";
 
-
-
 const Account = () => {
-  const { activateBrowserWallet, account, chainId, switchNetwork } = useEthers();
-  const ens = useLookupAddress(account)
-  const oneBalance = useEtherBalance(account, {chainId: Harmony.chainId})
+  const { activateBrowserWallet, account, chainId, switchNetwork } =
+    useEthers();
+  const ens = useLookupAddress(account);
+  const oneBalance = useEtherBalance(account, { chainId: Harmony.chainId });
 
   const ConnectWallet = () => {
     return (
@@ -23,34 +22,37 @@ const Account = () => {
         leftIcon={<FaWallet />}
         fontWeight={600}
         _hover={{
-          borderColor: "teal.400"
+          borderColor: "teal.400",
         }}
-        variant='solid'
+        variant="solid"
         onClick={() => activateBrowserWallet()}
       >
         Connect Wallet
       </Button>
-    )
-  }
+    );
+  };
 
   const ActiveWallet = () => {
     return (
       <Button
         {...{
-          href: formatEtherscanLink("Account", [chainId as number, account as string]),
+          href: formatEtherscanLink("Account", [
+            chainId as number,
+            account as string,
+          ]),
           target: "_blank",
           rel: "noopener noreferrer",
         }}
-        w={'100%'}
+        w={"100%"}
         leftIcon={<FaWallet />}
         fontWeight={600}
-        variant={'solid'}
+        variant={"solid"}
         bg="teal.500"
       >
         <Text>{shortenAddress(account as string)}</Text>
       </Button>
-    )
-  }
+    );
+  };
 
   const SwitchNetwork = () => {
     return (
@@ -58,32 +60,21 @@ const Account = () => {
         leftIcon={<FaWallet />}
         fontWeight={600}
         _hover={{
-          borderColor: "teal.400"
+          borderColor: "teal.400",
         }}
-        variant='solid'
+        variant="solid"
         onClick={() => switchNetwork(Harmony.chainId)}
       >
         Switch Network
       </Button>
-    )
-  }
+    );
+  };
 
   const ChainFilter = () => {
-    return chainId === Harmony.chainId
-    ? <ActiveWallet />
-    : <SwitchNetwork />
-  }
+    return chainId === Harmony.chainId ? <ActiveWallet /> : <SwitchNetwork />;
+  };
 
-
-  return (
-    <Box>
-      {!account ? (
-        <ConnectWallet />
-      ) : (
-        <ChainFilter />
-      )}
-    </Box>
-  )
-}
+  return <Box>{!account ? <ConnectWallet /> : <ChainFilter />}</Box>;
+};
 
 export default Account;

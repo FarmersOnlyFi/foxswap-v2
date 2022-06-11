@@ -1,11 +1,30 @@
-import {DEFAULT_CURRENCIES, Trade, Currency, Token, HARMONY, Percent, Router, JSBI, TradeType} from "@foxswap/sdk";
+import {
+  DEFAULT_CURRENCIES,
+  Trade,
+  Currency,
+  Token,
+  HARMONY,
+  Percent,
+  Router,
+  JSBI,
+  TradeType,
+} from "@foxswap/sdk";
 import { utils } from "ethers";
 import { Contract } from "@ethersproject/contracts";
-import { abi as IFoxswapV2RouterABI } from '@foxswap/periphery/build/IUniswapV2Router02.json'
-import { getRouterAddress } from "@/utils/addressHelpers";
-import {Harmony, useContractFunction, useEthers, useLookupAddress} from "@usedapp/core";
-import {useCallback, useMemo} from "react";
-import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from "@/config/index";
+import { abi as IFoxswapV2RouterABI } from "@foxswap/periphery/build/IUniswapV2Router02.json";
+import { getRouterAddress } from "@/hooks/web3/address-helpers";
+import {
+  Harmony,
+  useContractFunction,
+  useEthers,
+  useLookupAddress,
+} from "@usedapp/core";
+import { useCallback, useMemo } from "react";
+import {
+  BIPS_BASE,
+  DEFAULT_DEADLINE_FROM_NOW,
+  INITIAL_ALLOWED_SLIPPAGE,
+} from "@/config/index";
 
 /*
 # Call 1 with ONE
@@ -74,44 +93,45 @@ import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from "
  */
 
 export enum Field {
-  INPUT = 'INPUT',
-  OUTPUT = 'OUTPUT'
+  INPUT = "INPUT",
+  OUTPUT = "OUTPUT",
 }
 
 interface SwapState {
-  typedValue: string,
+  typedValue: string;
 }
+
 const swapState = {
   independentField: Field.INPUT,
-  typedValue: '',
+  typedValue: "",
   [Field.INPUT]: {
-    currencyId: ''
+    currencyId: "",
   },
   [Field.OUTPUT]: {
-    currencyId: ''
+    currencyId: "",
   },
-  recipient: null
-}
-const BASE_CURRENCY = HARMONY
+  recipient: null,
+};
+const BASE_CURRENCY = HARMONY;
 
 export default function useSwapCalls(
   trade: Trade,
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE,
   recipient: string
 ) {
-  const deadline = DEFAULT_DEADLINE_FROM_NOW
-  const routerInterface = new utils.Interface(IFoxswapV2RouterABI)
-  const contract = new Contract(getRouterAddress(), routerInterface) as any
-  const swapMethods = []
+  const deadline = DEFAULT_DEADLINE_FROM_NOW;
+  const routerInterface = new utils.Interface(IFoxswapV2RouterABI);
+  const contract = new Contract(getRouterAddress(), routerInterface) as any;
+  const swapMethods = [];
 
   swapMethods.push(
     Router.swapCallParameters(trade, {
       feeOnTransfer: trade.tradeType === TradeType.EXACT_INPUT,
       allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
       recipient,
-      deadline: deadline
+      deadline: deadline,
     })
-  )
+  );
 
-  return swapMethods.map(parameters => ({ parameters, contract }))
+  return swapMethods.map((parameters) => ({ parameters, contract }));
 }

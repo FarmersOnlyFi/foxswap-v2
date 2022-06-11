@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "compile-contract-types": "typechain --target ethers-v5 --out-dir './contracts/types' './contracts/*.json'",
+    "compile-contract-types": "typechain --target ethers-v5 --out-dir 'contracts/types' './contracts/*.json'",
     "postinstall": "yarn compile-contract-types"
   },
   "resolutions": {
@@ -27,7 +27,9 @@
     "@ethersproject/providers": "^5.5.2",
     "@ethersproject/units": "^5.5.0",
     "@ethersproject/wallet": "^5.5.0",
+    "@fontsource/fira-code": "^4.5.10",
     "@fontsource/inter": "^4.5.7",
+    "@fontsource/source-code-pro": "^4.5.10",
     "@fox/uikit": "https://github.com/FarmersOnlyFi/fox-uikit.git",
     "@foxswap/default-token-list": "^2.3.6",
     "@foxswap/periphery": "^1.0.0",

@@ -1,7 +1,7 @@
-import { ChainID } from "@/config/web3/chains";
-import CONTRACT_ADDRESSES from "../config/constants/contract-addresses";
-import TOKENS, { TokenSymbol } from "../config/web3/tokens";
-import { Addresses } from "@/types/web3/general";
+import { ChainID } from "@/config/data/chains";
+import CONTRACT_ADDRESSES from "@/config/constants/contract-addresses";
+import TOKENS, { TokenSymbol } from "@/config/data/tokens";
+import { Addresses } from "@/config/constants/types";
 
 export const getAddress = (address: Addresses): string => {
   const mainNetChainId = ChainID.Mainnet;
@@ -82,5 +82,5 @@ export const getRouterAddress = () => {
 };
 
 export const getMerkleDistribution = () => {
-  return getAddress(CONTRACT_ADDRESSES.merkleDistribution)
-}
+  return getAddress(CONTRACT_ADDRESSES.merkleDistribution);
+};

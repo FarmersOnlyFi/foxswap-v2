@@ -1,12 +1,12 @@
-import { extendTheme } from '@chakra-ui/react'
-import { theme } from '@chakra-ui/pro-theme'
-import '@fontsource/inter/variable.css'
+import { extendTheme } from "@chakra-ui/react";
+import "focus-visible/dist/focus-visible";
+import * as components from "./components";
+import * as foundations from "./foundations";
 
-const config = {
-  initialColorMode: 'dark',
-  useSystemColorMode: false,
-}
-
-const mainTheme = extendTheme({ config }, theme)
-
-export default mainTheme
+export const mainTheme: Record<string, any> = extendTheme({
+  ...foundations,
+  config: {
+    initialColorMode: "dark",
+  },
+  components: { ...components },
+});

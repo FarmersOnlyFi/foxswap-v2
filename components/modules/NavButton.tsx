@@ -4,20 +4,20 @@ import {
   ButtonProps,
   HStack,
   Icon,
+  LinkOverlay,
   Text,
-  LinkOverlay
-} from '@chakra-ui/react'
-import Link from 'next/link'
-import * as React from 'react'
+} from "@chakra-ui/react";
+import Link from "next/link";
+import * as React from "react";
 
 interface NavButtonProps extends ButtonProps {
-  icon: As
-  label: string,
-  href: string
+  icon: As;
+  label: string;
+  href: string;
 }
 
 export const NavButton = (props: NavButtonProps) => {
-  const { icon, label, href, ...buttonProps } = props
+  const { icon, label, href, ...buttonProps } = props;
   return (
     <Link href={href} passHref>
       <Button
@@ -39,5 +39,5 @@ export const NavButton = (props: NavButtonProps) => {
         </HStack>
       </Button>
     </Link>
-  )
-}
+  );
+};

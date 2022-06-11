@@ -1,8 +1,7 @@
-
-import { Token } from '../web3/tokens';
-import { TranslatableText } from '../../types/types';
-import { Addresses } from "../../types/web3/general";
-import { LPToken } from '../web3/lp-tokens';
+import { Token } from "../data/tokens";
+import { Addresses } from "@/config/data/lists";
+import { LPToken } from "../data/lp-tokens";
+import { BigNumber } from "ethers";
 
 interface IfoPoolInfo {
   saleAmount: string;
@@ -12,11 +11,11 @@ interface IfoPoolInfo {
 }
 
 export enum PoolIds {
-  poolBasic = 'poolBasic',
-  poolUnlimited = 'poolUnlimited',
+  poolBasic = "poolBasic",
+  poolUnlimited = "poolUnlimited",
 }
 
-export type IfoStatus = 'idle' | 'coming_soon' | 'live' | 'finished'
+export type IfoStatus = "idle" | "coming_soon" | "live" | "finished";
 
 export interface Ifo {
   id: string;
@@ -35,10 +34,10 @@ export interface Ifo {
 }
 
 export enum PoolCategory {
-  'COMMUNITY' = 'Community',
-  'CORE' = 'Core',
-  'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
-  'AUTO' = 'Auto',
+  "COMMUNITY" = "Community",
+  "CORE" = "Core",
+  "BINANCE" = "Binance", // Pools using native BNB behave differently than pools using a token
+  "AUTO" = "Auto",
 }
 
 export interface LpPricesConfig {
@@ -134,27 +133,27 @@ export type Images = {
   md: string;
   sm: string;
   ipfs?: string;
-}
+};
 
 export type NftImages = {
   blur?: string;
-} & Images
+} & Images;
 
 export type NftVideo = {
   webm: string;
   mp4: string;
-}
+};
 
 export type NftSource = {
   [key in NftType]: {
     address: Addresses;
     identifierKey: string;
-  }
-}
+  };
+};
 
 export enum NftType {
-  PANCAKE = 'pancake',
-  MIXIE = 'mixie',
+  PANCAKE = "pancake",
+  MIXIE = "mixie",
 }
 
 export type Nft = {
@@ -171,11 +170,11 @@ export type Nft = {
 
   // Used to be "bunnyId". Used when minting NFT
   variationId?: number | string;
-}
+};
 
 export type TeamImages = {
   alt: string;
-} & Images
+} & Images;
 
 export type Team = {
   id: number;
@@ -187,9 +186,18 @@ export type Team = {
   images: TeamImages;
   background: string;
   textColor: string;
-}
+};
 
-export type CampaignType = 'ifo' | 'teambattle'
+export type CampaignType = "ifo" | "teambattle";
+
+export type TranslatableText =
+  | string
+  | {
+      key: string;
+      data?: {
+        [key: string]: string | number;
+      };
+    };
 
 export type Campaign = {
   id: string;
@@ -197,4 +205,101 @@ export type Campaign = {
   title?: TranslatableText;
   description?: TranslatableText;
   badge?: string;
+};
+
+export interface Farm extends FarmConfig {
+  tokenAmount?: BigNumber;
+  quoteTokenAmount?: BigNumber;
+  lpTotalInQuoteToken?: BigNumber;
+  lpTotalSupply?: BigNumber;
+  tokenPriceVsQuote: BigNumber;
+  poolWeight?: BigNumber;
+  quoteTokenPerLp?: BigNumber;
+  tokenPerLp?: BigNumber;
+  usdPerLp?: BigNumber;
+  withdrawFee?: number;
+  isPaused?: boolean;
+  apr?: number;
+  apy?: number;
+  userData?: {
+    allowance: string;
+    tokenBalance: string;
+    stakedBalance: string;
+    earnings: string;
+  };
+}
+
+export interface LpPrices {
+  name: string;
+  token: Token;
+  quoteToken: Token;
+  lpAddress: Addresses;
+  price?: BigNumber;
+  tokenAmount?: BigNumber;
+  quoteTokenAmount?: BigNumber;
+}
+
+export interface Vault extends VaultConfig {
+  tokenAmount?: BigNumber;
+  quoteTokenAmount?: BigNumber;
+  lpTotalInQuoteToken?: BigNumber;
+  lpTotalSupply?: BigNumber;
+  tokenPriceVsQuote: BigNumber;
+  quoteTokenPerLp?: BigNumber;
+  usdPerLp?: BigNumber;
+  farmPoolWeight: BigNumber;
+  farmQuoteTokenAmount?: BigNumber;
+  farmRewardsPerBlock?: BigNumber;
+  lpTokenDecimals?: number;
+  userData?: {
+    allowance: string;
+    tokenBalance: string;
+    stakedBalance: string;
+    earnings: string;
+  };
+  userProfitData?: {
+    totalDeposit: number;
+    totalWithdraw: number;
+    NetDeposit: number;
+  };
+  tranq: {
+    totalSupply?: BigNumber;
+    totalBorrows?: BigNumber;
+    stratWantLockedTotal?: BigNumber;
+    stratSupply?: BigNumber;
+    stratDebt?: BigNumber;
+    supplyRatePerTimestamp?: BigNumber;
+    borrowRatePerTimestamp?: BigNumber;
+    nativePerYear?: BigNumber;
+    tranqPerYear?: BigNumber;
+  };
+  lockedTranq?: BigNumber[];
+}
+
+export interface Pool extends PoolConfig {
+  totalStaked?: BigNumber;
+  startBlock?: number;
+  endBlock?: number;
+  userData?: {
+    allowance: BigNumber;
+    stakingTokenBalance: BigNumber;
+    stakedBalance: BigNumber;
+    pendingReward: BigNumber;
+    jewelData?: any;
+    viperData?: any;
+    lootData?: any;
+    magicData?: any;
+  };
+}
+
+export interface FarmWithStakedValue extends Farm {
+  apr?: number;
+  liquidity?: BigNumber;
+}
+
+export interface VaultWithStakedValues extends Vault {
+  apr: number;
+  apy: number;
+  dailyApy?: number;
+  liquidity: BigNumber;
 }

@@ -4,8 +4,8 @@ import * as React from "react";
 
 const FarmsTemplate = () => (
   <TableContainer>
-    <FarmsTable size={'lg'} />
+    <FarmsTable size={"lg"} />
   </TableContainer>
-)
+);
 
-export default FarmsTemplate
+export default FarmsTemplate;

@@ -5,8 +5,8 @@ import * as React from "react";
 const VaultsTemplate = () => (
   <TableContainer>
     <VaultHeader />
-    <VaultTable size={'lg'} />
+    <VaultTable size={"lg"} />
   </TableContainer>
-)
+);
 
-export default VaultsTemplate
+export default VaultsTemplate;

@@ -1,16 +1,17 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider } from '@chakra-ui/react'
-import mainTheme from '../theme'
+import { ChakraProvider } from "@chakra-ui/react";
+import "@fontsource/source-code-pro";
+import { mainTheme } from "@/theme/index";
 import Layout from "@/components/layouts/Layout";
 import { Config, Harmony, DAppProvider } from "@usedapp/core";
-import {SwapProvider} from "@/contexts/swap/context";
+import { SwapProvider } from "@/state/swap/context";
 
 const config: Config = {
   readOnlyChainId: Harmony.chainId,
   readOnlyUrls: {
-    [Harmony.chainId]: "https://rpc.foxswap.fi"
-  }
-}
+    [Harmony.chainId]: "https://rpc.foxswap.fi",
+  },
+};
 
 function App({ Component, pageProps }: AppProps) {
   return (

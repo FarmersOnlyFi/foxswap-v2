@@ -1,9 +1,10 @@
 import {
   Badge,
   HStack,
-  Stack,
   Icon,
   IconButton,
+  SkeletonText,
+  Stack,
   Table,
   TableProps,
   Tbody,
@@ -11,34 +12,35 @@ import {
   Text,
   Th,
   Thead,
-  Tr, SkeletonText
-} from '@chakra-ui/react'
-import * as React from 'react'
-import { IoArrowDown } from 'react-icons/io5'
+  Tr,
+} from "@chakra-ui/react";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { IoArrowDown } from "react-icons/io5";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import {useEffect, useState} from "react";
 import { DoubleCurrencyLogo } from "./DoubleCurrencyLogo";
-import { FarmsResults, getFarms } from 'contexts/farms/hooks';
-import { getPrices } from 'contexts/farms/lpPrices';
-import {parseBalance} from "../../util";
+import { FarmsResults, getFarms } from "state/farms/hooks";
+import { getPrices } from "state/farms/lpPrices";
+import { parseBalance } from "../../util";
 
 export const FarmsTable = (props: TableProps) => {
   const [open, setOpen] = useState(false);
   const [farmsData, setFarmsData] = useState<FarmsResults>([]);
   useEffect(() => {
     async function fetchData() {
-      console.log('fetching data');
+      console.log("fetching data");
       const lpPrices = await getPrices();
-      const farmsResults = await getFarms(lpPrices)
+      const farmsResults = await getFarms(lpPrices);
 
       setFarmsData(farmsResults);
-      console.log('farmsResults', farmsResults);
+      console.log("farmsResults", farmsResults);
     }
+
     fetchData();
   }, []);
 
   return (
-    <Table {...props} size={'sm'}>
+    <Table {...props} size={"sm"}>
       <Thead>
         <Tr>
           <Th>
@@ -63,14 +65,14 @@ export const FarmsTable = (props: TableProps) => {
               <Stack>
                 <DoubleCurrencyLogo />
                 {farmsData[i].farmConfig.lpSymbol ? (
-                  <Text as='samp'>{farmsData[i].farmConfig.lpSymbol}</Text>
+                  <Text as="samp">{farmsData[i].farmConfig.lpSymbol}</Text>
                 ) : (
                   <SkeletonText noOfLines={1} />
                 )}
               </Stack>
             </Td>
             <Td>
-              <Badge size="sm" colorScheme={'teal'}>
+              <Badge size="sm" colorScheme={"teal"}>
                 {farmsData[i].farmConfig.router}
               </Badge>
             </Td>
@@ -86,7 +88,13 @@ export const FarmsTable = (props: TableProps) => {
             <Td>
               <HStack spacing="1">
                 <IconButton
-                  icon={open ? <TriangleUpIcon fontSize="1.25rem" /> : <TriangleDownIcon fontSize="1.25rem" />}
+                  icon={
+                    open ? (
+                      <TriangleUpIcon fontSize="1.25rem" />
+                    ) : (
+                      <TriangleDownIcon fontSize="1.25rem" />
+                    )
+                  }
                   variant="ghost"
                   aria-label="Expand Row"
                   onClick={() => setOpen(!open)}
@@ -97,5 +105,5 @@ export const FarmsTable = (props: TableProps) => {
         ))}
       </Tbody>
     </Table>
-  )
-}
+  );
+};
