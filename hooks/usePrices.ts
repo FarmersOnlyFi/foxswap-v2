@@ -1,6 +1,5 @@
-import { getPriceCalls } from "../state/farms/lpPrices";
+import { getPriceCalls } from "@/state/farms/lpPrices";
 import { Call, CallResult, useCalls } from "@usedapp/core";
-import { TypedContract } from "@usedapp/core/dist/cjs/src/model/types";
 import { LP_PRICES } from "@/config/constants/lpPrices";
 import { getAddress } from "@/hooks/web3/address-helpers";
 import { Contract } from "@ethersproject/contracts";

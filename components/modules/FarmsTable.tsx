@@ -65,7 +65,7 @@ export const FarmsTable = (props: TableProps) => {
               <Stack>
                 <DoubleCurrencyLogo />
                 {farmsData[i].farmConfig.lpSymbol ? (
-                  <Text as="samp">{farmsData[i].farmConfig.lpSymbol}</Text>
+                  <Text>{farmsData[i].farmConfig.lpSymbol}</Text>
                 ) : (
                   <SkeletonText noOfLines={1} />
                 )}

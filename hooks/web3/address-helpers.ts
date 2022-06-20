@@ -29,6 +29,10 @@ export const getFoxVaultAddress = () => {
   return getAddress(CONTRACT_ADDRESSES.autofox);
 };
 
+export const getFactoryAddress = () => {
+  return getAddress(CONTRACT_ADDRESSES.foxFactory);
+};
+
 export const getPredictionsAddress = () => {
   return getAddress(CONTRACT_ADDRESSES.predictions);
 };

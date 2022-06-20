@@ -139,9 +139,7 @@ export default function CurrencyInputPanel(props: any) {
                 setFieldType(true);
               }}
             >
-              <Text as="samp">
-                {!inputCurrency ? "select" : inputCurrency?.symbol}
-              </Text>
+              <Text>{!inputCurrency ? "select" : inputCurrency?.symbol}</Text>
             </Button>
           </Stack>
         </FormControl>
@@ -191,9 +189,7 @@ export default function CurrencyInputPanel(props: any) {
                 setFieldType(false);
               }}
             >
-              <Text as="samp">
-                {!outputCurrency ? "select" : outputCurrency?.symbol}
-              </Text>
+              <Text>{!outputCurrency ? "select" : outputCurrency?.symbol}</Text>
             </Button>
           </Stack>
         </FormControl>

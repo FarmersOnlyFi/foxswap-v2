@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { IoArrowDown } from "react-icons/io5";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { DoubleCurrencyLogo } from "./DoubleCurrencyLogo";
-import HRC20_ABI from "@/config/../../contracts/HRC20.json";
+import HRC20_ABI from "@/config/abi/hrc20.json";
 import multicall from "@/hooks/web3/multicall";
 import { parseBalance } from "../../util";
 import { BigNumberish } from "@ethersproject/bignumber";

@@ -1,14 +1,4 @@
-import {
-  DEFAULT_CURRENCIES,
-  Trade,
-  Currency,
-  Token,
-  HARMONY,
-  Percent,
-  Router,
-  JSBI,
-  TradeType,
-} from "@foxswap/sdk";
+import { Trade, HARMONY, Percent, Router, JSBI, TradeType } from "@foxswap/sdk";
 import { utils } from "ethers";
 import { Contract } from "@ethersproject/contracts";
 import { abi as IFoxswapV2RouterABI } from "@foxswap/periphery/build/IUniswapV2Router02.json";
